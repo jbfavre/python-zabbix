@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 ''' Copyright (c) 2013 Jean Baptiste Favre.
     Sample script for Apache TrafficServer monitoring from Zabbix.
+    - Uses python-zabbix module from https://github.com/jbfavre/python-zabbix
+    - Performs an HTTP request on http://ats_server/_stats, parse json output,
+        add items and send them to Zabbix server.
+    - You can blacklist some items adding them to ITEM_BL list.
+    - it also send its version which should match with template version. If not,
+        Zabbix will raise a trigger.
 '''
 import sys
 import optparse
@@ -11,6 +17,7 @@ import simplejson
 import zabbix
 
 ZBX_TPL="0.0.1"
+
 ITEM_BL = [
     'proxy.process.version.server.build_date',
     'proxy.process.version.server.build_machine',
@@ -97,7 +104,7 @@ def main():
             if item not in ITEM_BL:
                 zbx_container.add_item( hostname, ("ats.%s" % item), json['global'][item])
 
-    zbx_container.add_item(hostname, "hadoop.cm.zbx_version", ZBX_TPL)
+    zbx_container.add_item(hostname, "ats.zbx_version", ZBX_TPL)
     ret = zbx_container.send(zbx_container)
     if not ret:
         return 2
