@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 ''' Copyright (c) 2013 Jean Baptiste Favre.
-    Sample script for Zabbix integration with Cloudera Manager via the CM API.
+    Sample script for Apache TrafficServer monitoring from Zabbix.
 '''
 import sys
 import optparse
