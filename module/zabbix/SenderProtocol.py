@@ -59,6 +59,7 @@ class SenderProtocol(object):
             zbx_srv_resp_body = zbx_sock.recv(zbx_srv_resp_body_len)
             zbx_sock.close()
         except:
+            print("Error while sending data to Zabbix")
             if not zbx_srv_resp_hdr.startswith(ZBX_HDR) or len(zbx_srv_resp_hdr) != ZBX_HDR_SIZE:
                 print("Wrong zabbix response")
             else:
@@ -69,9 +70,10 @@ class SenderProtocol(object):
 
     def send(self, container):
         if self.debug:
-            self.single_send(container)
+            zbx_answer = self.single_send(container)
         else:
-            self.bulk_send(container)
+            zbx_answer = self.bulk_send(container)
+        return zbx_answer
 
     def bulk_send(self, container):
         self.data_container = container
@@ -80,6 +82,7 @@ class SenderProtocol(object):
         zbx_answer = self.send_to_zabbix(data)
         if self.verbosity:
             print zbx_answer.get('info')
+        return zbx_answer
 
     def single_send(self, container):
         self.data_container = container
@@ -101,3 +104,4 @@ class SenderProtocol(object):
                     print ("%s - %s - %s" % (item["host"],
                                              item["key"],
                                              zbx_answer.get('info')))
+        return zbx_answer
