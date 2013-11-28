@@ -1,9 +1,14 @@
 import simplejson
 import struct
 import socket
+import re
+
+from senderexception import SenderException
 
 ZBX_HDR = "ZBXD\1"
 ZBX_HDR_SIZE = 13
+ZBX_RESP_REGEX = r'processed: (\d+); failed: (\d+); total: (\d+); seconds spent: (\d\.\d+)'
+ZBX_DBG_SEND_RESULT = "DBG - Send result [%s] for [%s %s %s]"
 
 def recv_all(sock):
     buf = ''
@@ -43,28 +48,26 @@ class SenderProtocol(object):
     def send_to_zabbix(self, data):
         data_len =  struct.pack('<Q', len(data))
         packet = ZBX_HDR + data_len + data
-        zbx_srv_resp_hdr = ""
 
         try:
             zbx_sock = socket.socket()
             zbx_sock.connect((self.zbx_host, int(self.zbx_port)))
             zbx_sock.sendall(packet)
-        except:
-            print("Error while connecting to Zabbix server [%s:%d]"%(self.zbx_host, self.zbx_port))
-            return False
-
-        try:
-            zbx_srv_resp_hdr = recv_all(zbx_sock)
-            zbx_srv_resp_body_len = struct.unpack('<Q', zbx_srv_resp_hdr[5:])[0]
-            zbx_srv_resp_body = zbx_sock.recv(zbx_srv_resp_body_len)
+        except (socket.gaierror, socket.error) as e:
             zbx_sock.close()
-        except:
-            print("Error while sending data to Zabbix")
-            if not zbx_srv_resp_hdr.startswith(ZBX_HDR) or len(zbx_srv_resp_hdr) != ZBX_HDR_SIZE:
-                print("Wrong zabbix response")
-            else:
-                print("Error while sending data to Zabbix")
-            return False
+            raise SenderException(e[1])
+        else:
+            try:
+                zbx_srv_resp_hdr = recv_all(zbx_sock)
+                zbx_srv_resp_body_len = struct.unpack('<Q', zbx_srv_resp_hdr[5:])[0]
+                zbx_srv_resp_body = zbx_sock.recv(zbx_srv_resp_body_len)
+                zbx_sock.close()
+            except:
+                zbx_sock.close()
+                if not zbx_srv_resp_hdr.startswith(ZBX_HDR) or len(zbx_srv_resp_hdr) != ZBX_HDR_SIZE:
+                    raise SenderException("Wrong zabbix response")
+                else:
+                    raise SenderException("Error while sending data to Zabbix")
 
         return simplejson.loads(zbx_srv_resp_body)
 
@@ -88,20 +91,14 @@ class SenderProtocol(object):
         self.data_container = container
 
         for item in self.data_container.get_items_list():
-
             data = simplejson.dumps({ "data": [ item ],
                                       "request": self.request })
             zbx_answer = self.send_to_zabbix(data)
-
+            ''' processed: 1; failed: 0; total: 1; seconds spent: 0.000062 '''
+            regex = re.match( ZBX_RESP_REGEX, zbx_answer.get('info'))
             if self.debug:
-                if self.verbosity:
-                    print ("%s - %s - %s - %s - %s" % (item["host"],
-                                                       item["key"],
-                                                       data,
-                                                       item["value"],
-                                                       zbx_answer.get('info')))
-                else:
-                    print ("%s - %s - %s" % (item["host"],
-                                             item["key"],
-                                             zbx_answer.get('info')))
+                print (ZBX_DBG_SEND_RESULT % (regex.group(1),
+                                              item["host"],
+                                              item["key"],
+                                              item["value"]))
         return zbx_answer

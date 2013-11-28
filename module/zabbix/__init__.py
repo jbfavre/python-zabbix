@@ -2,5 +2,6 @@ import simplejson
 import struct
 import socket
 
-from DataContainer import DataContainer
-from SenderProtocol import SenderProtocol
+from datacontainer import DataContainer
+from senderexception import SenderException
+from senderprotocol import SenderProtocol
