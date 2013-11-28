@@ -1258,8 +1258,8 @@ You should check.</description>
             </discovery_rules>
             <macros>
                 <macro>
-                    <macro>{$ZBX_TPL}</macro>
-                    <value>0.0.1</value>
+                    <macro>{$ZBX_TPL_VERSION}</macro>
+                    <value>0.0.2</value>
                 </macro>
             </macros>
             <templates/>
