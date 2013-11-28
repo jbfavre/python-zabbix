@@ -16,7 +16,7 @@ import simplejson
 
 import zabbix
 
-ZBX_TPL="0.0.1"
+__version__="0.0.2"
 
 ITEM_BL = [
     'proxy.process.version.server.build_date',
@@ -33,6 +33,9 @@ ATS_BOOLEAN_MAPPING = { "False": 0,
 ATS_STATE_MAPPING = { "green": 0,
                       "yellow": 1,
                       "red": 2 }
+
+ATS_CONN_ERR = "ERR - unable to get data from ATS [%s]"
+ZBX_CONN_ERR = "ERR - unable to send data to Zabbix [%s]"
 
 def parse_args():
     ''' Parse the script arguments
@@ -81,6 +84,7 @@ def main():
     (options, args) = parse_args()
     data = {}
     rawjson = ""
+    zbxret = 0
 
     if options.host == 'localhost':
         hostname = platform.node()
@@ -95,20 +99,28 @@ def main():
         request = urllib2.Request( ("http://%s:%d/_stats" % (options.host, int(options.port))) )
         opener  = urllib2.build_opener()
         rawjson = opener.open(request)
-    except:
+    except urllib2.URLError as e:
+        if options.debug:
+            print ATS_CONN_ERR % e.reason
         return 1
+    else:
 
-    if (rawjson):
-        json = simplejson.load(rawjson)
-        for item in json['global']:
-            if item not in ITEM_BL:
-                zbx_container.add_item( hostname, ("ats.%s" % item), json['global'][item])
+        if (rawjson):
+            json = simplejson.load(rawjson)
+            for item in json['global']:
+                if item not in ITEM_BL:
+                    zbx_container.add_item( hostname, ("ats.%s" % item), json['global'][item])
 
-    zbx_container.add_item(hostname, "ats.zbx_version", ZBX_TPL)
-    ret = zbx_container.send(zbx_container)
-    if not ret:
-        return 2
-    return 0
+        zbx_container.add_item(hostname, "ats.zbx_version", __version__)
+
+        try:
+            zbxret = zbx_container.send(zbx_container)
+        except zabbix.SenderException as zbx_e:
+            if options.debug:
+                print ZBX_CONN_ERR % zbx_e.err_text
+            return 2
+        else:
+            return 0
 
 if __name__ == "__main__":
     ret = main()

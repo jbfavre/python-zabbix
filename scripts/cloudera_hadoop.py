@@ -27,7 +27,7 @@ from cm_api.endpoints.roles import get_all_roles
 
 import zabbix
 
-ZBX_TPL="0.0.1"
+__version__="0.0.2"
 
 CM_API_VERSION = 5
 CM_COMMISSION_MAPPING = { "UNKNOWN": -1,
@@ -49,6 +49,8 @@ CM_SERVICE_MAPPING = { "HISTORY_NOT_AVAILABLE": -1,
                        "NA": 0 }
 CM_BOOLEAN_MAPPING = { "False": 0,
                        "True": 1 }
+
+ZBX_CONN_ERR = "ERR - unable to send data to Zabbix [%s]"
 
 def parse_args():
     ''' Parse the script arguments
@@ -260,23 +262,26 @@ def main():
     if options.mode == "update_items":
         zbx_container.set_type("items")
         data = get_metrics(cdh_api, options.host)
-
     elif options.mode == "discovery":
         zbx_container.set_type("lld")
         data = get_discovery(cdh_api, options.host)
 
     zbx_container.add(data)
-    zbx_container.add_item(hostname, "hadoop.cm.zbx_version", ZBX_TPL)
+    zbx_container.add_item(hostname, "hadoop.cm.zbx_version", __version__)
 
     zbx_container.set_host(options.zabbix_server)
     zbx_container.set_port(int(options.zabbix_port))
     zbx_container.set_debug(options.debug)
     zbx_container.set_verbosity(options.verbose)
 
-    ret = zbx_container.send(zbx_container)
-    if not ret:
+    try:
+        zbxret = zbx_container.send(zbx_container)
+    except zabbix.SenderException as zbx_e:
+        if options.debug:
+            print ZBX_CONN_ERR % zbx_e.err_text
         return 2
-    return 0
+    else:
+        return 0
 
 if __name__ == "__main__":
     ret = main()
