@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = 'zabbix',
+    name = 'protobix',
     version = '0.0.2',
     zip_safe = True,
     
@@ -16,5 +16,5 @@ setup(
                          'It currently supports items as well as Low Level Discovery.' ),
     license = 'GPL',
     url='http://www.blablacar.com/',
-    packages=['zabbix'],
+    packages=['protobix'],
    )
