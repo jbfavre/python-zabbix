@@ -25,7 +25,7 @@ import cm_api.endpoints.cms
 from cm_api.api_client import get_root_resource, ApiException
 from cm_api.endpoints.roles import get_all_roles
 
-import zabbix
+import protobix
 
 __version__="0.0.2"
 
@@ -205,8 +205,12 @@ def get_metrics(cdh_api, mgmt_hostname):
             data[host.hostname][("hadoop.cm.host[%s,maintenanceMode]" % cluster.name)] = CM_BOOLEAN_MAPPING[str(host.maintenanceMode)]
             data[host.hostname][("hadoop.cm.host[%s,healthSummary]" % cluster.name)] = CM_HEALTH_MAPPING[str(host.healthSummary)]
             data[host.hostname][("hadoop.cm.host[%s,commissionState]" % cluster.name)] = CM_COMMISSION_MAPPING[str(host.commissionState)]
-            data[host.hostname][("hadoop.cm.host[%s,lastHeartbeat]" % cluster.name)] = (datetime.now() - host.lastHeartbeat).total_seconds()
-
+            difference = datetime.now() - host.lastHeartbeat
+            differenceTotalSeconds = (difference.microseconds + (difference.seconds + difference.days*24*3600) * 1e6) / 1e6
+            data[host.hostname][("hadoop.cm.host[%s,lastHeartbeat]" % cluster.name)] = differenceTotalSeconds
+            ''' Only works with Python 2.7
+               differenceTotalSeconds = (datetime.now() - host.lastHeartbeat).total_seconds()
+               data[host.hostname][("hadoop.cm.host[%s,lastHeartbeat]" % cluster.name)] = differenceTotalSeconds'''
             for check in host.healthChecks:
                 data[host.hostname][("hadoop.cm.host.check[%s,%s]" % (cluster.name, check['name'].lower()))] = CM_HEALTH_MAPPING[check['summary']]
 
@@ -258,13 +262,13 @@ def main():
     cdh_api = get_root_resource(options.host, options.port, options.username,
                                 options.password, options.use_tls, CM_API_VERSION)
 
-    zbx_container = zabbix.DataContainer()
+    zbx_container = protobix.DataContainer()
     if options.mode == "update_items":
         zbx_container.set_type("items")
-        data = get_metrics(cdh_api, options.host)
+        data = get_metrics(cdh_api, hostname)
     elif options.mode == "discovery":
         zbx_container.set_type("lld")
-        data = get_discovery(cdh_api, options.host)
+        data = get_discovery(cdh_api, hostname)
 
     zbx_container.add(data)
     zbx_container.add_item(hostname, "hadoop.cm.zbx_version", __version__)
@@ -276,7 +280,7 @@ def main():
 
     try:
         zbxret = zbx_container.send(zbx_container)
-    except zabbix.SenderException as zbx_e:
+    except protobix.SenderException as zbx_e:
         if options.debug:
             print ZBX_CONN_ERR % zbx_e.err_text
         return 2

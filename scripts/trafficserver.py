@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ''' Copyright (c) 2013 Jean Baptiste Favre.
     Sample script for Apache TrafficServer monitoring from Zabbix.
-    - Uses python-zabbix module from https://github.com/jbfavre/python-zabbix
+    - Uses python-protobix module from https://github.com/jbfavre/python-zabbix
     - Performs an HTTP request on http://ats_server/_stats, parse json output,
         add items and send them to Zabbix server.
     - You can blacklist some items adding them to ITEM_BL list.
@@ -14,7 +14,7 @@ import platform
 import urllib2
 import simplejson
 
-import zabbix
+import protobix
 
 __version__="0.0.2"
 
@@ -91,7 +91,7 @@ def main():
     else:
         hostname = options.host
 
-    zbx_container = zabbix.DataContainer("items", options.zabbix_server, int(options.zabbix_port))
+    zbx_container = protobix.DataContainer("items", options.zabbix_server, int(options.zabbix_port))
     zbx_container.set_debug(options.debug)
     zbx_container.set_verbosity(options.verbose)
 
@@ -115,7 +115,7 @@ def main():
 
         try:
             zbxret = zbx_container.send(zbx_container)
-        except zabbix.SenderException as zbx_e:
+        except protobix.SenderException as zbx_e:
             if options.debug:
                 print ZBX_CONN_ERR % zbx_e.err_text
             return 2
