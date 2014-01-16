@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2013-11-26T16:19:44Z</date>
+    <date>2014-01-16T15:48:03Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -17,6 +17,9 @@
                 </group>
             </groups>
             <applications>
+                <application>
+                    <name>Cloudera</name>
+                </application>
                 <application>
                     <name>Hadoop host</name>
                 </application>
@@ -63,7 +66,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>:</filter>
+                    <filter>{#HDPCLUSTERNAME}:@Hadoop Cluster for discovery</filter>
                     <lifetime>30</lifetime>
                     <description>Discovery rule to populate Hadoop cluster items</description>
                     <item_prototypes>
@@ -152,12 +155,22 @@
                             <valuemap/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes/>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.cluster[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}&gt;0</expression>
+                            <name>Hadoop cluster {#HDPCLUSTERNAME} maintenance is ON</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
                 <discovery_rule>
-                    <name>Hadoop host check discovery</name>
+                    <name>Hadoop host check LLD</name>
                     <type>2</type>
                     <snmp_community/>
                     <snmp_oid/>
@@ -181,7 +194,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>:</filter>
+                    <filter>{#HDPHOSTCHECKNAME}:@Hadoop Host Check for discovery</filter>
                     <lifetime>30</lifetime>
                     <description/>
                     <item_prototypes>
@@ -257,7 +270,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>:</filter>
+                    <filter>{#HDPCLUSTERNAME}:.*</filter>
                     <lifetime>30</lifetime>
                     <description>Discovery rule to populate Hadoop host items</description>
                     <item_prototypes>
@@ -432,7 +445,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},commissionState].last(#5)}=2</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},commissionState].last(#5)}=2&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop host commission state: Decommissioned</name>
                             <url/>
                             <status>0</status>
@@ -441,7 +454,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},commissionState].last(#5)}=1</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},commissionState].last(#5)}=1&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop host commission state: Decommissioning</name>
                             <url/>
                             <status>0</status>
@@ -450,7 +463,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},healthSummary].last(#5)}=2</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},healthSummary].last(#5)}=2&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop host health summary: Bad</name>
                             <url/>
                             <status>0</status>
@@ -460,7 +473,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},healthSummary].last(#5)}=1</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},healthSummary].last(#5)}=1&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop host health summary: Concerning</name>
                             <url/>
                             <status>0</status>
@@ -473,7 +486,7 @@ You should check.</description>
                             <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},lastHeartbeat].last(0)}&gt;180 &amp; {BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},lastHeartbeat].last(0)}&lt;360</expression>
                             <name>Hadoop host last heartbeat more than 3 minutes ago</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>2</priority>
                             <description/>
                             <type>0</type>
@@ -482,27 +495,29 @@ You should check.</description>
                             <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},lastHeartbeat].last(0)}&gt;360 &amp; {BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},lastHeartbeat].last(0)}&lt;600</expression>
                             <name>Hadoop host last heartbeat more than 6 minutes ago</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>3</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},lastHeartbeat].last(0)}&gt;600</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},lastHeartbeat].last(0)}&gt;600&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop host last heartbeat more than 10 minutes ago</name>
                             <url/>
-                            <status>1</status>
+                            <status>0</status>
                             <priority>4</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}&gt;0</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.host[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}&gt;0&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.cluster[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop host maintenance mode is ON</name>
-                            <url/>
+                            <url>{#HDPHOSTURL}</url>
                             <status>0</status>
                             <priority>1</priority>
-                            <description>Hadoop host maintenance mode  has been switched on for 5 minutes without acknowlegment</description>
+                            <description>Hadoop host {$HOSTNAME} maintenance mode is ON.&#13;
+&#13;
+You can check {#HDPHOSTURL}</description>
                             <type>0</type>
                         </trigger_prototype>
                     </trigger_prototypes>
@@ -534,7 +549,7 @@ You should check.</description>
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>:</filter>
+                    <filter>{#HDPROLECHECKNAME}:Hadoop role check for discovery</filter>
                     <lifetime>30</lifetime>
                     <description/>
                     <item_prototypes>
@@ -581,26 +596,7 @@ You should check.</description>
                             <valuemap/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role.check[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},{#HDPROLECHECKNAME},checkSummary].last(#5)}=2</expression>
-                            <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} check {#HDPROLECHECKNAME}: Bad</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description/>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role.check[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},{#HDPROLECHECKNAME},checkSummary].last(#5)}=1</expression>
-                            <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} check {#HDPROLECHECKNAME}: Concerning</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                        </trigger_prototype>
-                    </trigger_prototypes>
+                    <trigger_prototypes/>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
@@ -629,7 +625,7 @@ You should check.</description>
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>:</filter>
+                    <filter>[#HDPROLENAME}:@Hadoop role name for discovery</filter>
                     <lifetime>30</lifetime>
                     <description>Discovery rule to populate Hadoop role items</description>
                     <item_prototypes>
@@ -846,7 +842,7 @@ You should check.</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},configStale].last(#5)}&gt;0</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},configStale].last(#5)}&gt;0&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},maintenanceMode].last(#5)}=0&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},configStale].last(#5)}=0</expression>
                             <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} config stale</name>
                             <url/>
                             <status>0</status>
@@ -855,7 +851,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},healthSummary].last(#5)}=2</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},healthSummary].last(#5)}=2&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} health summary: Bad</name>
                             <url/>
                             <status>0</status>
@@ -864,7 +860,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},healthSummary].last(#5)}=1</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},healthSummary].last(#5)}=1&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} health summary: Concerning</name>
                             <url/>
                             <status>0</status>
@@ -873,7 +869,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},maintenanceMode].last(#5)}&gt;0</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},maintenanceMode].last(#5)}&gt;0&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.cluster[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} maintenance is ON</name>
                             <url/>
                             <status>0</status>
@@ -882,7 +878,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},roleState].last(#5)}=1</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},roleState].last(#5)}=1&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} role state: Stopped</name>
                             <url/>
                             <status>0</status>
@@ -891,7 +887,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},roleState].last(#5)}=2</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},roleState].last(#5)}=2&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} role state: Zombie</name>
                             <url/>
                             <status>0</status>
@@ -928,7 +924,7 @@ You should check.</description>
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>:</filter>
+                    <filter>{#HDPSERVICECHECKNAME}:@Hadoop service check for discovery</filter>
                     <lifetime>30</lifetime>
                     <description/>
                     <item_prototypes>
@@ -975,26 +971,7 @@ You should check.</description>
                             <valuemap/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service.check[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPSERVICECHECKNAME},checkSummary].last(#5)}=2</expression>
-                            <name>Hadoop service {#HDPSERVICENAME} check {#HDPSERVICECHECK} on cluster {#HDPCLUSTERNAME}: Bad</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description/>
-                            <type>0</type>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service.check[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPSERVICECHECKNAME},checkSummary].last(#5)}=1</expression>
-                            <name>Hadoop service {#HDPSERVICENAME} check {#HDPSERVICECHECK} on cluster {#HDPCLUSTERNAME}: Concerning</name>
-                            <url/>
-                            <status>0</status>
-                            <priority>3</priority>
-                            <description/>
-                            <type>0</type>
-                        </trigger_prototype>
-                    </trigger_prototypes>
+                    <trigger_prototypes/>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
@@ -1023,7 +1000,7 @@ You should check.</description>
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>:</filter>
+                    <filter>{#HDPSERVICENAME}:@Hadoop service name for discvoery</filter>
                     <lifetime>30</lifetime>
                     <description>Discovery rule to populate Hadoop host items</description>
                     <item_prototypes>
@@ -1198,16 +1175,21 @@ You should check.</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},configStale].last(#5)}&gt;0</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},configStale].last(#5)}&gt;0&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop service {#HDPSERVICENAME} config stale on cluster {#HDPCLUSTERNAME}</name>
                             <url/>
                             <status>0</status>
                             <priority>1</priority>
-                            <description/>
+                            <description>Running configuration is outdated.&#13;
+&#13;
+Consider restarting service from this page: {#HDPSERVICEURL}&#13;
+&#13;
+Service: {#HDPSERVICENAME}&#13;
+Cluster: {#HDPCLUSTERNAME}</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},healthSummary].last(#5)}=2</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},healthSummary].last(#5)}=2&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop service {#HDPSERVICENAME} health summary on cluster {#HDPCLUSTERNAME}: Bad</name>
                             <url/>
                             <status>0</status>
@@ -1216,7 +1198,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},healthSummary].last(#5)}=1</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},healthSummary].last(#5)}=1&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop service {#HDPSERVICENAME} health summary on cluster {#HDPCLUSTERNAME}: Concerning</name>
                             <url/>
                             <status>0</status>
@@ -1225,7 +1207,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},maintenanceMode].last(#5)}&gt;0</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},maintenanceMode].last(#5)}&gt;0&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.cluster[{#HDPCLUSTERNAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop service {#HDPSERVICENAME} maintenance mode on cluster {#HDPCLUSTERNAME} is ON</name>
                             <url/>
                             <status>0</status>
@@ -1234,7 +1216,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},serviceState].last(#5)}=1</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},serviceState].last(#5)}=1&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop service {#HDPSERVICENAME} service state on cluster {#HDPCLUSTERNAME}: Stopped</name>
                             <url/>
                             <status>0</status>
@@ -1243,7 +1225,7 @@ You should check.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},serviceState].last(#5)}=2</expression>
+                            <expression>{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},serviceState].last(#5)}=2&amp;{BBC_TPL_CDH_Hadoop:hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},maintenanceMode].last(#5)}=0</expression>
                             <name>Hadoop service {#HDPSERVICENAME} service state on cluster {#HDPCLUSTERNAME}: Zombie</name>
                             <url/>
                             <status>0</status>
@@ -1265,5 +1247,181 @@ You should check.</description>
             <templates/>
             <screens/>
         </template>
+        <template>
+            <template>BBC_TPL_CDH_Manager</template>
+            <name>BBC Template - CDH Manager</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications/>
+            <items>
+                <item>
+                    <name>Cloudera check</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>hadoop.cm.check</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Single item to trigger all checks.&#13;
+Get this item will launch python script on cloudera manager server. The script will use Cloudera API to gather all metrics we need and send them as Zabbic Trappers</description>
+                    <inventory_link>0</inventory_link>
+                    <applications/>
+                    <valuemap/>
+                </item>
+                <item>
+                    <name>Cloudera discovery</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>hadoop.cm.discovery</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Single item to trigger discovery.&#13;
+Get this item will launch python script on cloudera manager server. The script will use Cloudera API to discover all relevant metrics and send them as Low Level Discovery</description>
+                    <inventory_link>0</inventory_link>
+                    <applications/>
+                    <valuemap/>
+                </item>
+                <item>
+                    <name>Zabbix script version</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>hadoop.cm.zbx_version</key>
+                    <delay>0</delay>
+                    <history>90</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>1</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description>Provides version number of script running on host to monitor Cloudera Hadoop.&#13;
+Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
+                    <inventory_link>0</inventory_link>
+                    <applications/>
+                    <valuemap/>
+                </item>
+            </items>
+            <discovery_rules/>
+            <macros>
+                <macro>
+                    <macro>{$ZBX_TPL_VERSION}</macro>
+                    <value>0.0.2</value>
+                </macro>
+            </macros>
+            <templates>
+                <template>
+                    <name>BBC_TPL_CDH_Hadoop</name>
+                </template>
+            </templates>
+            <screens/>
+        </template>
     </templates>
+    <triggers>
+        <trigger>
+            <expression>{BBC_TPL_CDH_Manager:hadoop.cm.zbx_version.last()}#{$ZBX_TPL_VERSION}</expression>
+            <name>Cloudera Hadoop Template and Script version mismatched</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_CDH_Manager:hadoop.cm.check.last(#5)}&gt;0</expression>
+            <name>Hadoop Cloudera check failed</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description>Hadoop Cloudera Checks failed at least 1 time during last 5 attemps.&#13;
+You should connect to Cloudera Manager Web Interface &amp; investigate.</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_CDH_Manager:hadoop.cm.discovery.last(#5)}&gt;0</expression>
+            <name>Hadoop Cloudera discovery failed</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description>Hadoop Cloudera Discovery failed at least 1 time during last 5 attemps.&#13;
+You should connect to Cloudera Manager Web Interface &amp; investigate.</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+    </triggers>
 </zabbix_export>
