@@ -132,18 +132,18 @@ def main():
     if options.mode == "update_items":
         zbx_container.set_type("items")
         data = get_metrics(r, hostname)
+        '''
+            provide fake data for master
+            to avoid NOt SUPPORTED items
+        '''
+        if data[hostname]['redis.replication[role]'] == 'master':
+            data[hostname]['redis.replication[master_last_io_seconds_ago]'] = 0
+            data[hostname]['redis.replication[master_link_status]'] = 'up'
+            data[hostname]['redis.replication[master_sync_in_progress]'] = 0
+
     elif options.mode == "discovery":
         zbx_container.set_type("lld")
         data = get_discovery(r, hostname)
-
-    '''
-        provide fake data for master
-        to avoid NOt SUPPORTED items
-    '''
-    if data[hostname]['redis.replication[role]'] == 'master':
-        data[hostname]['redis.replication[master_last_io_seconds_ago]'] = 0
-        data[hostname]['redis.replication[master_link_status]'] = 'up'
-        data[hostname]['redis.replication[master_sync_in_progress]'] = 0
 
     zbx_container.add(data)
     zbx_container.add_item(hostname, "redis.zbx_version", __version__)
