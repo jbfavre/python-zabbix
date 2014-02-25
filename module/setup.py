@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'protobix',
-    version = '0.0.2',
+    version = '0.0.3',
     zip_safe = True,
     
     author = 'Jean Baptiste Favre',
