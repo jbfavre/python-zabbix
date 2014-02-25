@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-02-25T17:04:48Z</date>
+    <date>2014-02-25T17:56:19Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -21,43 +21,13 @@
                     <name>Memcached</name>
                 </application>
                 <application>
-                    <name>Memcached auth cmds</name>
-                </application>
-                <application>
                     <name>Memcached client</name>
                 </application>
                 <application>
-                    <name>Memcached decr</name>
-                </application>
-                <application>
-                    <name>Memcached delete</name>
-                </application>
-                <application>
-                    <name>Memcached evictions</name>
-                </application>
-                <application>
-                    <name>Memcached expired</name>
-                </application>
-                <application>
-                    <name>Memcached flush</name>
-                </application>
-                <application>
-                    <name>Memcached get</name>
-                </application>
-                <application>
-                    <name>Memcached incr</name>
-                </application>
-                <application>
-                    <name>Memcached items</name>
+                    <name>Memcached cmds</name>
                 </application>
                 <application>
                     <name>Memcached performances</name>
-                </application>
-                <application>
-                    <name>Memcached set</name>
-                </application>
-                <application>
-                    <name>Memcached touch</name>
                 </application>
             </applications>
             <items>
@@ -140,7 +110,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached auth cmds</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -182,7 +152,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached auth cmds</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -644,7 +614,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached decr</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -686,7 +656,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached decr</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -728,10 +698,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached delete</name>
-                        </application>
-                        <application>
-                            <name>Memcached get</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -773,7 +740,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached delete</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -815,7 +782,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached evictions</name>
+                            <name>Memcached performances</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -857,7 +824,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached evictions</name>
+                            <name>Memcached performances</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -899,7 +866,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached expired</name>
+                            <name>Memcached performances</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -941,7 +908,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached flush</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -983,7 +950,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached get</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1025,7 +992,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached get</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1067,7 +1034,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached get</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1109,7 +1076,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached incr</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1151,7 +1118,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached incr</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1235,7 +1202,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached items</name>
+                            <name>Memcached performances</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1403,7 +1370,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached items</name>
+                            <name>Memcached performances</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1487,7 +1454,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached set</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1529,7 +1496,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached touch</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1571,7 +1538,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached touch</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>
@@ -1613,7 +1580,7 @@
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
-                            <name>Memcached touch</name>
+                            <name>Memcached cmds</name>
                         </application>
                     </applications>
                     <valuemap/>

@@ -105,7 +105,7 @@ def main():
     else:
         hostname = options.host
 
-    mc = memcache.Client(["%s:%s" % (options.host, options.port)])
+    mc = memcache.Client(["%s:%s" % (hostname, options.port)])
 
     zbx_container = protobix.DataContainer()
     if options.mode == "update_items":
@@ -114,7 +114,7 @@ def main():
 
     elif options.mode == "discovery":
         zbx_container.set_type("lld")
-        data = get_discovery(r, hostname)
+        data = get_discovery(mc, hostname)
 
     zbx_container.add(data)
     zbx_container.add_item(hostname, "memcached.zbx_version", __version__)
