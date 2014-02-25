@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>2.0</version>
+    <date>2014-02-25T17:29:07Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>BBC_TPL_HP_Hardware_full</template>
+            <name>BBC Template - HP Hardware</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications/>
+            <items/>
+            <discovery_rules/>
+            <macros/>
+            <templates>
+                <template>
+                    <name>BBC_TPL_HP_Hardware_fans</name>
+                </template>
+                <template>
+                    <name>BBC_TPL_HP_Hardware_power</name>
+                </template>
+                <template>
+                    <name>BBC_TPL_HP_Hardware_raid</name>
+                </template>
+                <template>
+                    <name>BBC_TPL_HP_Hardware_temp</name>
+                </template>
+            </templates>
+            <screens/>
+        </template>
+    </templates>
+</zabbix_export>

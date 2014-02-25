@@ -1,0 +1,8 @@
+*/5 * * * *	root /usr/local/bin/hp_hard_fan.pl | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+*/5 * * * *	root /usr/local/bin/hp_hard_fan.pl discovery | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+*/5 * * * *	root /usr/local/bin/hp_hard_pwr.pl | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+*/5 * * * *	root /usr/local/bin/hp_hard_pwr.pl discovery | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+*/5 * * * *	root /usr/local/bin/hp_hard_raid.pl | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+*/5 * * * *	root /usr/local/bin/hp_hard_raid.pl discovery | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+*/5 * * * *	root /usr/local/bin/hp_hard_temp.pl | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+*/5 * * * *	root /usr/local/bin/hp_hard_temp.pl discovery | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
