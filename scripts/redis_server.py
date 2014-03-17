@@ -134,7 +134,7 @@ def main():
         data = get_metrics(r, hostname)
         '''
             provide fake data for master
-            to avoid NOt SUPPORTED items
+            to avoid NOT SUPPORTED items
         '''
         if data[hostname]['redis.replication[role]'] == 'master':
             data[hostname]['redis.replication[master_last_io_seconds_ago]'] = 0
