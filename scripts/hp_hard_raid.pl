@@ -74,12 +74,12 @@ sub getInfo {
     # For current controller, check logical drives
     open(HPACULD, "/usr/sbin/hpacucli controller slot=$rank logicaldrive all show status |") || die "Could not run hpacucli\n";
     while (<HPACULD>) {
-      if (/\s+logicaldrive (\d)+ \(.+, RAID (\d)+\):\s+(\w+)/) {
+      if (/\s+logicaldrive (\d)+ \(.+, (RAID )?(\d)+\):\s+(\w+)/) {
         push @logicaldriveinfos, {
           'id'             => $1,
           'controllerslot' => $rank,
-          'raid_type'      => $2,
-          'status'         => $3
+          'raid_type'      => $3,
+          'status'         => $4
         }
       }
     }
@@ -170,10 +170,12 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   foreach my $controllerinfo ( @controllerinfos ) {
     print "- hp.hardware.raid.controller[$controllerinfo->{slot},controller_status] $controllerinfo->{'controller_status'}\n";
     print "- hp.hardware.raid.controller[$controllerinfo->{slot},controller_temperature] ".(defined($controllerinfo->{'controller_temperature'})?$controllerinfo->{'controller_temperature'}:0)."\n";
-    print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_status] $controllerinfo->{'cache_status'}\n";
-    print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_module_temperature] ".(defined($controllerinfo->{'cache_module_temperature'})?$controllerinfo->{'cache_module_temperature'}:0)."\n";
-    print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_read_ratio] $controllerinfo->{'cache_read_ratio'}\n";
-    print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_write_ratio] $controllerinfo->{'cache_write_ratio'}\n";
+    if ($controllerinfo->{'cache_status'} ne 'Not') {
+        print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_status] $controllerinfo->{'cache_status'}\n";
+        print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_module_temperature] ".(defined($controllerinfo->{'cache_module_temperature'})?$controllerinfo->{'cache_module_temperature'}:0)."\n";
+        print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_read_ratio] $controllerinfo->{'cache_read_ratio'}\n";
+        print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_write_ratio] $controllerinfo->{'cache_write_ratio'}\n";
+    }
     print "- hp.hardware.raid.controller[$controllerinfo->{slot},total_cache_memory_available] $controllerinfo->{'total_cache_memory_available'}\n";
     print "- hp.hardware.raid.controller[$controllerinfo->{slot},battery_capacitor_status] $controllerinfo->{'battery_capacitor_status'}\n";
     print "- hp.hardware.raid.controller[$controllerinfo->{slot},capacitor_temperature] ".(defined($controllerinfo->{'capacitor_temperature'})?$controllerinfo->{'capacitor_temperature'}:0)."\n";
