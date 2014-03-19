@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-02-25T17:30:51Z</date>
+    <date>2014-03-19T12:22:33Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -34,7 +34,7 @@
                     <type>2</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>hp.hardware.controller.discovery</key>
+                    <key>hp.hardware.raid.controller.discovery</key>
                     <delay>0</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -64,9 +64,9 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},battery_capacitor_status]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},battery_capacitor_status]</key>
                             <delay>0</delay>
-                            <history>7</history>
+                            <history>1</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -112,7 +112,7 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},capacitor_temperature]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},capacitor_temperature]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -154,7 +154,7 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>1</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},total_cache_memory_available]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},total_cache_memory_available]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -196,7 +196,7 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},cache_read_ratio]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},cache_read_ratio]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -238,9 +238,9 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},cache_status]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},cache_status]</key>
                             <delay>0</delay>
-                            <history>7</history>
+                            <history>1</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -280,7 +280,7 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},cache_module_temperature]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},cache_module_temperature]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -322,7 +322,7 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},cache_write_ratio]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},cache_write_ratio]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -364,9 +364,9 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},controller_status]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},controller_status]</key>
                             <delay>0</delay>
-                            <history>7</history>
+                            <history>1</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
@@ -406,7 +406,7 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.controller[{#CONTROLLERSLOT},controller_temperature]</key>
+                            <key>hp.hardware.raid.controller[{#CONTROLLERSLOT},controller_temperature]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -452,7 +452,7 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                     <type>2</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>hp.hardware.logicaldrive.discovery</key>
+                    <key>hp.hardware.raid.logicaldrive.discovery</key>
                     <delay>0</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -482,12 +482,12 @@ Cache memory: {#CONTROLLERCACHEMEMORY}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.logicaldrive[{#LOGICALDRIVESLOT},&quot;status&quot;]</key>
+                            <key>hp.hardware.raid.logicaldrive[{#CONTROLLERSLOT}:{#LOGICALDRIVESLOT},status]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
                             <delta>0</delta>
@@ -517,7 +517,9 @@ Controller: {#CONTROLLERSLOT}</description>
                                     <name>HP Hardware Raid Logical Drive</name>
                                 </application>
                             </applications>
-                            <valuemap/>
+                            <valuemap>
+                                <name>HP Insight System Status</name>
+                            </valuemap>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes/>
@@ -529,7 +531,7 @@ Controller: {#CONTROLLERSLOT}</description>
                     <type>2</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>hp.hardware.physicaldrive.discovery</key>
+                    <key>hp.hardware.raid.physicaldrive.discovery</key>
                     <delay>0</delay>
                     <status>0</status>
                     <allowed_hosts/>
@@ -559,12 +561,12 @@ Controller: {#CONTROLLERSLOT}</description>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>hp.hardware.physicaldrive[{#PHYSICALDRIVESLOT},status]</key>
+                            <key>hp.hardware.raid.physicaldrive[{#PHYSICALDRIVESLOT},status]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
                             <delta>0</delta>
@@ -597,10 +599,22 @@ Bay:         {#PHYSICALDRIVEBAY}</description>
                                     <name>HP Hardware Raid Physical Drive</name>
                                 </application>
                             </applications>
-                            <valuemap/>
+                            <valuemap>
+                                <name>HP Insight System Status</name>
+                            </valuemap>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes/>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{BBC_TPL_HP_Hardware_raid:hp.hardware.raid.physicaldrive[{#PHYSICALDRIVESLOT},status].str(OK,600)}=0</expression>
+                            <name>Physical drive {#PHYSICALDRIVESLOT} on controler {#CONTROLLERSLOT} failure</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>

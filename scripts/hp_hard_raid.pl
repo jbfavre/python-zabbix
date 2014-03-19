@@ -113,7 +113,7 @@ getInfo();
 if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   # Display discovery informations
 
-  print "- hp.hardware.controller.discovery {\"data\":[";
+  print "- hp.hardware.raid.controller.discovery {\"data\":[";
 
   foreach my $controllerinfo ( @controllerinfos ) {
     print "," if not $first;
@@ -132,13 +132,14 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   print "]}\n";
 
   $first = 1;
-  print "- hp.hardware.logicaldrive.discovery {\"data\":[";
+  print "- hp.hardware.raid.logicaldrive.discovery {\"data\":[";
 
   foreach my $logicaldriveinfo ( @logicaldriveinfos ) {
     print "," if not $first;
     $first = 0;
 
     print "{\"{#LOGICALDRIVEID}\":\"logicaldrive".$logicaldriveinfo->{id}."\",";
+    print "\"{#LOGICALDRIVESLOT}\":\"".$logicaldriveinfo->{id}."\",";
     print "\"{#CONTROLLERSLOT}\":\"".$logicaldriveinfo->{controllerslot}."\",";
     print "\"{#LOGICALDRIVERAID}\":\"".$logicaldriveinfo->{raid_type}."\"}";
 
@@ -146,13 +147,14 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   print "]}\n";
 
   $first = 1;
-  print "- hp.hardware.physicaldrive.discovery {\"data\":[";
+  print "- hp.hardware.raid.physicaldrive.discovery {\"data\":[";
 
   foreach my $physicaldriveinfo ( @physicaldriveinfos ) {
     print "," if not $first;
     $first = 0;
 
-    print "{\"{#PHYSICALDRIVEID}\":\"logicaldrive".$physicaldriveinfo->{id}."\",";
+    print "{\"{#PHYSICALDRIVEID}\":\"physicaldrive".$physicaldriveinfo->{id}."\",";
+    print "\"{#PHYSICALDRIVESLOT}\":\"".$physicaldriveinfo->{id}."\",";
     print "\"{#CONTROLLERSLOT}\":\"".$physicaldriveinfo->{controllerslot}."\",";
     print "\"{#PHYSICALDRIVEPORT}\":\"".$physicaldriveinfo->{port}."\",";
     print "\"{#PHYSICALDRIVEBOX}\":\"".$physicaldriveinfo->{box}."\",";
@@ -166,23 +168,23 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   # Display trappers metrics
 
   foreach my $controllerinfo ( @controllerinfos ) {
-    print "- hp.hardware.controller[$controllerinfo->{slot},controller_status] $controllerinfo->{'controller_status'}\n";
-    print "- hp.hardware.controller[$controllerinfo->{slot},controller_temperature] $controllerinfo->{'controller_temperature'}\n";
-    print "- hp.hardware.controller[$controllerinfo->{slot},cache_status] $controllerinfo->{'cache_status'}\n";
-    print "- hp.hardware.controller[$controllerinfo->{slot},cache_module_temperature] $controllerinfo->{'cache_module_temperature'}\n";
-    print "- hp.hardware.controller[$controllerinfo->{slot},cache_read_ratio] $controllerinfo->{'cache_read_ratio'}\n";
-    print "- hp.hardware.controller[$controllerinfo->{slot},cache_write_ratio] $controllerinfo->{'cache_write_ratio'}\n";
-    print "- hp.hardware.controller[$controllerinfo->{slot},total_cache_memory_available] $controllerinfo->{'total_cache_memory_available'}\n";
-    print "- hp.hardware.controller[$controllerinfo->{slot},battery_capacitor_status] $controllerinfo->{'battery_capacitor_status'}\n";
-    print "- hp.hardware.controller[$controllerinfo->{slot},capacitor_temperature] $controllerinfo->{'capacitor_temperature'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},controller_status] $controllerinfo->{'controller_status'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},controller_temperature] $controllerinfo->{'controller_temperature'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_status] $controllerinfo->{'cache_status'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_module_temperature] $controllerinfo->{'cache_module_temperature'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_read_ratio] $controllerinfo->{'cache_read_ratio'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_write_ratio] $controllerinfo->{'cache_write_ratio'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},total_cache_memory_available] $controllerinfo->{'total_cache_memory_available'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},battery_capacitor_status] $controllerinfo->{'battery_capacitor_status'}\n";
+    print "- hp.hardware.raid.controller[$controllerinfo->{slot},capacitor_temperature] $controllerinfo->{'capacitor_temperature'}\n";
   }
 
   foreach my $logicaldriveinfo ( @logicaldriveinfos ) {
-    print "- hp.hardware.logicaldrive[$logicaldriveinfo->{id},status] $logicaldriveinfo->{status}\n";
+    print "- hp.hardware.raid.logicaldrive[$logicaldriveinfo->{controllerslot}:$logicaldriveinfo->{id},status] $logicaldriveinfo->{status}\n";
   }
 
   foreach my $physicaldriveinfo ( @physicaldriveinfos ) {
-    print "- hp.hardware.physicaldrive[\"".$physicaldriveinfo->{id}."\",status] $physicaldriveinfo->{status}\n";
+    print "- hp.hardware.raid.physicaldrive[".$physicaldriveinfo->{id}.",status] $physicaldriveinfo->{status}\n";
   }
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-02-25T17:30:30Z</date>
+    <date>2014-03-19T12:22:14Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -106,7 +106,7 @@ Present: {#POWERPRESENT}</description>
                             <snmp_oid/>
                             <key>hp.hardware.power[{#POWERSLOT},status]</key>
                             <delay>0</delay>
-                            <history>7</history>
+                            <history>1</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>4</value_type>
