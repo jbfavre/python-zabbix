@@ -88,7 +88,7 @@ sub getInfo {
     # For current controller, check physical drives
     open(HPACUPD, "/usr/sbin/hpacucli controller slot=$rank physicaldrive all show status |") || die "Could not run hpacucli\n";
     while (<HPACUPD>) {
-      if (/physicaldrive (.+) \(port (.+):box (\d+):bay (\d+), (\d+) GB\):\s+(\w+)/) {
+      if (/physicaldrive (.+) \(port (.+):box (\d+):bay (\d+), (\d+) (G|T)B\):\s+(\w+)/) {
         push @physicaldriveinfos, {
           'id'            => $1,
           'controllerslot' => $rank,
@@ -96,7 +96,7 @@ sub getInfo {
           'box'           => $3,
           'bay'           => $4,
           'capacity'      => $5,
-          'status'        => $6
+          'status'        => $7
         }
       }
     }
