@@ -64,8 +64,8 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   # Display trappers metrics
 
   foreach my $tempinfo ( @tempinfos ) {
-    print "- hp.hardware.temp[$tempinfo->{id},status] $tempinfo->{status}\n";
-    print "- hp.hardware.temp[$tempinfo->{id},current] $tempinfo->{current}\n";
+    #print "- hp.hardware.temp[$tempinfo->{id},status] $tempinfo->{status}\n";
+    print "- hp.hardware.temp[$tempinfo->{id},current] $tempinfo->{current}\n";
   }
 
 }
