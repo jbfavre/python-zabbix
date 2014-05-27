@@ -105,7 +105,10 @@ def main():
     else:
         hostname = options.host
 
-    mc = memcache.Client(["%s:%s" % (hostname, options.port)])
+    try:
+        mc = memcache.Client(["%s:%s" % (hostname, options.port)])
+    except:
+        return 1
 
     zbx_container = protobix.DataContainer()
     if options.mode == "update_items":

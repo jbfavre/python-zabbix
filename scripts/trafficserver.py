@@ -43,7 +43,7 @@ def parse_args():
     parser = optparse.OptionParser(description="Get TrafficServer statistics, "
                                     "format them and send the result to Zabbix")
 
-    parser.add_option("-d", "--dry-run", action="store_true",
+    parser.add_option("-d", "--dry", action="store_true",
                                help="Performs TrafficServer API calls but do not "
                                     "send anything to the Zabbix server. Can be "
                                     "used for both Update & Discovery mode")
@@ -94,11 +94,13 @@ def main():
     zbx_container = protobix.DataContainer("items", options.zabbix_server, int(options.zabbix_port))
     zbx_container.set_debug(options.debug)
     zbx_container.set_verbosity(options.verbose)
+    zbx_container.set_dryrun(options.dry)
 
     try:
-        request = urllib2.Request( ("http://%s:%d/_stats" % (options.host, int(options.port))) )
+        '''request = urllib2.Request( ("http://%s:%d/_stats" % (options.host, int(options.port))), timeout=0.5 )'''
+        request = urllib2.Request( ("http://%s:%d/_stats" % (options.host, int(options.port))))
         opener  = urllib2.build_opener()
-        rawjson = opener.open(request)
+        rawjson = opener.open(request, None, 1)
     except urllib2.URLError as e:
         if options.debug:
             print ATS_CONN_ERR % e.reason
@@ -125,3 +127,4 @@ def main():
 if __name__ == "__main__":
     ret = main()
     print ret
+    sys.exit(ret)

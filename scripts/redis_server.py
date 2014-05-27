@@ -126,7 +126,10 @@ def main():
     else:
         hostname = options.host
 
-    r = redis.StrictRedis(host=options.host, port=options.port, db="", password="", socket_timeout=0.1)
+    try:
+        r = redis.StrictRedis(host=options.host, port=options.port, db="", password="", socket_timeout=0.5)
+    except:
+        return 1
 
     zbx_container = protobix.DataContainer()
     if options.mode == "update_items":
@@ -134,7 +137,7 @@ def main():
         data = get_metrics(r, hostname)
         '''
             provide fake data for master
-            to avoid NOT SUPPORTED items
+            to avoid NOt SUPPORTED items
         '''
         if data[hostname]['redis.replication[role]'] == 'master':
             data[hostname]['redis.replication[master_last_io_seconds_ago]'] = 0

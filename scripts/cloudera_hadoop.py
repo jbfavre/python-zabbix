@@ -57,7 +57,7 @@ def parse_args():
     '''
     parser = optparse.OptionParser()
 
-    parser.add_option("-d", "--dry-run", action="store_true",
+    parser.add_option("-d", "--dry", action="store_true",
                           help="Performs CDH API calls but do not send "
                                "anything to the Zabbix server. Can be used "
                                "for both Update & Discovery mode")
@@ -259,8 +259,11 @@ def main():
     else:
         hostname = options.host
 
-    cdh_api = get_root_resource(options.host, options.port, options.username,
-                                options.password, options.use_tls, CM_API_VERSION)
+    try:
+        cdh_api = get_root_resource(options.host, options.port, options.username,
+                                    options.password, options.use_tls, CM_API_VERSION)
+    except:
+        return 1
 
     zbx_container = protobix.DataContainer()
     if options.mode == "update_items":
@@ -277,6 +280,7 @@ def main():
     zbx_container.set_port(int(options.zabbix_port))
     zbx_container.set_debug(options.debug)
     zbx_container.set_verbosity(options.verbose)
+    zbx_container.set_dryrun(options.dry)
 
     try:
         zbxret = zbx_container.send(zbx_container)
