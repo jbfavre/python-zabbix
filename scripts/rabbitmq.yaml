@@ -1,0 +1,10 @@
+exclude_pattern:
+    - '\w+_dl'
+queues_limits:
+    default:
+        nb_msg: 100
+        rate_ratio: 2 
+    vhost_name:
+        queue_name:
+            nb_msg: 1000
+            rate_ratio: 5 
