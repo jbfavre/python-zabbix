@@ -25,12 +25,12 @@ ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
 class RabbitMQAPI(object):
 
     def __init__(self, user_name='guest', password='guest',
-                 host_name='', port=15672, conf='etc/zabbix/rabbitmq.yaml'):
+                 host_name='', port=15672, conf='rabbitmq.yaml'):
         self.user_name = user_name
         self.password = password
         self.host_name = host_name or socket.gethostname()
         self.port = port
-        self.discovery_key = "rabbitmq.queue.discovery"
+        self.discovery_key = "rabbitmq.queues.discovery"
 
         ''' Load config file '''
         with open(conf, 'r') as f:
@@ -77,7 +77,6 @@ class RabbitMQAPI(object):
     def get_metrics(self):
         data = {}
         for queue in self.call_api('queues'):
-            ''' Skip queues matching exclude_patterns '''
             if self.exclude_patterns.match(queue['name']): continue
 
             ''' Get global message count for considered queue '''
@@ -87,9 +86,12 @@ class RabbitMQAPI(object):
 
             ''' Get queue's master node here so that we can trigger Zabbix
                 alert based on ${HOSTNAME} Zabbix macro match '''
-            zbx_key = "rabbitmq.queue[{0},{1},node]"
+            zbx_key = "rabbitmq.queue[{0},{1},master]"
             zbx_key = zbx_key.format(queue['vhost'], queue['name'])
-            data[zbx_key] = queue.get('node', 0).split('@')[1]
+            value=0
+            if queue.get('node', 0).split('@')[1] == self.host_name:
+                value=1
+            data[zbx_key] = value
 
             ''' Get message_stats rates '''
             message_stats = queue.get('message_stats', {})
@@ -181,8 +183,7 @@ def main():
         rmq = RabbitMQAPI(user_name=options.username,
                           password=options.password,
                           host_name=options.host,
-                          port=options.port,
-                          conf='rabbitmq.yaml')
+                          port=options.port)
     except:
         return 1
 
