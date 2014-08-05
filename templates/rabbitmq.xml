@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-08-04T15:58:34Z</date>
+    <date>2014-08-05T11:36:21Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -187,7 +187,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>msg/s</units>
                             <delta>0</delta>
@@ -229,7 +229,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>msg/s</units>
                             <delta>0</delta>
@@ -261,6 +261,48 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                             <valuemap/>
                         </item_prototype>
                         <item_prototype>
+                            <name>DL Message count for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
+                            <type>2</type>
+                            <snmp_community/>
+                            <multiplier>0</multiplier>
+                            <snmp_oid/>
+                            <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,dl_message]</key>
+                            <delay>0</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_contextname/>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>RabbitMQ queueing</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
                             <name>GET message rate for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
                             <type>2</type>
                             <snmp_community/>
@@ -271,7 +313,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>msg/s</units>
                             <delta>0</delta>
@@ -397,7 +439,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>msg/s</units>
                             <delta>0</delta>
@@ -439,7 +481,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
-                            <value_type>3</value_type>
+                            <value_type>0</value_type>
                             <allowed_hosts/>
                             <units>msg/s</units>
                             <delta>0</delta>
@@ -473,11 +515,11 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].last(0)}&gt;1+({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].last(0)}*{#RMQRATIOTHRES}))</expression>
+                            <expression>({TRIGGER.VALUE}=0&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].avg(300)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].avg(300)}*{#RMQRATIOTHRES}))))|({TRIGGER.VALUE}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].avg(300)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].avg(300)}*({#RMQRATIOTHRES}/2)))))</expression>
                             <name>RabbitMQ queue {#RMQQUEUENAME} in vhost {#RMQVHOSTNAME} is getting late</name>
                             <url/>
                             <status>0</status>
-                            <priority>0</priority>
+                            <priority>2</priority>
                             <description>RabbitMQ queue {#RMQQUEUENAME} in vhost {#RMQVHOSTNAME} PUBLISH rate is more than {#RMQRATIOTHRES} times greater than GET rate.&#13;
 You should consider adding more workers</description>
                             <type>0</type>
@@ -603,7 +645,7 @@ You should consider adding more workers</description>
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.1</value>
+                    <value>0.0.2</value>
                 </macro>
             </macros>
             <templates/>

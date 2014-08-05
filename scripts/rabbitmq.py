@@ -19,7 +19,7 @@ import json
 import platform
 import protobix
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
 
 class RabbitMQAPI(object):
@@ -79,8 +79,13 @@ class RabbitMQAPI(object):
         for queue in self.call_api('queues'):
             if self.exclude_patterns.match(queue['name']): continue
 
-            ''' Get global message count for considered queue '''
+            ''' Get global messages count for considered queue '''
             zbx_key = "rabbitmq.queue[{0},{1},count,message]"
+            zbx_key = zbx_key.format(queue['vhost'], queue['name'])
+            data[zbx_key] = queue.get('messages', 0)
+
+            ''' Get DL messages count for considered queue '''
+            zbx_key = "rabbitmq.queue[{0},{1},count,dl_message]"
             zbx_key = zbx_key.format(queue['vhost'], queue['name'])
             data[zbx_key] = queue.get('messages', 0)
 
