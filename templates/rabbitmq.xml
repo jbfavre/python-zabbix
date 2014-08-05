@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-08-05T11:36:21Z</date>
+    <date>2014-08-05T16:19:01Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -24,7 +24,10 @@
                     <name>RabbitMQ activity</name>
                 </application>
                 <application>
-                    <name>RabbitMQ queueing</name>
+                    <name>RabbitMQ DL Queue</name>
+                </application>
+                <application>
+                    <name>RabbitMQ Queue</name>
                 </application>
             </applications>
             <items>
@@ -64,7 +67,11 @@
                     <description>Single item to trigger all checks.&#13;
 Get this item will launch python script on RabbitMQ server. The script will use RabbitMQ HTTP API to gather all metrics we need and send them as Zabbic Trappers</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                 </item>
                 <item>
@@ -103,7 +110,11 @@ Get this item will launch python script on RabbitMQ server. The script will use 
                     <description>Single item to trigger discovery.&#13;
 Get this item will launch python script on RabbitMQ server. The script will use RabbitMQ HTTP API to discover all relevant metrics and send them as Low Level Discovery</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                 </item>
                 <item>
@@ -297,7 +308,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>RabbitMQ queueing</name>
+                                    <name>RabbitMQ DL Queue</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -423,7 +434,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>RabbitMQ queueing</name>
+                                    <name>RabbitMQ Queue</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -524,40 +535,19 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
 You should consider adding more workers</description>
                             <type>0</type>
                         </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({TRIGGER.VALUE}=0&amp;{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,dl_message].min(5m)}&gt;10)|({TRIGGER.VALUE}=1&amp;{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,dl_message].max(10m)}&gt;1)</expression>
+                            <name>We have Dead-letter messages in {#RMQVHOSTNAME}:{#RMQQUEUENAME}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>1</priority>
+                            <description>DL queue for {#RMQVHOSTNAME} in RabbitMQ vhost {#RMQVHOSTNAME} contains messages.&#13;
+&#13;
+Please investigate via RabbitMQ Web interface</description>
+                            <type>0</type>
+                        </trigger_prototype>
                     </trigger_prototypes>
                     <graph_prototypes>
-                        <graph_prototype>
-                            <name>Message count for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_RABBITMQ</host>
-                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
                         <graph_prototype>
                             <name>Message rate for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
                             <width>900</width>
@@ -638,6 +628,50 @@ You should consider adding more workers</description>
                                 </graph_item>
                             </graph_items>
                         </graph_prototype>
+                        <graph_prototype>
+                            <name>Messages count for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>BBC_TPL_RABBITMQ</host>
+                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>BBC_TPL_RABBITMQ</host>
+                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,dl_message]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
                     </graph_prototypes>
                     <host_prototypes/>
                 </discovery_rule>
@@ -645,7 +679,7 @@ You should consider adding more workers</description>
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.2</value>
+                    <value>0.0.3</value>
                 </macro>
             </macros>
             <templates/>

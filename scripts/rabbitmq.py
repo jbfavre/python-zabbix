@@ -76,7 +76,8 @@ class RabbitMQAPI(object):
 
     def get_metrics(self):
         data = {}
-        for queue in self.call_api('queues'):
+        queues_list = self.call_api('queues')
+        for queue in queues_list:
             if self.exclude_patterns.match(queue['name']): continue
 
             ''' Get global messages count for considered queue '''
@@ -87,7 +88,9 @@ class RabbitMQAPI(object):
             ''' Get DL messages count for considered queue '''
             zbx_key = "rabbitmq.queue[{0},{1},count,dl_message]"
             zbx_key = zbx_key.format(queue['vhost'], queue['name'])
-            data[zbx_key] = queue.get('messages', 0)
+            api_path = 'queues/{0}/{1}_dl'.format(queue['vhost'], queue['name'])
+            dl_queue = self.call_api(api_path)
+            data[zbx_key] = dl_queue.get('messages', 0)
 
             ''' Get queue's master node here so that we can trigger Zabbix
                 alert based on ${HOSTNAME} Zabbix macro match '''
@@ -184,18 +187,18 @@ def parse_args():
 def main():
 
     (options, args) = parse_args()
-    try:
-        rmq = RabbitMQAPI(user_name=options.username,
-                          password=options.password,
-                          host_name=options.host,
-                          port=options.port)
-    except:
-        return 1
-
     if options.host == 'localhost':
         hostname = platform.node()
     else:
         hostname = options.host
+
+    try:
+        rmq = RabbitMQAPI(user_name=options.username,
+                          password=options.password,
+                          host_name=hostname,
+                          port=options.port)
+    except:
+        return 1
 
     zbx_container = protobix.DataContainer()
     data = {}
