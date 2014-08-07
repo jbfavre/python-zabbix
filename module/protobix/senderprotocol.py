@@ -3,6 +3,7 @@ import re
 import simplejson
 import socket
 import struct
+import time
 
 from senderexception import SenderException
 
@@ -47,7 +48,8 @@ class SenderProtocol(object):
 
     def __repr__(self):
         return simplejson.dumps({ "data": ("%r" % self.data_container),
-                                  "request": self.request })
+                                  "request": self.request,
+                                  "clock": int(time.time()) })
 
     def send_to_zabbix(self, data):
         data_len =  struct.pack('<Q', len(data))
@@ -85,7 +87,8 @@ class SenderProtocol(object):
     def bulk_send(self, container):
         self.data_container = container
         data = simplejson.dumps({ "data": self.data_container.get_items_list(),
-                                  "request": self.request })
+                                  "request": self.request,
+                                  "clock": int(time.time()) })
         zbx_answer = self.send_to_zabbix(data)
         if self.verbosity:
             print zbx_answer.get('info')
@@ -95,7 +98,8 @@ class SenderProtocol(object):
         self.data_container = container
         for item in self.data_container.get_items_list():
             data = simplejson.dumps({ "data": [ item ],
-                                      "request": self.request })
+                                      "request": self.request,
+                                      "clock": int(time.time()) })
             result = '-'
             zbx_answer = 0
             if not self.dryrun:

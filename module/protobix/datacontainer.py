@@ -1,4 +1,5 @@
 import simplejson
+import time
 
 from senderprotocol import SenderProtocol
 
@@ -16,12 +17,13 @@ class DataContainer(SenderProtocol):
         if data_type == "lld" or data_type == "items":
             self.data_type = data_type
 
-    def add_item(self, host, key, value):
+    def add_item(self, host, key, value, clock=int(time.time())/60*60):
         if self.data_type == "items":
-            item = { "host": host, "key": key, "value": value}
+            item = { "host": host, "key": key,
+                     "value": value, "clock": clock}
         elif self.data_type == "lld":
-            item = { "host": host, "key": key, "value":
-                     simplejson.dumps({"data":value})}
+            item = { "host": host, "key": key, "clock": clock,
+                     "value": simplejson.dumps({"data":value}) }
         self.items_list.append(item)
 
     def add(self, data):
@@ -29,7 +31,6 @@ class DataContainer(SenderProtocol):
             for key in data[host]:
                 if not data[host][key] == []:
                     self.add_item( host, key, data[host][key])
-
 
     def get_items_list(self):
         return self.items_list
