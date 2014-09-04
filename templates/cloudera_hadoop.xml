@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-01-16T15:48:03Z</date>
+    <date>2014-09-04T15:04:16Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -78,7 +78,7 @@
                             <snmp_oid/>
                             <key>hadoop.cm.cluster[{#HDPCLUSTERNAME},maintenanceMode]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -111,6 +111,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop cluster $1 version</name>
@@ -120,7 +121,7 @@
                             <snmp_oid/>
                             <key>hadoop.cm.cluster[{#HDPCLUSTERNAME},version]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>1</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>1</value_type>
@@ -153,6 +154,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -206,7 +208,7 @@
                             <snmp_oid/>
                             <key>hadoop.cm.host.check[{#HDPCLUSTERNAME},{#HDPHOSTCHECKNAME}]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -239,6 +241,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes/>
@@ -282,7 +285,7 @@
                             <snmp_oid/>
                             <key>hadoop.cm.host[{#HDPCLUSTERNAME},commissionState]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -315,6 +318,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop host health summary on cluster $1</name>
@@ -324,7 +328,7 @@
                             <snmp_oid/>
                             <key>hadoop.cm.host[{#HDPCLUSTERNAME},healthSummary]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -357,6 +361,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop host last heartbeat on cluster $1</name>
@@ -366,7 +371,7 @@
                             <snmp_oid/>
                             <key>hadoop.cm.host[{#HDPCLUSTERNAME},lastHeartbeat]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -399,6 +404,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop host maintenance mode on cluster $1</name>
@@ -408,7 +414,7 @@
                             <snmp_oid/>
                             <key>hadoop.cm.host[{#HDPCLUSTERNAME},maintenanceMode]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -441,6 +447,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -458,7 +465,7 @@
                             <name>Hadoop host commission state: Decommissioning</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -477,7 +484,7 @@ You should check.</description>
                             <name>Hadoop host health summary: Concerning</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>2</priority>
                             <description>Hadoop host health summary is CONCERNING.&#13;
 You should check.</description>
                             <type>0</type>
@@ -561,7 +568,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.role.check[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},{#HDPROLECHECKNAME},checkSummary]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -594,6 +601,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes/>
@@ -637,7 +645,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},commissionState]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -670,6 +678,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop role $3 for service $2 on cluster $1 config stale</name>
@@ -679,7 +688,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},configStale]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -712,6 +721,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop role $3 for service $2 on cluster $1 health summary</name>
@@ -721,7 +731,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},healthSummary]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -754,6 +764,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop role $3 for service $2 on cluster $1 maintenance mode</name>
@@ -763,7 +774,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},maintenanceMode]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -796,6 +807,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop role $3 for service $2 on cluster $1 role state</name>
@@ -805,7 +817,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.role[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPROLENAME},roleState]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -838,6 +850,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -864,7 +877,7 @@ You can check {#HDPHOSTURL}</description>
                             <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} health summary: Concerning</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -891,7 +904,7 @@ You can check {#HDPHOSTURL}</description>
                             <name>Hadoop role {#HDPROLENAME} for service {#HDPSERVICENAME} on cluster {#HDPCLUSTERNAME} role state: Zombie</name>
                             <url/>
                             <status>0</status>
-                            <priority>4</priority>
+                            <priority>5</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -936,7 +949,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.service.check[{#HDPCLUSTERNAME},{#HDPSERVICENAME},{#HDPSERVICECHECKNAME},checkSummary]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -969,6 +982,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes/>
@@ -1012,7 +1026,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},configStale]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -1045,6 +1059,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop service $2 health summary on cluster $1</name>
@@ -1054,7 +1069,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},healthSummary]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1087,6 +1102,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop service $2 maintenance mode on cluster $1</name>
@@ -1096,7 +1112,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},maintenanceMode]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
@@ -1129,6 +1145,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Hadoop service $2 service state on cluster $1</name>
@@ -1138,7 +1155,7 @@ You can check {#HDPHOSTURL}</description>
                             <snmp_oid/>
                             <key>hadoop.cm.service[{#HDPCLUSTERNAME},{#HDPSERVICENAME},serviceState]</key>
                             <delay>0</delay>
-                            <history>90</history>
+                            <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>0</value_type>
@@ -1171,6 +1188,7 @@ You can check {#HDPHOSTURL}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -1202,7 +1220,7 @@ Cluster: {#HDPCLUSTERNAME}</description>
                             <name>Hadoop service {#HDPSERVICENAME} health summary on cluster {#HDPCLUSTERNAME}: Concerning</name>
                             <url/>
                             <status>0</status>
-                            <priority>3</priority>
+                            <priority>2</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -1229,7 +1247,7 @@ Cluster: {#HDPCLUSTERNAME}</description>
                             <name>Hadoop service {#HDPSERVICENAME} service state on cluster {#HDPCLUSTERNAME}: Zombie</name>
                             <url/>
                             <status>0</status>
-                            <priority>4</priority>
+                            <priority>5</priority>
                             <description/>
                             <type>0</type>
                         </trigger_prototype>
@@ -1295,6 +1313,7 @@ Get this item will launch python script on cloudera manager server. The script w
                     <inventory_link>0</inventory_link>
                     <applications/>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Cloudera discovery</name>
@@ -1334,6 +1353,7 @@ Get this item will launch python script on cloudera manager server. The script w
                     <inventory_link>0</inventory_link>
                     <applications/>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Zabbix script version</name>
@@ -1343,7 +1363,7 @@ Get this item will launch python script on cloudera manager server. The script w
                     <snmp_oid/>
                     <key>hadoop.cm.zbx_version</key>
                     <delay>0</delay>
-                    <history>90</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>1</value_type>
@@ -1373,6 +1393,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                     <inventory_link>0</inventory_link>
                     <applications/>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
             </items>
             <discovery_rules/>
@@ -1392,7 +1413,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
     </templates>
     <triggers>
         <trigger>
-            <expression>{BBC_TPL_CDH_Manager:hadoop.cm.zbx_version.last()}#{$ZBX_TPL_VERSION}</expression>
+            <expression>{BBC_TPL_CDH_Manager:hadoop.cm.zbx_version.regexp({$ZBX_TPL_VERSION})}=0</expression>
             <name>Cloudera Hadoop Template and Script version mismatched</name>
             <url/>
             <status>0</status>

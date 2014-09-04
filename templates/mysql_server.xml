@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-09-04T14:47:19Z</date>
+    <date>2014-09-04T15:03:28Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -662,7 +662,7 @@ If yes, then slave is late.</description>
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},slave_io_running].last()}=0</expression>
-                            <name>MySQL {#MYSQLREPNAME} IO slave not running</name>
+                            <name>MySQL replication {#MYSQLREPNAME} IO slave not running</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
@@ -671,7 +671,7 @@ If yes, then slave is late.</description>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>({TRIGGER.VALUE}=0&amp;({BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},seconds_behind_master].avg(5m)}&gt;300&amp;{BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},seconds_behind_master].avg(5m)}&lt;600))|({TRIGGER.VALUE}=1&amp;({BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},seconds_behind_master].avg(10m)}&lt;60))</expression>
-                            <name>MySQL {#MYSQLREPNAME} slave is lagging</name>
+                            <name>MySQL replication {#MYSQLREPNAME} slave is lagging</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
@@ -679,8 +679,8 @@ If yes, then slave is late.</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},master_files_diff].avg(5)}&gt;0</expression>
-                            <name>MySQL {#MYSQLREPNAME} slave is out of sync</name>
+                            <expression>{BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},master_files_diff].avg(5m)}&gt;0</expression>
+                            <name>MySQL replication {#MYSQLREPNAME} slave is out of sync</name>
                             <url/>
                             <status>0</status>
                             <priority>4</priority>
@@ -691,7 +691,7 @@ You really should investigate</description>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>({TRIGGER.VALUE}=0&amp;({BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},seconds_behind_master].avg(5m)}&gt;600))|({TRIGGER.VALUE}=1&amp;({BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},seconds_behind_master].avg(10m)}&lt;60))</expression>
-                            <name>MySQL {#MYSQLREPNAME} slave is really lagging</name>
+                            <name>MySQL replication {#MYSQLREPNAME} slave is really lagging</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
@@ -700,7 +700,7 @@ You really should investigate</description>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{BBC_TPL_MARIADB:mysql.replication[{#MYSQLREPNAME},slave_sql_running].last()}=0</expression>
-                            <name>MySQL {#MYSQLREPNAME} SQL slave not running</name>
+                            <name>MySQL replication {#MYSQLREPNAME} SQL slave not running</name>
                             <url/>
                             <status>0</status>
                             <priority>3</priority>
@@ -755,7 +755,7 @@ You might investigate</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_MARIADB:mysql.zbx_version.last()}#{$ZBX_TPL_VERSION}</expression>
+            <expression>{BBC_TPL_MARIADB:mysql.zbx_version.regexp({$ZBX_TPL_VERSION})}=0</expression>
             <name>MySQL Template and Script version mismatched</name>
             <url/>
             <status>0</status>

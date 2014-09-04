@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-08-05T16:19:01Z</date>
+    <date>2014-09-04T15:04:50Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -73,6 +73,7 @@ Get this item will launch python script on RabbitMQ server. The script will use 
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>RabbitMQ discovery</name>
@@ -116,6 +117,7 @@ Get this item will launch python script on RabbitMQ server. The script will use 
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Zabbix script version</name>
@@ -155,6 +157,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                     <inventory_link>0</inventory_link>
                     <applications/>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
             </items>
             <discovery_rules>
@@ -228,6 +231,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>DELIVER_GET message rate for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
@@ -270,6 +274,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>DL Message count for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
@@ -312,6 +317,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>GET message rate for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
@@ -354,6 +360,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Master node for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
@@ -396,6 +403,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Message count for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
@@ -438,6 +446,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>PUBLISH message rate for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
@@ -480,6 +489,7 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>REDELIVER message rate for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
@@ -522,12 +532,13 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>({TRIGGER.VALUE}=0&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].avg(300)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].avg(300)}*{#RMQRATIOTHRES}))))|({TRIGGER.VALUE}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].avg(300)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].avg(300)}*({#RMQRATIOTHRES}/2)))))</expression>
-                            <name>RabbitMQ queue {#RMQQUEUENAME} in vhost {#RMQVHOSTNAME} is getting late</name>
+                            <expression>({TRIGGER.VALUE}=0&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].min(5m)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].max(5m)}*{#RMQRATIOTHRES}))))|({TRIGGER.VALUE}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].min(10m)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].max(10m)}*({#RMQRATIOTHRES}/2)))))</expression>
+                            <name>We are getting late in {#RMQVHOSTNAME}:{#RMQQUEUENAME}</name>
                             <url/>
                             <status>0</status>
                             <priority>2</priority>
@@ -546,90 +557,20 @@ You should consider adding more workers</description>
 Please investigate via RabbitMQ Web interface</description>
                             <type>0</type>
                         </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({TRIGGER.VALUE}=0&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].avg(5m)}&gt;{#RMQMSGTHRESH})))|({TRIGGER.VALUE}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].avg(10m)}&gt;({#RMQMSGTHRESH}*0.75))))</expression>
+                            <name>We have too many messages in {#RMQVHOSTNAME}:{#RMQQUEUENAME}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>1</priority>
+                            <description>RabbitMQ queue {#RMQQUEUENAME} in vhost {#RMQVHOSTNAME} contains more than {#RMQMSGTHRESH} for 5 minutes.&#13;
+You should consider adding more workers</description>
+                            <type>0</type>
+                        </trigger_prototype>
                     </trigger_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>Message rate for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_RABBITMQ</host>
-                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_RABBITMQ</host>
-                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,deliver_get]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>0000C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_RABBITMQ</host>
-                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,get]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>3</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C800C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_RABBITMQ</host>
-                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>4</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C8C8</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_RABBITMQ</host>
-                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,redeliver]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>Messages count for {#RMQQUEUENAME} in RabbitMQ vhost {#RMQVHOSTNAME}</name>
+                            <name>{#RMQVHOSTNAME}:{#RMQQUEUENAME} message count in RabbitMQ</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -672,6 +613,62 @@ Please investigate via RabbitMQ Web interface</description>
                                 </graph_item>
                             </graph_items>
                         </graph_prototype>
+                        <graph_prototype>
+                            <name>{#RMQVHOSTNAME}:{#RMQQUEUENAME} message rate in RabbitMQ</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>BBC_TPL_RABBITMQ</host>
+                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>BBC_TPL_RABBITMQ</host>
+                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>0</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>BBC_TPL_RABBITMQ</host>
+                                        <key>rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,get]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
                     </graph_prototypes>
                     <host_prototypes/>
                 </discovery_rule>
@@ -710,7 +707,7 @@ You should connect to RabbitMQ Web Interface &amp; investigate.</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_RABBITMQ:rabbitmq.zbx_version.last()}#{$ZBX_TPL_VERSION}</expression>
+            <expression>{BBC_TPL_RABBITMQ:rabbitmq.zbx_version.regexp({$ZBX_TPL_VERSION})}=0</expression>
             <name>RabbitMQ Template and Script version mismatched</name>
             <url/>
             <status>0</status>
