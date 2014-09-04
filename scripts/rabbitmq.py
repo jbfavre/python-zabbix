@@ -135,7 +135,7 @@ def parse_args():
     parser = optparse.OptionParser()
 
     parser.add_option("-d", "--dry", action="store_true",
-                          help="Performs CDH API calls but do not send "
+                          help="Performs RabbitMQ API calls but do not send "
                                "anything to the Zabbix server. Can be used "
                                "for both Update & Discovery mode")
     parser.add_option("-D", "--debug", action="store_true",
@@ -155,7 +155,7 @@ def parse_args():
     mode_group.add_option("--discovery", action="store_const",
                           dest="mode", const="discovery",
                           help="If specified, will perform Zabbix Low Level "
-                               "Discovery on Hadoop Cloudera Manager API. "
+                               "Discovery on RabbitMQ API. "
                                "Default is to get & send items")
     parser.add_option_group(mode_group)
     parser.set_defaults(mode="update_items")
