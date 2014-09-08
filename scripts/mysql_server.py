@@ -32,6 +32,9 @@ class MysqlAPI(object):
         self.discovery_key = "mysql.replication.discovery"
         self.cnx = mysql.connector.connect(**self.config)
 
+    def __del__(self):
+        self.cnx.close()
+
     def get_all_slaves_status(self):
         cursor = self.cnx.cursor()
         cursor.execute("SHOW ALL SLAVES STATUS")
