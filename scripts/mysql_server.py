@@ -327,32 +327,7 @@ class MysqlServer(object):
             self.key_prefix = 'innodb'
             self.status_prefix = 'Innodb_'
 
-        def get_status(self):
-            result={}
-            cursor = self.server.cnx.cursor()
-            query="SHOW /*!50000 ENGINE*/ INNODB STATUS"
-            cursor.execute(query)
-            for (status_item) in cursor:
-                data = self.parser(status_item[2].split('\n'))
-            result['semaphores'] = self._semaphores_parser(data['SEMAPHORES'])
-            result['transactions'] = self._transactions_parser(data['TRANSACTIONS'])
-            result['file_io'] = self._file_io_parser(data['FILE I/O'])
-            result['insert_buffer'] = self._insert_buffer_parser(data['INSERT BUFFER AND ADAPTIVE HASH INDEX'])
-            result['log'] = self._log_parser(data['LOG'])
-            result['row_ops'] = self._row_ops_parser(data['ROW OPERATIONS'])
-            result['buffer_memory'] = self._buffer_memory_parser(data['BUFFER POOL AND MEMORY'])
-            return result
-
-        def filter_status(self, item):
-            if item[0].startswith(self.status_prefix):
-                key=item[0].replace(self.status_prefix,'')
-                value = item[1]
-                if value in MYSQL_INNODB_MAPPING:
-                    value = MYSQL_INNODB_MAPPING[value]
-                return (key, value)
-            return (False, False)
-
-        def parser(self, lines):
+        def _parser(self, lines):
             data = {}
             header = False # keep simple state of if we are in a header or not
             headerStr = ""
@@ -813,6 +788,31 @@ class MysqlServer(object):
 
             return result
 
+        def get_status(self):
+            result={}
+            cursor = self.server.cnx.cursor()
+            query="SHOW /*!50000 ENGINE*/ INNODB STATUS"
+            cursor.execute(query)
+            for (status_item) in cursor:
+                data = self._parser(status_item[2].split('\n'))
+            result['semaphores'] = self._semaphores_parser(data['SEMAPHORES'])
+            result['transactions'] = self._transactions_parser(data['TRANSACTIONS'])
+            result['file_io'] = self._file_io_parser(data['FILE I/O'])
+            result['insert_buffer'] = self._insert_buffer_parser(data['INSERT BUFFER AND ADAPTIVE HASH INDEX'])
+            result['log'] = self._log_parser(data['LOG'])
+            result['row_ops'] = self._row_ops_parser(data['ROW OPERATIONS'])
+            result['buffer_memory'] = self._buffer_memory_parser(data['BUFFER POOL AND MEMORY'])
+            return result
+
+        def filter_status(self, item):
+            if item[0].startswith(self.status_prefix):
+                key=item[0].replace(self.status_prefix,'')
+                value = item[1]
+                if value in MYSQL_INNODB_MAPPING:
+                    value = MYSQL_INNODB_MAPPING[value]
+                return (key, value)
+            return (False, False)
+
     ''' Galera class
     Ref: https://mariadb.com/kb/en/mariadb/documentation/replication-cluster-multi-master/galera/galera-cluster-status-variables/
         wsrep_apply_oooe : decimal
@@ -855,6 +855,14 @@ class MysqlServer(object):
                 key=item[0].replace(self.status_prefix,'')
                 return (key, item[1])
             return (False, False)
+
+        def is_enabled(self):
+            cursor = self.server.cnx.cursor()
+            cursor.execute("SHOW STATUS LIKE 'wsrep_ready'")
+            for (item) in cursor:
+                if item[0] == 'wsrep_ready' and item[1] == 'ON':
+                    return True
+            return False
 
     ''' Replication class (multi source ready) '''
     class Replication(object):
@@ -1182,6 +1190,16 @@ class MysqlServer(object):
         self.cnx = mysql.connector.connect(**self.config)
         ''' Initialize sub-classes '''
         self.replication = self.Replication(self)
+        self.plugins = {
+            'galera' : self.Galera(self),
+            'innodb' : self.Innodb(self),
+            'aria' : self.Aria(self),
+            'cassandra' : self.Cassandra(self),
+            'tokudb' : self.Tokudb(self),
+            'sphinx' : self.Sphinx(self),
+            'serveraudit' : self.ServerAudit(self),
+            'spider' : self.Spider(self)
+        }
         self.galera = self.Galera(self)
         self.innodb = self.Innodb(self)
         self.aria = self.Aria(self)
@@ -1204,6 +1222,24 @@ class MysqlServer(object):
     def __del__(self):
         self.cnx.close()
 
+    def _get_engines(self):
+        covered_engines = [
+            'innodb',
+            'aria',
+            'cassandra',
+            'tokudb',
+            'sphinx',
+            'spider'
+        ]
+        enabled_engines = []
+        cursor = self.cnx.cursor()
+        cursor.execute("SHOW ENGINES")
+        for engine_item in cursor:
+            if engine_item[0].lower() in covered_engines:
+                enabled_engines.append(engine_item[0].lower())
+
+        return enabled_engines
+
     def filter_status(self,item):
         key=item[0].lower()
         if key in status_bl:
@@ -1212,64 +1248,28 @@ class MysqlServer(object):
 
     ''' Global function to get 'show status' items '''
     def get_status(self):
-        global_status = {
-            'galera'      : {},
-            'innodb'      : {},
-            'aria'        : {},
-            'cassandra'   : {},
-            'tokudb'      : {},
-            'sphinx'      : {},
-            'serveraudit' : {},
-            'spider'      : {}
-        }
+        global_status = {}
         cursor = self.cnx.cursor()
         cursor.execute("SHOW GLOBAL STATUS")
         for status_item in cursor:
-            if status_item[0].startswith(self.innodb.status_prefix):
-                ''' Filter Innodb results '''
-                (key, value) = self.innodb.filter_status(status_item)
-                if key and value:
-                    global_status['innodb'][key] = value
-            elif status_item[0].startswith(self.galera.status_prefix):
-                ''' Filter Galera results '''
-                (key, value) = self.galera.filter_status(status_item)
-                if key and value:
-                    global_status['galera'][key] = value
-            elif status_item[0].startswith(self.aria.status_prefix):
-                ''' Filter Galera results '''
-                (key, value) = self.aria.filter_status(status_item)
-                if key and value:
-                    global_status['aria'][key] = value
-            elif status_item[0].startswith(self.cassandra.status_prefix):
-                ''' Filter Galera results '''
-                (key, value) = self.cassandra.filter_status(status_item)
-                if key and value:
-                    global_status['cassandra'][key] = value
-            elif status_item[0].startswith(self.tokudb.status_prefix):
-                ''' Filter Galera results '''
-                (key, value) = self.tokudb.filter_status(status_item)
-                if key and value:
-                    global_status['tokudb'][key] = value
-            elif status_item[0].startswith(self.sphinx.status_prefix):
-                ''' Filter Galera results '''
-                (key, value) = self.sphinx.filter_status(status_item)
-                if key and value:
-                    global_status['sphinx'][key] = value
-            elif status_item[0].startswith(self.serveraudit.status_prefix):
-                ''' Filter Galera results '''
-                (key, value) = self.serveraudit.filter_status(status_item)
-                if key and value:
-                    global_status['serveraudit'][key] = value
-            elif status_item[0].startswith(self.spider.status_prefix):
-                ''' Filter Galera results '''
-                (key, value) = self.spider.filter_status(status_item)
-                if key and value:
-                    global_status['spider'][key] = value
-            else:
-                ''' Filter Global status '''
-                (key, value) = self.filter_status(status_item)
-                if key and value:
-                    global_status[key] = value
+            ''' Filter Global status '''
+            (key, value) = self.filter_status(status_item)
+            if key and value:
+                global_status[key] = value
+
+            ''' Find wether current item belongs to a plugin '''
+            for plugin_name in self.plugins:
+                if plugin_name not in global_status:
+                    global_status[plugin_name] = {}
+                plugin = self.plugins[plugin_name]
+                prefix = plugin.status_prefix
+                if status_item[0].startswith(prefix):
+                    ''' Filter Innodb results '''
+                    (key, value) = plugin.filter_status(status_item)
+                    if key and value:
+                        global_status[plugin_name][key] = value
+                    ''' unset global status key if belong to plugin '''
+                    del global_status[status_item[0].lower()]
 
         return global_status
 
@@ -1277,23 +1277,22 @@ class MysqlServer(object):
     def get_discovery(self):
         data = {
             self.repl_discovery_key:[],
-            'mysql.server.plugins[galera,discovery]':[],
-            'mysql.server.plugins[innodb,discovery]':[],
         }
+        ''' Perform storage engines LLD ops '''
+        engines_list = self._get_engines()
+        for engine in engines_list:
+            data['mysql.server.plugins['+engine+',discovery]'] = [{'{#MYSQLACTIVEPLUGIN}': engine}]
+
+        ''' Galera is not a storage engine '''
+        if self.galera.is_enabled():
+            data['mysql.server.plugins[galera,discovery]'] = [{'{#MYSQLACTIVEPLUGIN}': 'galera'}]
+
         ''' Perform replication LLD ops '''
         for replication in self.replication.get_status():
-          replication_name=replication['connection_name']
-          if(replication['connection_name']==""):
-            replication_name=replication['master_host']
-          data[self.repl_discovery_key].append({'{#MYSQLREPNAME}': replication_name})
-
-        ''' Perform galera LLD ops '''
-        if len(self.galera.get_status()):
-            data['mysql.server.plugins[galera,discovery]'].append({'{#MYSQLACTIVEPLUGIN}': 'galera'})
-
-        ''' Perform innodb LLD ops
-        if len(self.innodb.get_status()):
-            data['mysql.server.plugins[innodb,discovery]'] = "{'{#MYSQLACTIVEPLUGIN}': 'innodb'})"'''
+            replication_name=replication['connection_name']
+            if(replication['connection_name']==""):
+                replication_name=replication['master_host']
+            data[self.repl_discovery_key].append({'{#MYSQLREPNAME}': replication_name})
 
         return data
 
@@ -1335,7 +1334,8 @@ class MysqlServer(object):
             data[zbx_key] = replication[item]
 
         ''' Check Innodb status '''
-        '''data['mysql.server.plugins[innodb,enabled]'] = 0
+        '''
+        data['mysql.server.plugins[innodb,enabled]'] = 0
         innodb_status=self.innodb.get_status()
         if len(innodb_status):
             data['mysql.server.plugins[innodb2,enabled]'] = 1
@@ -1343,11 +1343,13 @@ class MysqlServer(object):
                 for subkey in innodb_status[key]:
                     zbx_key="mysql.server.plugins[innodb2,{0},{1}]"
                     zbx_key=zbx_key.format(key,subkey)
-                    data[zbx_key]=innodb_status[key][subkey]'''
+                    data[zbx_key]=innodb_status[key][subkey]
+        '''
 
         global_status = self.get_status()
         for plugin in global_status:
             if type(global_status[plugin]) is dict:
+                ''' Plugins status informations '''
                 plugin_key = "mysql.server.plugins[{0},enabled]"
                 plugin_key = plugin_key.format(plugin)
                 data[plugin_key] = 0
@@ -1358,6 +1360,7 @@ class MysqlServer(object):
                         zbx_key=zbx_key.format(plugin, item)
                         data[zbx_key]=global_status[plugin][item]
             else:
+                ''' Global status informations '''
                 zbx_key="mysql.server.{0}"
                 zbx_key=zbx_key.format(plugin)
                 data[zbx_key]=global_status[plugin]
