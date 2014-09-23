@@ -95,7 +95,8 @@ wsrep_status_keys=[
     'received',
     'received_bytes',
     'replicated',
-    'replicated_bytes'
+    'replicated_bytes',
+    'thread_count'
 ]
 
 status_bl = [
@@ -204,14 +205,6 @@ status_bl = [
     'slave_retried_transactions',
     'slave_running'
 ]
-'''
-plugins[aria,enabled]
-plugins[cassandra,enabled]
-plugins[serveraudit,enabled]
-plugins[sphinx,enabled]
-plugins[spider,enabled]
-plugins[tokudb,enabled]
-'''
 
 MYSQL_REPLICATION_MAPPING = { "Yes": 1, "No": 0 }
 MYSQL_INNODB_MAPPING = {
@@ -1293,7 +1286,7 @@ class MysqlServer(object):
             if(replication['connection_name']==""):
                 replication_name=replication['master_host']
             data[self.repl_discovery_key].append({'{#MYSQLREPNAME}': replication_name})
-
+        self.cnx.close()
         return data
 
     ''' Global function to get items data '''
@@ -1366,6 +1359,7 @@ class MysqlServer(object):
                 data[zbx_key]=global_status[plugin]
 
         data["mysql.server.zbx_version"] = __version__
+        self.cnx.close()
         return data
 
 def parse_args():
