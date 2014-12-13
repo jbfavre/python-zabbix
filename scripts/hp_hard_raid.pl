@@ -55,7 +55,7 @@ sub getInfo {
     open(HPACUCTRL, "/usr/sbin/hpacucli controller slot=$rank show |") || die "Could not run hpacucli\n";
     while (<HPACUCTRL>) {
 
-      if ( my ( $key, $value ) = /^\s+(Serial Number|Cache Serial Number|Controller Status|Hardware Revision|Firmware Version|Cache Status|Battery\/Capacitor Status|Total Cache Size|Total Cache Memory Available):\s+([^\s]+)/) {
+      if ( my ( $key, $value ) = /^\s+(Serial Number|Cache Serial Number|Controller Status|Hardware Revision|Firmware Version|Cache Status|Battery\/Capacitor Count|Battery\/Capacitor Status|Total Cache Size|Total Cache Memory Available):\s+([^\s]+)/) {
         $key = $1;
         $key =~ s/[\s\/]+/_/ig;
         $controllerthash{lc $key} = $value;
@@ -177,7 +177,9 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
         print "- hp.hardware.raid.controller[$controllerinfo->{slot},cache_write_ratio] $controllerinfo->{'cache_write_ratio'}\n";
     }
     print "- hp.hardware.raid.controller[$controllerinfo->{slot},total_cache_memory_available] $controllerinfo->{'total_cache_memory_available'}\n";
-    print "- hp.hardware.raid.controller[$controllerinfo->{slot},battery_capacitor_status] $controllerinfo->{'battery_capacitor_status'}\n";
+    if ($controllerinfo->{'battery_capacitor_count'} ne 0) {
+        print "- hp.hardware.raid.controller[$controllerinfo->{slot},battery_capacitor_status] $controllerinfo->{'battery_capacitor_status'}\n";
+    }
     print "- hp.hardware.raid.controller[$controllerinfo->{slot},capacitor_temperature] ".(defined($controllerinfo->{'capacitor_temperature'})?$controllerinfo->{'capacitor_temperature'}:0)."\n";
   }
 
