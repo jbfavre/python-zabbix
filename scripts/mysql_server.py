@@ -211,7 +211,7 @@ MYSQL_INNODB_MAPPING = {
     'not started': 0,
     'started': 1,
     'ON': 1,
-    'OFF': 1
+    'OFF': 0
 }
 
 class MysqlServer(object):
@@ -1237,7 +1237,10 @@ class MysqlServer(object):
         key=item[0].lower()
         if key in status_bl:
             return(False, False)
-        return (key, item[1])
+        value = item[1]
+        if value in MYSQL_INNODB_MAPPING:
+            value = MYSQL_INNODB_MAPPING[value]
+        return (key, value)
 
     ''' Global function to get 'show status' items '''
     def get_status(self):
@@ -1247,7 +1250,7 @@ class MysqlServer(object):
         for status_item in cursor:
             ''' Filter Global status '''
             (key, value) = self.filter_status(status_item)
-            if key and value:
+            if key:
                 global_status[key] = value
 
             ''' Find wether current item belongs to a plugin '''
