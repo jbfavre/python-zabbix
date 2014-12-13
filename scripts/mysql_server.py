@@ -1327,7 +1327,10 @@ class MysqlServer(object):
                         'seconds_behind_master']:
             zbx_key = "mysql.server.replication[{0},{1}]"
             zbx_key = zbx_key.format(replication_name, item)
-            data[zbx_key] = replication[item]
+            value = replication[item]
+	    if item == 'seconds_behind_master' and value is None:
+                value = 0
+            data[zbx_key] = value
 
         ''' Check Innodb status '''
         '''
