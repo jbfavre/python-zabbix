@@ -3,7 +3,7 @@
     Sample script for Zabbix integration with varnishd using varnishstat.
 '''
 import optparse
-import platform
+import socket
 import protobix
 import simplejson
 from subprocess import check_output
@@ -79,25 +79,25 @@ def get_metrics(hostname):
     data = {}
     data[hostname] = {}
     stats, timestamp = get_varnishstat(hostname)
-    metrics = [('cache[hit]', 'cache_hit'),
-               ('cache[hitpass]', 'cache_hitpass'),
-               ('cache[miss]', 'cache_miss'),
-               ('backend[conn]', 'backend_conn'),
-               ('backend[unhealthy]', 'backend_unhealthy'),
-               ('backend[busy]', 'backend_busy'),
-               ('backend[fail]', 'backend_fail'),
-               ('backend[reuse]', 'backend_reuse'),
-               ('backend[toolate]', 'backend_toolate'),
-               ('backend[recycle]', 'backend_recycle'),
-               ('backend[retry]', 'backend_retry'),
-               ('backend[req]', 'backend_req'),
-               ('client[conn]', 'client_conn'),
-               ('client[drop]', 'client_drop'),
-               ('client[req]', 'client_req'),
-               ('client[hdrbytes]', 's_hdrbytes'),
-               ('client[bodybytes]', 's_bodybytes'),
-               ('object[head]', 'n_objecthead'),
-               ('object[num]', 'n_object')]
+    metrics = [('cache[hit]', 'MAIN.cache_hit'),
+               ('cache[hitpass]', 'MAIN.cache_hitpass'),
+               ('cache[miss]', 'MAIN.cache_miss'),
+               ('backend[conn]', 'MAIN.backend_conn'),
+               ('backend[unhealthy]', 'MAIN.backend_unhealthy'),
+               ('backend[busy]', 'MAIN.backend_busy'),
+               ('backend[fail]', 'MAIN.backend_fail'),
+               ('backend[reuse]', 'MAIN.backend_reuse'),
+               ('backend[toolate]', 'MAIN.backend_toolate'),
+               ('backend[recycle]', 'MAIN.backend_recycle'),
+               ('backend[retry]', 'MAIN.backend_retry'),
+               ('backend[req]', 'MAIN.backend_req'),
+               ('client[conn]', 'MAIN.sess_conn'),
+               ('client[drop]', 'MAIN.sess_drop'),
+               ('client[req]', 'MAIN.client_req'),
+               ('client[hdrbytes]', 'MAIN.s_req_hdrbytes'),
+               ('client[bodybytes]', 'MAIN.s_req_bodybytes'),
+               ('object[head]', 'MAIN.n_objecthead'),
+               ('object[num]', 'MAIN.n_object')]
 
     for (key, metric) in metrics:
         data[hostname]["varnish.%s"%key] = stats[metric]['value']
@@ -105,7 +105,7 @@ def get_metrics(hostname):
     return data
 
 def get_varnishstat(hostname):
-    varnish_stats = simplejson.loads(check_output(['varnishstat', '-n', hostname, '-1', '-j']))
+    varnish_stats = simplejson.loads(check_output(['varnishstat', '-n', socket.gethostname(), '-1', '-j']))
     timestamp = int(time())
     return varnish_stats, timestamp
 
@@ -113,7 +113,7 @@ def main():
     (options, args) = parse_args()
 
     if options.host == 'localhost':
-        hostname = platform.node()
+        hostname = socket.getfqdn()
     else:
         hostname = options.host
 
