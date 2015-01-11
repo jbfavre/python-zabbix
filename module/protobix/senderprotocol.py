@@ -9,7 +9,7 @@ from senderexception import SenderException
 
 ZBX_HDR = "ZBXD\1"
 ZBX_HDR_SIZE = 13
-ZBX_RESP_REGEX = r'processed: (\d+); failed: (\d+); total: (\d+); seconds spent: (\d\.\d+)'
+ZBX_RESP_REGEX = r'Processed (\d+) Failed (\d+) Total (\d+) Seconds spent (\d\.\d+)'
 ZBX_DBG_SEND_RESULT = "DBG - Send result [%s] for [%s %s %s]"
 
 def recv_all(sock):
@@ -26,6 +26,7 @@ class SenderProtocol(object):
     def __init__(self, zbx_host="", zbx_port=10051):
         self.debug = False
         self.verbosity = False
+        self.dryrun = False
         self.request = ""
         self.zbx_host = zbx_host
         self.zbx_port = zbx_port
