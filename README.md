@@ -28,8 +28,8 @@ Once module is installed, you can use it as follow
     ''' create DataContainer, providing data_type, zabbix server and port '''
     zbx_container = zabbix.DataContainer("lld", "localhost", 10051)
     ''' set debug '''
-    zbx_container.set_debug(true)
-    zbx_container.set_verbosity(true)
+    zbx_container.set_debug(True)
+    zbx_container.set_verbosity(True)
 
     ''' Add items one after the other '''
     hostname="myhost"
@@ -68,8 +68,8 @@ Once module is installed, you can use it as follow
     ''' create DataContainer, providing data_type, zabbix server and port '''
     zbx_container = zabbix.DataContainer("lld", "localhost", 10051)
     ''' set debug '''
-    zbx_container.set_debug(true)
-    zbx_container.set_verbosity(true)
+    zbx_container.set_debug(True)
+    zbx_container.set_verbosity(True)
 
     ''' Add items one after the other '''
     hostname="myhost"
