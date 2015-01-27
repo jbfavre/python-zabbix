@@ -1,0 +1,3 @@
+MAILTO=""
+0 */1 * * *	root /usr/local/bin/dhcp-pool.pl --zabbix-discovery | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+1 */1 * * *	root /usr/local/bin/dhcp-pool.pl --zabbix | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
