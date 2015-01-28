@@ -17,7 +17,9 @@ class DataContainer(SenderProtocol):
         if data_type == "lld" or data_type == "items":
             self.data_type = data_type
 
-    def add_item(self, host, key, value, clock=int(time.time())/60*60):
+    def add_item(self, host, key, value, clock=None):
+        if clock is None:
+            clock = int((time.time())/60*60)
         if self.data_type == "items":
             item = { "host": host, "key": key,
                      "value": value, "clock": clock}
