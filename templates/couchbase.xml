@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-01-06T17:11:22Z</date>
+    <date>2015-02-26T13:19:44Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -287,7 +287,50 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>couchbase.bucket.advancedStats[default,default,curr_connections]</key>
+                    <key>couchbase.bucket.advancedStats[default,default,ep_tmp_oom_errors]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Couchbase</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Couchbase bucket $2 from pool $1 $3</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>couchbase.bucket.advancedStats[default,default,ep_queue_size]</key>
                     <delay>0</delay>
                     <history>7</history>
                     <trends>365</trends>
@@ -373,7 +416,50 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>couchbase.bucket.advancedStats[default,default,ep_queue_size]</key>
+                    <key>couchbase.bucket.advancedStats[default,default,curr_connections]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Couchbase</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Couchbase bucket $2 from pool $1 $3</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>couchbase.bucket.advancedStats[default,default,ep_tap_total_qlen]</key>
                     <delay>0</delay>
                     <history>7</history>
                     <trends>365</trends>
@@ -502,7 +588,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>couchbase.bucket.advancedStats[default,default,cmd_set]</key>
+                    <key>couchbase.bucket.advancedStats[default,default,ops]</key>
                     <delay>0</delay>
                     <history>7</history>
                     <trends>365</trends>
@@ -545,7 +631,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>couchbase.bucket.advancedStats[default,default,ops]</key>
+                    <key>couchbase.bucket.advancedStats[default,default,cmd_set]</key>
                     <delay>0</delay>
                     <history>7</history>
                     <trends>365</trends>
@@ -631,7 +717,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>couchbase.cluster.storageTotals[hdd,usedByData]</key>
+                    <key>couchbase.cluster.storageTotals[hdd,used]</key>
                     <delay>0</delay>
                     <history>7</history>
                     <trends>365</trends>
@@ -760,7 +846,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>couchbase.cluster.storageTotals[hdd,used]</key>
+                    <key>couchbase.cluster.storageTotals[hdd,usedByData]</key>
                     <delay>0</delay>
                     <history>7</history>
                     <trends>365</trends>
@@ -1842,20 +1928,160 @@
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.5</value>
+                    <value>0.0.6</value>
                 </macro>
             </macros>
             <templates/>
-            <screens/>
+            <screens>
+                <screen>
+                    <name>Couchbase summary</name>
+                    <hsize>3</hsize>
+                    <vsize>2</vsize>
+                    <screen_items>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Couchbase connections</name>
+                                <host>BBC_TPL_Couchbase</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Couchbase operations per second</name>
+                                <host>BBC_TPL_Couchbase</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Couchbase CPU usage</name>
+                                <host>BBC_TPL_Couchbase</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Couchbase cache efficiency</name>
+                                <host>BBC_TPL_Couchbase</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>2</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Couchbase dataset</name>
+                                <host>BBC_TPL_Couchbase</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>2</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Couchbase cluster members</name>
+                                <host>BBC_TPL_Couchbase</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                    </screen_items>
+                </screen>
+            </screens>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_cache_miss_rate].last(#5)}&lt;&gt;0</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_cache_miss_rate].last(#5)}&gt;0</expression>
             <name>Couchbase cache miss too high</name>
             <url/>
             <status>0</status>
-            <priority>2</priority>
+            <priority>3</priority>
             <description>Couchbase has to pull data from disk, which is not optimal.&#13;
 Please consider increasing memory</description>
             <type>0</type>
@@ -1872,7 +2098,7 @@ Please consider increasing memory</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;80</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;90</expression>
             <name>Couchbase documents fragmentation critical</name>
             <url/>
             <status>0</status>
@@ -1883,7 +2109,7 @@ Couchbase performance may be badly affected</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;50</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;75</expression>
             <name>Couchbase documents fragmentation too high</name>
             <url/>
             <status>0</status>
@@ -1894,7 +2120,7 @@ Couchbase performance might be badly affected</description>
             <dependencies>
                 <dependency>
                     <name>Couchbase documents fragmentation critical</name>
-                    <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;80</expression>
+                    <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;90</expression>
                 </dependency>
             </dependencies>
         </trigger>
@@ -1934,6 +2160,16 @@ Couchbase performance might be badly affected</description>
             <dependencies/>
         </trigger>
         <trigger>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_tmp_oom_errors].last(#5)}&gt;0</expression>
+            <name>Couchbase runs out of memory</name>
+            <url/>
+            <status>0</status>
+            <priority>4</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
             <expression>{BBC_TPL_Couchbase:couchbase.zbx_version.regexp({$ZBX_TPL_VERSION})}=0</expression>
             <name>Couchbase Script and Template version does not match</name>
             <url/>
@@ -1943,8 +2179,114 @@ Couchbase performance might be badly affected</description>
             <type>0</type>
             <dependencies/>
         </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_queue_size].last(#5)}&gt;1000</expression>
+            <name>Disk drain is too high</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
     </triggers>
     <graphs>
+        <graph>
+            <name>Couchbase cache efficiency</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.bucket.advancedStats[default,default,ep_cache_miss_rate]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Couchbase cluster members</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.cluster.members</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Couchbase connections</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.bucket.advancedStats[default,default,curr_connections]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
         <graph>
             <name>Couchbase CPU usage</name>
             <width>900</width>
@@ -1973,6 +2315,118 @@ Couchbase performance might be badly affected</description>
                     <item>
                         <host>BBC_TPL_Couchbase</host>
                         <key>couchbase.node.systemStats[cpu_utilization_rate]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Couchbase dataset</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.bucket.basicStats[default,default,dataUsed]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.bucket.basicStats[default,default,diskUsed]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>000000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.bucket.basicStats[default,default,itemCount]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Couchbase operations per second</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.bucket.advancedStats[default,default,cmd_get]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>0000C8</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.bucket.advancedStats[default,default,cmd_set]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_Couchbase</host>
+                        <key>couchbase.bucket.advancedStats[default,default,ops]</key>
                     </item>
                 </graph_item>
             </graph_items>

@@ -14,7 +14,7 @@ import urllib2
 import simplejson
 import protobix
 
-__version__="0.0.5"
+__version__="0.0.6"
 
 CBS_MEMBERSHIP_MAPPING = { 'active': 0,
                            'inactiveAdded': 1,
@@ -170,7 +170,8 @@ class CouchbaseServer(object):
                     bucket_stats = self.server.doCall(bucket_stats_uri)
                     sample_list = [ 'curr_connections', 'ops', 'cmd_get',
                                     'cmd_set', 'ep_cache_miss_rate',
-                                    'couch_docs_fragmentation', 'ep_queue_size' ]
+                                    'couch_docs_fragmentation', 'ep_queue_size',
+                                    'ep_tmp_oom_errors', 'ep_tap_total_qlen' ]
                     zbx_key = "couchbase.bucket.advancedStats[{0},{1},{2}]"
                     for key in sample_list:
                         sample = bucket_stats['op']['samples'][key]
