@@ -14,7 +14,7 @@ import urllib2
 import simplejson
 import protobix
 
-__version__="0.0.6"
+__version__="0.0.5"
 
 CBS_MEMBERSHIP_MAPPING = { 'active': 0,
                            'inactiveAdded': 1,
