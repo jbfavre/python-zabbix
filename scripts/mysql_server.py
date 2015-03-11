@@ -211,7 +211,7 @@ MYSQL_INNODB_MAPPING = {
     'not started': 0,
     'started': 1,
     'ON': 1,
-    'OFF': 0
+    'OFF': 1
 }
 
 class MysqlServer(object):
@@ -1237,10 +1237,7 @@ class MysqlServer(object):
         key=item[0].lower()
         if key in status_bl:
             return(False, False)
-        value = item[1]
-        if value in MYSQL_INNODB_MAPPING:
-            value = MYSQL_INNODB_MAPPING[value]
-        return (key, value)
+        return (key, item[1])
 
     ''' Global function to get 'show status' items '''
     def get_status(self):
@@ -1250,7 +1247,9 @@ class MysqlServer(object):
         for status_item in cursor:
             ''' Filter Global status '''
             (key, value) = self.filter_status(status_item)
-            if key:
+            if key and value:
+                if value in MYSQL_INNODB_MAPPING:
+                    value = MYSQL_INNODB_MAPPING[value]
                 global_status[key] = value
 
             ''' Find wether current item belongs to a plugin '''
@@ -1265,7 +1264,8 @@ class MysqlServer(object):
                     if key and value:
                         global_status[plugin_name][key] = value
                     ''' unset global status key if belong to plugin '''
-                    del global_status[status_item[0].lower()]
+                    if status_item[0].lower() in global_status:
+                        del global_status[status_item[0].lower()]
 
         return global_status
 
@@ -1327,10 +1327,7 @@ class MysqlServer(object):
                         'seconds_behind_master']:
             zbx_key = "mysql.server.replication[{0},{1}]"
             zbx_key = zbx_key.format(replication_name, item)
-            value = replication[item]
-	    if item == 'seconds_behind_master' and value is None:
-                value = 0
-            data[zbx_key] = value
+            data[zbx_key] = replication[item]
 
         ''' Check Innodb status '''
         '''
