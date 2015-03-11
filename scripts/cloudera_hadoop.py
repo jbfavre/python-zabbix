@@ -160,18 +160,17 @@ def get_discovery(cdh_api, mgmt_hostname):
                 discovery_data[mgmt_hostname]["hadoop.cm.service.check.discovery"].append(check_list)
 
             for role in service.get_all_roles(view="full"):
-            	host = cdh_api.get_host(role.hostRef.hostId)
                 role_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
                              "{#HDPSERVICENAME}": ("%s" % service.type.lower()),
                              "{#HDPROLENAME}": ("%s" % role.type.lower()) }
-                discovery_data[host.hostname]["hadoop.cm.role.discovery"].append(role_list)
+                discovery_data[role.hostRef.hostId]["hadoop.cm.role.discovery"].append(role_list)
 
                 for check in role.healthChecks:
                     check_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
                                   "{#HDPSERVICENAME}": ("%s" % service.type.lower()),
                                   "{#HDPROLENAME}": ("%s" % role.type.lower()),
                                   "{#HDPROLECHECKNAME}": ("%s" % check['name'].lower()) }
-                    discovery_data[host.hostname]["hadoop.cm.role.check.discovery"].append(check_list)
+                    discovery_data[role.hostRef.hostId]["hadoop.cm.role.check.discovery"].append(check_list)
 
         cluster_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name) }
         discovery_data[mgmt_hostname]["hadoop.cm.cluster.discovery"].append(cluster_list)
@@ -225,15 +224,14 @@ def get_metrics(cdh_api, mgmt_hostname):
                 data[mgmt_hostname][("hadoop.cm.service.check[%s,%s,%s,checkSummary]" % ( cluster.name, service.type.lower(), check['name'].lower()))] = CM_HEALTH_MAPPING[check['summary']]
 
             for role in service.get_all_roles(view="full"):
-                host = cdh_api.get_host(role.hostRef.hostId)
-                data[host.hostname][("hadoop.cm.role[%s,%s,%s,commissionState]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_COMMISSION_MAPPING[str(role.commissionState)]
-                data[host.hostname][("hadoop.cm.role[%s,%s,%s,configStale]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_BOOLEAN_MAPPING[str(role.configStale)]
-                data[host.hostname][("hadoop.cm.role[%s,%s,%s,healthSummary]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_HEALTH_MAPPING[str(role.healthSummary)]
-                data[host.hostname][("hadoop.cm.role[%s,%s,%s,maintenanceMode]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_BOOLEAN_MAPPING[str(role.maintenanceMode)]
-                data[host.hostname][("hadoop.cm.role[%s,%s,%s,roleState]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_SERVICE_MAPPING[str(role.roleState)]
+                data[role.hostRef.hostId][("hadoop.cm.role[%s,%s,%s,commissionState]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_COMMISSION_MAPPING[str(role.commissionState)]
+                data[role.hostRef.hostId][("hadoop.cm.role[%s,%s,%s,configStale]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_BOOLEAN_MAPPING[str(role.configStale)]
+                data[role.hostRef.hostId][("hadoop.cm.role[%s,%s,%s,healthSummary]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_HEALTH_MAPPING[str(role.healthSummary)]
+                data[role.hostRef.hostId][("hadoop.cm.role[%s,%s,%s,maintenanceMode]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_BOOLEAN_MAPPING[str(role.maintenanceMode)]
+                data[role.hostRef.hostId][("hadoop.cm.role[%s,%s,%s,roleState]" % ( cluster.name, service.type.lower(), role.type.lower()))] = CM_SERVICE_MAPPING[str(role.roleState)]
 
                 for check in role.healthChecks:
-                    data[host.hostname][("hadoop.cm.role.check[%s,%s,%s,%s,checkSummary]" % ( cluster.name, service.type.lower(), role.type.lower(), check['name'].lower()))] = CM_HEALTH_MAPPING[check['summary']]
+                    data[role.hostRef.hostId][("hadoop.cm.role.check[%s,%s,%s,%s,checkSummary]" % ( cluster.name, service.type.lower(), role.type.lower(), check['name'].lower()))] = CM_HEALTH_MAPPING[check['summary']]
 
     mgmt_service = cdh_api.get_cloudera_manager().get_service()
     data[mgmt_hostname][("hadoop.cm.service[%s,%s,serviceState]" % ( cluster.name, mgmt_service.type.lower()))] = CM_SERVICE_MAPPING[mgmt_service.serviceState]
