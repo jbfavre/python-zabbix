@@ -27,7 +27,7 @@ Once module is installed, you can use it as follow
 import protobix
 
 ''' create DataContainer, providing data_type, zabbix server and port '''
-zbx_container = zabbix.DataContainer("items", "localhost", 10051)
+zbx_container = protobix.DataContainer("items", "localhost", 10051)
 ''' set debug '''
 zbx_container.set_debug(True)
 zbx_container.set_verbosity(True)
@@ -69,7 +69,7 @@ print "Everything is OK"
 import protobix
 
 ''' create DataContainer, providing data_type, zabbix server and port '''
-zbx_container = zabbix.DataContainer("lld", "localhost", 10051)
+zbx_container = protobix.DataContainer("lld", "localhost", 10051)
 ''' set debug '''
 zbx_container.set_debug(True)
 zbx_container.set_verbosity(True)
