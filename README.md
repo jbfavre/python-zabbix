@@ -66,7 +66,7 @@ print "Everything is OK"
 #!/usr/bin/env python
 
 ''' import module '''
-import zabbix
+import protobix
 
 ''' create DataContainer, providing data_type, zabbix server and port '''
 zbx_container = zabbix.DataContainer("lld", "localhost", 10051)
