@@ -20,13 +20,14 @@ Once module is installed, you can use it as follow
 
 ## Send items as trappers
 
+```python
     #!/usr/bin/env python
 
     ''' import module '''
-    import zabbix
+    import protobix
 
     ''' create DataContainer, providing data_type, zabbix server and port '''
-    zbx_container = zabbix.DataContainer("lld", "localhost", 10051)
+    zbx_container = zabbix.DataContainer("items", "localhost", 10051)
     ''' set debug '''
     zbx_container.set_debug(True)
     zbx_container.set_verbosity(True)
@@ -57,9 +58,11 @@ Once module is installed, you can use it as follow
         print "Ooops. Something went wrong when sending data to Zabbix"
 
     print "Everything is OK"
+```
 
 ## Send Low Level Discovery as trappers
 
+```python
     #!/usr/bin/env python
 
     ''' import module '''
@@ -108,3 +111,4 @@ Once module is installed, you can use it as follow
         print "Ooops. Something went wrong when sending data to Zabbix"
 
     print "Everything is OK"
+```
