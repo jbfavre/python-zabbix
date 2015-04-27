@@ -25,7 +25,7 @@ ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
 class RabbitMQAPI(object):
 
     def __init__(self, user_name='guest', password='guest',
-                 host_name='', port=15672, conf='rabbitmq.yaml'):
+                 host_name='', port=15672, conf='rabbitmq_server.yaml'):
         self.user_name = user_name
         self.password = password
         self.host_name = host_name or socket.gethostname()
