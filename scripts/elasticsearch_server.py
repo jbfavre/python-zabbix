@@ -139,6 +139,7 @@ def get_metrics(elasticsearch, hostname):
         else:
           data[hostname][zbx_key] = zbx_data[key]
 
+    data[hostname]["elasticsearch.zbx_version"] = __version__
     return data
 
 def main():
