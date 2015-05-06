@@ -11,7 +11,7 @@ import subprocess
 import xmltodict
 import simplejson
 
-__version__ = '0.0.2'
+__version__ = '0.0.1'
 ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
 
 class PacemakerCluster(object):
