@@ -197,13 +197,16 @@ def main():
         return 1
 
     zbx_container = protobix.DataContainer()
-    if options.mode == "update_items":
+    try:
+      if options.mode == "update_items":
         zbx_container.set_type("items")
         data = get_metrics(es, hostname)
 
-    elif options.mode == "discovery":
+      elif options.mode == "discovery":
         zbx_container.set_type("lld")
         data = get_discovery(es, hostname)
+    except:
+      return 1
 
     zbx_container.add(data)
     zbx_container.add_item(hostname, "elasticsearch.zbx_version", __version__)
