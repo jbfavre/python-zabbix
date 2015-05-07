@@ -9,10 +9,13 @@ import simplejson
 import protobix
 from elasticsearch import Elasticsearch
 
-__version__="0.0.1"
-
+__version__="0.0.5"
 ZBX_CONN_ERR = "ERR - unable to send data to Zabbix [%s]"
 
+ES_CLUSTER_BOOL_MAPPING ={
+  False: 0,
+  True: 1
+}
 ES_CLUSTER_STATUS_MAPPING={
   'green': 0,
   'yellow': 1,
@@ -128,18 +131,56 @@ def get_metrics(elasticsearch, hostname):
     data[hostname] = {}
     
     # Cluster wide metrics
-    zbx_data = elasticsearch.cluster.health(request_timeout=1)
-    cluster_name = zbx_data['cluster_name']
-    for key in zbx_data:
+    cluster_data = elasticsearch.cluster.health(request_timeout=1)
+    cluster_name = cluster_data['cluster_name']
+    for key in cluster_data:
       if key != 'cluster_name':
         zbx_key = 'elasticsearch.cluster[{0},{1}]'
         zbx_key = zbx_key.format(cluster_name,key)
         if key == 'status':
-          data[hostname][zbx_key] = ES_CLUSTER_STATUS_MAPPING[zbx_data[key]]
+          data[hostname][zbx_key] = ES_CLUSTER_STATUS_MAPPING[cluster_data[key]]
+        elif cluster_data[key] in ES_CLUSTER_BOOL_MAPPING:
+          data[hostname][zbx_key] = ES_CLUSTER_BOOL_MAPPING[cluster_data[key]]
         else:
-          data[hostname][zbx_key] = zbx_data[key]
+          data[hostname][zbx_key] = cluster_data[key]
 
-    data[hostname]["elasticsearch.zbx_version"] = __version__
+    cluster_data = elasticsearch.cluster.stats()['indices']
+    zbx_key = 'elasticsearch.indices.{0}'
+    for key in ['count', 'fielddata', 'filter_cache']:
+      if key == 'count':
+        real_key = zbx_key.format(key + '[' + cluster_name + ']',)
+        data[hostname][real_key] = int(cluster_data[key])
+      else:
+        real_key = zbx_key.format(key + '[' + cluster_name + ',evictions]')
+        data[hostname][real_key] = int(cluster_data[key]['evictions'])
+        real_key = zbx_key.format(key + '[' + cluster_name + ',memory_size_in_bytes]')
+        data[hostname][real_key] = int(cluster_data[key]['memory_size_in_bytes'])
+
+    indice_data = elasticsearch.indices.stats()['_all']['total']
+    for key in ['search', 'indexing', 'docs', 'refresh', 'merges']:
+      zbx_key = 'elasticsearch.indices.{0}'
+      if key == 'count':
+        real_key = zbx_key.format('docs')
+        data[hostname][real_key] = int(indice_data[key]['count']) 
+      elif key in ['refresh','merges']:
+        real_key = zbx_key.format(key + '[' + cluster_name + ',total]')
+        data[hostname][real_key] = int(indice_data[key]['total'])
+        real_key = zbx_key.format(key + '[' + cluster_name + ',total_time_in_millis]')
+        data[hostname][real_key] = int(indice_data[key]['total_time_in_millis'])
+      elif key == 'search':
+        real_key = zbx_key.format(key + '[' + cluster_name + ',query_total]')
+        data[hostname][real_key] = int(indice_data[key]['query_total'])
+        real_key = zbx_key.format(key + '[' + cluster_name + ',query_time_in_millis]')
+        data[hostname][real_key] = int(indice_data[key]['query_time_in_millis'])
+        real_key = zbx_key.format(key + '[' + cluster_name + ',query_current]')
+        data[hostname][real_key] = int(indice_data[key]['query_current'])
+      elif key == 'indexing':
+        real_key = zbx_key.format(key + '[' + cluster_name + ',index_total]')
+        data[hostname][real_key] = int(indice_data[key]['index_total'])
+        real_key = zbx_key.format(key + '[' + cluster_name + ',index_time_in_millis]')
+        data[hostname][real_key] = int(indice_data[key]['index_time_in_millis'])
+      else:
+        ''' Should never be there '''
     return data
 
 def main():
@@ -172,7 +213,6 @@ def main():
     zbx_container.set_debug(options.debug)
     zbx_container.set_verbosity(options.verbose)
     zbx_container.set_dryrun(options.dry)
-
     try:
         zbxret = zbx_container.send(zbx_container)
     except protobix.SenderException as zbx_e:
