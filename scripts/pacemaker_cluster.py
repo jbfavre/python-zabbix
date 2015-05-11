@@ -34,6 +34,7 @@ class PacemakerCluster(object):
     if hostname != self.status['current_dc']['@name']:
       is_master = 0
     data[real_key] = is_master
+    real_key = zbx_key.format('with_quorum')
     with_quorum = 1
     if self.status['current_dc']['@with_quorum'] == 'false':
       with_quorum = 0
