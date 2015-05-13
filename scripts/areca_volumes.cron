@@ -1,0 +1,3 @@
+MAILTO=""
+13 * * * *	root /usr/local/bin/areca_volumes.pl | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+15 4 * * *	root /usr/local/bin/areca_volumes.pl discovery | /usr/bin/zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
