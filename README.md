@@ -14,6 +14,12 @@ With Debian:
     apt-get install python-simplejson
     dpkg -i deb_dist/python-zabbix_0.0.1-1_all.deb
 
+From pip:
+
+For now, `protobix` is only available from `testpypip`:
+
+    pip install -i https://testpypi.python.org/pypi protobix
+
 ## Usage
 
 Once module is installed, you can use it as follow
