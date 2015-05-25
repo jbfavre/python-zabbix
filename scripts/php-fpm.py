@@ -13,6 +13,7 @@ import os
 
 ################################################################################
 # Embedded FastCGI client
+# https://gist.github.com/wofeiwo/3720207#file-flup_fcgi_client-py
 ################################################################################
 
 # Copyright (c) 2006 Allan Saddi <allan@saddi.com>
@@ -595,7 +596,6 @@ class PhpFpm(object):
   def get_pools_config(self):
     f = []
     pool_config = ConfigParser.ConfigParser()
-    root_path = '/home/dev/python-zabbix/scripts/fpm/pool.d/'
     root_path = '/etc/php5/fpm/pool.d'
     poolfilelist = [
       os.path.join(root_path, f) for f in
