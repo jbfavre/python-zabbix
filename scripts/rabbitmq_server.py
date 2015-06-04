@@ -76,6 +76,24 @@ class RabbitMQAPI(object):
 
     def get_metrics(self):
         data = {}
+        global_stats = self.call_api('overview')
+        overview_items = {
+            'message_stats': [
+                'ack', 'confirm', 'deliver', 'deliver_get',
+                'get', 'get_no_ack', 'publish', 'redeliver'
+            ],
+            'queue_totals' : [
+                'messages', 'messages_ready', 'messages_unacknowledged'
+            ]
+        }
+        for item_family in overview_items:
+            zbx_key = 'rabbitmq.{0}[{1}]'
+            values_family = global_stats.get(item_family, 0)
+            for item in overview_items[item_family]:
+                real_key = zbx_key.format(item_family, item)
+                data[real_key] = values_family.get(item, 0)
+                print real_key + ' ' + str(values_family.get(item, 0))
+
         queues_list = self.call_api('queues')
         for queue in queues_list:
             if self.exclude_patterns.match(queue['name']): continue
