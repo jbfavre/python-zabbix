@@ -3,7 +3,7 @@
     Sample script for Zabbix integration with memcached.
 '''
 import optparse
-import platform
+import socket
 import sys
 import protobix
 import memcache
@@ -101,7 +101,7 @@ def main():
     (options, args) = parse_args()
 
     if options.host == 'localhost':
-        hostname = platform.node()
+        hostname = socket.getfqdn()
     else:
         hostname = options.host
 

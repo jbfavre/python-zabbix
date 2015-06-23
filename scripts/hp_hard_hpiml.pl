@@ -98,7 +98,7 @@ my %iml_worst_event = (
 
 my ($edate, $ehour);
 
-my $hpasmcli = "/sbin/hpasmcli -s 'show iml'|";
+my $hpasmcli = "hpasmcli -s 'show iml'|";
 open (HPASM, $hpasmcli);
 
 LINE: while (<HPASM>) {

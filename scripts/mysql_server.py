@@ -6,7 +6,7 @@
 
 import optparse
 import json
-import platform
+import socket
 import protobix
 
 import mysql.connector
@@ -1425,14 +1425,14 @@ def main():
 
     (options, args) = parse_args()
     if options.host == 'localhost':
-        hostname = platform.node()
+        hostname = socket.getfqdn()
     else:
         hostname = options.host
 
     try:
         obj = MysqlServer(user_name=options.username,
                           password=options.password,
-                          host_name=hostname,
+                          host_name=options.host,
                           port=options.port,
                           database=options.database)
     except:

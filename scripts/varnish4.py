@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 ''' Copyright (c) 2013 Jean Baptiste Favre.
-    Sample script for Zabbix integration with Cloudera Manager via the CM API.
+    Sample script for Zabbix integration with varnishd using varnishstat.
 '''
 import optparse
 import socket
 import protobix
-import redis
+import simplejson
+from subprocess import check_output
+from time import time, sleep
 
 __version__="0.0.1"
 
@@ -19,7 +21,7 @@ def parse_args():
     parser = optparse.OptionParser()
 
     parser.add_option("-d", "--dry", action="store_true",
-                          help="Performs Redis call but do not send "
+                          help="Performs Varnish call but do not send "
                                "anything to the Zabbix server. Can be used "
                                "for both Update & Discovery mode")
     parser.add_option("-D", "--debug", action="store_true",
@@ -39,15 +41,15 @@ def parse_args():
     mode_group.add_option("--discovery", action="store_const",
                           dest="mode", const="discovery",
                           help="If specified, will perform Zabbix Low Level "
-                               "Discovery on Redis. "
+                               "Discovery on Varnish. "
                                "Default is to get & send items")
     parser.add_option_group(mode_group)
     parser.set_defaults(mode="update_items")
 
-    general_options = optparse.OptionGroup(parser, "Redis Configuration")
+    general_options = optparse.OptionGroup(parser, "Varnish Configuration")
     general_options.add_option("-H", "--host", metavar="HOST", default="localhost",
-                               help="Redis server hostname")
-    general_options.add_option("-p", "--port", help="Redis server port",
+                               help="Varnish server hostname")
+    general_options.add_option("-p", "--port", help="Varnish server port",
                                default=6379)
     parser.add_option_group(general_options)
 
@@ -63,60 +65,51 @@ def parse_args():
 
     (options, args) = parser.parse_args()
 
-    """if options.mode == "update_items":
-        required.append("zabbix_server")"""
-
     return (options, args)
 
-def get_discovery(redis, hostname):
-    """ Discover 'dynamic' items like
-        http://redis.io/commands/info
-        replication: depends on slave number
-        cluster: empty if not applicable
-        keyspace: depends on database number
-    """
+def get_discovery(hostname):
+    """ Discover 'dynamic' items like backend """
     data = {}
     data[hostname] = {}
-    section_list = { 'keyspace': 'REDISDB' }
-    data[hostname] = { "redis.cluster.discovery":[] }
-    for section, lldvalue in section_list.iteritems():
-        data[hostname]["redis.%s.discovery" % section] = []
-        result = redis.info(section)
-        for key, value in result.iteritems():
-            dsc_data = {"{#%s}" % lldvalue: "%s" % key }
-            data[hostname][("redis.%s.discovery" % (section))].append(dsc_data)
+
     return data
 
-def get_metrics(redis, hostname):
-    """ http://redis.io/commands/info
-        server: General information about the Redis server
-        clients: Client connections section
-        memory: Memory consumption related information
-        persistence: RDB and AOF related information
-        stats: General statistics
-        replication: Master/slave replication information
-        cpu: CPU consumption statistics
-        commandstats: Redis command statistics
-        cluster: Redis Cluster section
-        keyspace: Database related statistics
-    """
+def get_metrics(hostname):
+    """ Get Varnish stats and parse it """
     data = {}
     data[hostname] = {}
-    section_list = [ 'server', 'clients', 'memory', 'persistence',
-                     'stats', 'replication', 'cpu', 'cluster', 'keyspace' ]
-    for section in section_list:
-        result = redis.info(section)
-        data[hostname].update(get_data_from_dict(result, ("redis.%s[" % section)))
+    stats, timestamp = get_varnishstat(hostname)
+    metrics = [('cache[hit]', 'MAIN.cache_hit'),
+               ('cache[hitpass]', 'MAIN.cache_hitpass'),
+               ('cache[miss]', 'MAIN.cache_miss'),
+               ('backend[conn]', 'MAIN.backend_conn'),
+               ('backend[unhealthy]', 'MAIN.backend_unhealthy'),
+               ('backend[busy]', 'MAIN.backend_busy'),
+               ('backend[fail]', 'MAIN.backend_fail'),
+               ('backend[reuse]', 'MAIN.backend_reuse'),
+               ('backend[toolate]', 'MAIN.backend_toolate'),
+               ('backend[recycle]', 'MAIN.backend_recycle'),
+               ('backend[retry]', 'MAIN.backend_retry'),
+               ('backend[req]', 'MAIN.backend_req'),
+               ('client[conn]', 'MAIN.sess_conn'),
+               ('client[drop]', 'MAIN.sess_drop'),
+               ('client[req]', 'MAIN.client_req'),
+               ('client[hdrbytes]', 'MAIN.s_req_hdrbytes'),
+               ('client[bodybytes]', 'MAIN.s_req_bodybytes'),
+               ('object[head]', 'MAIN.n_objecthead'),
+               ('object[num]', 'MAIN.n_object'),
+               ('ban[count]', 'MAIN.bans'),
+               ('ban[completed]', 'MAIN.bans_completed')]
+
+    for (key, metric) in metrics:
+        data[hostname]["varnish.%s"%key] = stats[metric]['value']
+
     return data
 
-def get_data_from_dict(result, prefix):
-    data = {}
-    for key, value in result.iteritems():
-        if isinstance(value, dict):
-            data.update(get_data_from_dict(value, "%s%s," % (prefix, key)))
-        else:
-            data.update({ "%s%s]" % (prefix, key): value})
-    return data
+def get_varnishstat(hostname):
+    varnish_stats = simplejson.loads(check_output(['varnishstat', '-n', socket.gethostname(), '-1', '-j']))
+    timestamp = int(time())
+    return varnish_stats, timestamp
 
 def main():
     (options, args) = parse_args()
@@ -126,30 +119,17 @@ def main():
     else:
         hostname = options.host
 
-    try:
-        r = redis.StrictRedis(host=options.host, port=options.port, db="", password="", socket_timeout=0.5)
-    except:
-        return 1
-
     zbx_container = protobix.DataContainer()
     if options.mode == "update_items":
         zbx_container.set_type("items")
-        data = get_metrics(r, hostname)
-        '''
-            provide fake data for master
-            to avoid NOt SUPPORTED items
-        '''
-        if data[hostname]['redis.replication[role]'] == 'master':
-            data[hostname]['redis.replication[master_last_io_seconds_ago]'] = 0
-            data[hostname]['redis.replication[master_link_status]'] = 'up'
-            data[hostname]['redis.replication[master_sync_in_progress]'] = 0
+        data = get_metrics(hostname)
 
     elif options.mode == "discovery":
         zbx_container.set_type("lld")
         data = get_discovery(r, hostname)
 
     zbx_container.add(data)
-    zbx_container.add_item(hostname, "redis.zbx_version", __version__)
+    zbx_container.add_item(hostname, "varnish.zbx_version", __version__)
 
     zbx_container.set_host(options.zabbix_server)
     zbx_container.set_port(int(options.zabbix_port))

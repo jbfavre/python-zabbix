@@ -16,19 +16,19 @@ import yaml
 import re
 import urllib2
 import json
-import platform
+import socket
 import protobix
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
 
 class RabbitMQAPI(object):
 
     def __init__(self, user_name='guest', password='guest',
-                 host_name='', port=15672, conf='rabbitmq_server.yaml'):
+                 host_name='', port=15672, conf='/etc/zabbix/rabbitmq_server.yaml'):
         self.user_name = user_name
         self.password = password
-        self.host_name = host_name or socket.gethostname()
+        self.host_name = host_name or socket.fqdn()
         self.port = port
         self.discovery_key = "rabbitmq.queues.discovery"
 
@@ -76,6 +76,9 @@ class RabbitMQAPI(object):
 
     def get_metrics(self):
         data = {}
+        connections_stats = self.call_api('connections')
+        zbx_key = 'rabbitmq.connections'
+        data[zbx_key] = len(connections_stats)
         global_stats = self.call_api('overview')
         overview_items = {
             'message_stats': [
@@ -92,7 +95,6 @@ class RabbitMQAPI(object):
             for item in overview_items[item_family]:
                 real_key = zbx_key.format(item_family, item)
                 data[real_key] = values_family.get(item, 0)
-                print real_key + ' ' + str(values_family.get(item, 0))
 
         queues_list = self.call_api('queues')
         for queue in queues_list:
@@ -107,8 +109,11 @@ class RabbitMQAPI(object):
             zbx_key = "rabbitmq.queue[{0},{1},count,dl_message]"
             zbx_key = zbx_key.format(queue['vhost'], queue['name'])
             api_path = 'queues/{0}/{1}_dl'.format(queue['vhost'], queue['name'])
-            dl_queue = self.call_api(api_path)
-            data[zbx_key] = dl_queue.get('messages', 0)
+            try:
+                dl_queue = self.call_api(api_path)
+                data[zbx_key] = dl_queue.get('messages', 0)
+            except:
+                data[zbx_key] = 0
 
             ''' Get queue's master node here so that we can trigger Zabbix
                 alert based on ${HOSTNAME} Zabbix macro match '''
@@ -206,7 +211,7 @@ def main():
 
     (options, args) = parse_args()
     if options.host == 'localhost':
-        hostname = platform.node()
+        hostname = socket.getfqdn()
     else:
         hostname = options.host
 

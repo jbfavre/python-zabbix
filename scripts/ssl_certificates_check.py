@@ -5,7 +5,6 @@ import optparse
 import yaml
 import protobix
 import simplejson
-import platform
 import time
 import socket
 import ssl
@@ -16,7 +15,7 @@ CA_CERTS = "/etc/ssl/certs/ca-certificates.crt"
 
 class SSLEndpointCheck(object):
 
-    def __init__(self,conf='ssl_certificates_check.yaml'):
+    def __init__(self,conf='/tc/zabbix/ssl_certificates_check.yaml'):
         ''' Load config file '''
         with open(conf, 'r') as f:
           config = yaml.load(f)
@@ -44,10 +43,8 @@ class SSLEndpointCheck(object):
         # Connect to the host and get the certificate
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((HOST, PORT))
-        ssl_ctx = ssl.create_default_context(cafile=CA_CERTS)
-        ssl_ctx.check_hostname = False
-        ssl_ctx.verify_mode = ssl.CERT_REQUIRED
-        ssl_sock = ssl_ctx.wrap_socket(sock, server_hostname=HOST)
+        ssl_sock = ssl.wrap_socket(sock, cert_reqs=ssl.CERT_REQUIRED,
+                                   ca_certs=CA_CERTS)
         cert = ssl_sock.getpeercert()
         sock.shutdown(socket.SHUT_RDWR)
         sock.close()
@@ -60,8 +57,7 @@ class SSLEndpointCheck(object):
             try:
                 cert = self.get_certificate(endpoint, 443)
                 common_name = cert['subjectAltName'][0][1]
-                serial = cert['serialNumber']
-                element = { '{#SSLCERTSERIAL}': serial,
+                element = { '{#SSLCERTSERIAL}': common_name + endpoint,
                             '{#SSLCERTNAME}': common_name,
                             '{#SSLCERTENDPOINT}': endpoint }
                 discovery_data['ssl.certificate.discovery'].append(element)
@@ -76,7 +72,6 @@ class SSLEndpointCheck(object):
             try:
                 cert = self.get_certificate(endpoint, 443)
                 common_name = cert['subjectAltName'][0][1]
-                serial = cert['serialNumber']
                 zbx_key = "ssl.certificate.expires_in_days[{0},{1}]"
                 zbx_key = zbx_key.format(common_name, endpoint)
                 data[zbx_key] = self.check_expiration(cert)
@@ -139,9 +134,9 @@ def parse_args():
 
 def main():
     (options, args) = parse_args()
-    hostname = platform.node()
+    hostname = socket.getfqdn()
 
-    ssl_check = SSLEndpointCheck()
+    ssl_check = SSLEndpointCheck(conf='/etc/zabbix/ssl_certificates_check.yaml')
 
     zbx_container = protobix.DataContainer()
     data = {}

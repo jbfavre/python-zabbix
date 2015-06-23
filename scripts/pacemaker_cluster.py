@@ -4,7 +4,7 @@
 '''
 import optparse
 import json
-import platform
+import socket
 import protobix
 
 import subprocess
@@ -167,7 +167,7 @@ def parse_args():
 def main():
 
     (options, args) = parse_args()
-    hostname = platform.node()
+    hostname = socket.getfqdn()
 
     try:
         pcmk = PacemakerCluster()

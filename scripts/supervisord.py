@@ -3,7 +3,7 @@
     Sample script for Zabbix integration with Supervisord.
 '''
 import optparse
-import platform
+import socket
 import protobix
 
 import subprocess
@@ -14,6 +14,18 @@ __version__ = '0.0.1'
 ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
 
 class SupervisorServer(object):
+
+  SUPERV_STAT_CHECK='sudo supervisorctl status'
+  supervisor_states = {
+    'STOPPED': 0,
+    'RUNNING': 0,
+    'STOPPING': 1,
+    'STARTING': 1,
+    'EXITED': 2,
+    'BACKOFF': 2,
+    'FATAL': 2,
+    'UNKNOWN': 2
+    }
 
   def get_infos(self):
     proc = subprocess.Popen(['/usr/bin/sudo', '/usr/bin/supervisorctl', 'status'], stdout=subprocess.PIPE)
@@ -121,7 +133,7 @@ def parse_args():
 def main():
 
     (options, args) = parse_args()
-    hostname = platform.node()
+    hostname = socket.getfqdn()
 
     try:
         supervisor = SupervisorServer()
@@ -133,7 +145,7 @@ def main():
     if options.mode == "update_items":
         zbx_container.set_type("items")
         data[hostname] = supervisor.get_metrics()
-        data[hostname]['supervisord.worker.zbx_version'] = __version__
+        data[hostname]['supervisord.zbx_version'] = __version__
 
     elif options.mode == "discovery":
         zbx_container.set_type("lld")

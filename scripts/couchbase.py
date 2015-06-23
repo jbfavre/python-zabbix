@@ -154,7 +154,7 @@ class CouchbaseServer(object):
             for pool in bucket_list:
                 for bucket_infos in bucket_list[pool]:
                     for node in bucket_infos['vBucketServerMap']['serverList']:
-                        nodename = node.split(".")[0]
+                        nodename = node.split(":")[0]
                         ''' Limit items lookup to current node '''
                         if nodename != hostname:
                             continue
@@ -174,9 +174,13 @@ class CouchbaseServer(object):
                                     'ep_tmp_oom_errors', 'ep_tap_total_qlen' ]
                     zbx_key = "couchbase.bucket.advancedStats[{0},{1},{2}]"
                     for key in sample_list:
+                        nodename = node.split(":")[0]
+                        ''' Limit items lookup to current node '''
+                        if nodename != hostname:
+                            continue
                         sample = bucket_stats['op']['samples'][key]
                         zbx_key_fin = zbx_key.format(pool, bucket_infos['name'], key)
-                        data[hostname.split(".")[0]][zbx_key_fin] = int(sum(sample)/len(sample))
+                        data[nodename][zbx_key_fin] = int(sum(sample)/len(sample))
             return data
 
     ''' CouchbaseServer class '''
@@ -267,7 +271,7 @@ def main():
     zbxret = 0
 
     if options.host == 'localhost':
-        hostname = socket.gethostname()
+        hostname = socket.getfqdn()
     else:
         hostname = options.host
 

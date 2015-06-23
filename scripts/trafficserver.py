@@ -10,7 +10,7 @@
 '''
 import sys
 import optparse
-import platform
+import socket
 import urllib2
 import simplejson
 
@@ -87,7 +87,7 @@ def main():
     zbxret = 0
 
     if options.host == 'localhost':
-        hostname = platform.node()
+        hostname = socket.getfqdn()
     else:
         hostname = options.host
 
