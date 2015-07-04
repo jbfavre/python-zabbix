@@ -9,7 +9,7 @@ from senderexception import SenderException
 
 ZBX_HDR = "ZBXD\1"
 ZBX_HDR_SIZE = 13
-ZBX_RESP_REGEX = r'Processed (\d+) Failed (\d+) Total (\d+) Seconds spent (\d\.\d+)'
+ZBX_RESP_REGEX = r'processed: (\d+); failed: (\d+); total: (\d+); seconds spent: (\d\.\d+)'
 ZBX_DBG_SEND_RESULT = "DBG - Send result [%s] for [%s %s %s]"
 
 def recv_all(sock):
