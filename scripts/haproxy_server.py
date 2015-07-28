@@ -195,23 +195,14 @@ class HAProxyServer(object):
 
     client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     client.connect(self.socket_name)
-
     client.send(command + "\n")
-
-    running = True
-    while(running):
-      r, w, e = select.select([client,],[],[], timeout)
-
-      if not (r or w or e):
-        raise TimeoutException()
-
-      for s in r:
-        if (s is client):
-          buffer = buffer + client.recv(16384)
-          running = (len(buffer)==0)
+    output = client.recv(8192)
+    while(output):
+      buffer += output.decode('ASCII')
+      output = client.recv(8192)
 
     client.close()
-    return buffer.decode('utf-8')
+    return buffer
 
   def _get_version(self):
     buffer = self._execute_(command='show info')
