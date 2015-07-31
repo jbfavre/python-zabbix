@@ -186,13 +186,12 @@ class HAProxyServer(object):
     }
     return options[v[:3]]
 
-  def _execute_(self, command, timeout=200):
+  def _cmd_exec(self, command, timeout=200):
     """ Executes a HAProxy command by sending a message to a HAProxy's local
     UNIX socket and waiting up to 'timeout' milliseconds for the response.
     """
-
     buffer = ""
-
+    socket.setdefaulttimeout(3)
     client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     client.connect(self.socket_name)
     client.send(command + "\n")
@@ -205,7 +204,7 @@ class HAProxyServer(object):
     return buffer
 
   def _get_version(self):
-    buffer = self._execute_(command='show info')
+    buffer = self._cmd_exec(command='show info')
     buffer = buffer.strip()
     lines = buffer.split('\n')
     self.info = dict(row.strip().split(':', 1) for row in lines )
@@ -215,7 +214,7 @@ class HAProxyServer(object):
     def get_output_key(index):
         return index.keys()[0]
     hap_version = self._get_version()
-    buffer = self._execute_('show stat')
+    buffer = self._cmd_exec('show stat')
     buffer = buffer.lstrip('# ')
     csv_stat = csv.DictReader(buffer.split(',\n'))
     data = {}
