@@ -159,9 +159,9 @@ class RabbitMQServer(object):
                                    help="RabbitMQ API hostname")
         general_options.add_option("-p", "--port", help="RabbitMQ API port", default=15672)
         general_options.add_option('--username', help='RabbitMQ API username',
-                          default='nagios')
+                          default='zabbix')
         general_options.add_option('--password', help='RabbitMQ API password',
-                          default='nagios')
+                          default='zabbix')
         parser.add_option_group(general_options)
 
         polling_options = optparse.OptionGroup(parser, "Zabbix configuration")
@@ -199,25 +199,25 @@ class RabbitMQServer(object):
             return 1
 
         # Step 2: get data
-        #try:
-        ''' Load config file '''
-        with open(config_file, 'r') as f:
-          config = yaml.load(f)
-        self.queue_limits = config['queues_limits']
-        ''' Prepare regex pattern for queue exclusion '''
-        pattern_string = '|'.join(config['exclude_pattern'])
-        self.exclude_patterns = re.compile(pattern_string)
+        try:
+            ''' Load config file '''
+            with open(config_file, 'r') as f:
+                config = yaml.load(f)
+            self.queue_limits = config['queues_limits']
+            ''' Prepare regex pattern for queue exclusion '''
+            pattern_string = '|'.join(config['exclude_pattern'])
+            self.exclude_patterns = re.compile(pattern_string)
 
-        data = {}
-        if self.options.mode == "update_items":
-            zbx_container.set_type("items")
-            data[hostname] = self._get_metrics()
+            data = {}
+            if self.options.mode == "update_items":
+                zbx_container.set_type("items")
+                data[hostname] = self._get_metrics()
 
-        elif self.options.mode == "discovery":
-            zbx_container.set_type("lld")
-            data[hostname] = self._get_discovery()
-        #except:
-        #    return 2
+            elif self.options.mode == "discovery":
+                zbx_container.set_type("lld")
+                data[hostname] = self._get_discovery()
+        except:
+            return 2
 
         # Step 3: format & load data into container
         try:
