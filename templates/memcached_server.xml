@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-02-25T17:56:19Z</date>
+    <date>2015-08-21T08:56:00Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -11,6 +11,7 @@
         <template>
             <template>BBC_Template_Memcached</template>
             <name>BBC Template - Memcached</name>
+            <description/>
             <groups>
                 <group>
                     <name>Templates</name>
@@ -31,6 +32,49 @@
                 </application>
             </applications>
             <items>
+                <item>
+                    <name>Memcache cas hits/misses &amp; badval</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>memcached.cas_ratio</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units>%</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params>last(&quot;memcached.cas_hits&quot;)*100/(last(&quot;memcached.cas_hits&quot;)+last(&quot;memcached.cas_misses&quot;)+(count(&quot;memcached.cas_misses&quot;,#1,0) or count(&quot;memcached.cas_hits&quot;,#1,0) or count(&quot;memcached.cas_badval&quot;,#1,0)))</params>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Memcached performances</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
                 <item>
                     <name>Memcache current connection number</name>
                     <type>2</type>
@@ -72,6 +116,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached auth commands number</name>
@@ -114,6 +159,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached auth errors number</name>
@@ -156,6 +202,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached bytes</name>
@@ -170,7 +217,7 @@
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
-                    <units>b</units>
+                    <units>B</units>
                     <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -198,6 +245,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached bytes read</name>
@@ -212,7 +260,7 @@
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
-                    <units>b</units>
+                    <units>B</units>
                     <delta>2</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -240,6 +288,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached bytes written</name>
@@ -254,7 +303,7 @@
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
-                    <units>b</units>
+                    <units>B</units>
                     <delta>2</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -282,6 +331,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached cas bad value</name>
@@ -324,6 +374,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached cas hits</name>
@@ -366,6 +417,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached cas misses</name>
@@ -408,6 +460,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached connections</name>
@@ -450,6 +503,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached cpu system</name>
@@ -465,7 +519,7 @@
                     <value_type>0</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
+                    <delta>2</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -492,6 +546,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached cpu user</name>
@@ -507,7 +562,7 @@
                     <value_type>0</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
+                    <delta>2</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -534,6 +589,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached current item number</name>
@@ -576,6 +632,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached decr hits</name>
@@ -618,6 +675,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached decr misses</name>
@@ -660,6 +718,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached delete hits</name>
@@ -702,6 +761,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached delete misses</name>
@@ -744,6 +804,93 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Memcache decr hits/misses</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>memcached.decr_ratio</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params>last(&quot;memcached.decr_hits&quot;)*100/(last(&quot;memcached.decr_hits&quot;)+last(&quot;memcached.decr_misses&quot;)+(count(&quot;memcached.decr_misses&quot;,#1,0) or count(&quot;memcached.decr_hits&quot;,#1,0)))</params>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Memcached performances</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Memcache delete hits/misses</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>memcached.delete_ratio</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units>%</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params>last(&quot;memcached.delete_hits&quot;)*100/(last(&quot;memcached.delete_hits&quot;)+last(&quot;memcached.delete_misses&quot;)+(count(&quot;memcached.delete_misses&quot;,#1,0) or count(&quot;memcached.delete_hits&quot;,#1,0)))</params>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Memcached performances</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached evicted unfetched</name>
@@ -786,6 +933,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached evictions</name>
@@ -828,6 +976,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached expired unfetched</name>
@@ -870,6 +1019,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached flush commands number</name>
@@ -912,6 +1062,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached get commands number</name>
@@ -954,6 +1105,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached get hits</name>
@@ -996,6 +1148,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached get misses</name>
@@ -1038,6 +1191,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached incr hits</name>
@@ -1080,6 +1234,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached incr misses</name>
@@ -1122,6 +1277,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached limit maxbytes</name>
@@ -1164,6 +1320,50 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Memcached process</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>proc.num[memcached]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Memcached</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached reclaimed</name>
@@ -1206,6 +1406,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached script version</name>
@@ -1215,7 +1416,7 @@
                     <snmp_oid/>
                     <key>memcached.zbx_version</key>
                     <delay>0</delay>
-                    <history>2</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -1248,6 +1449,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached server check</name>
@@ -1290,6 +1492,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached server discovery</name>
@@ -1332,6 +1535,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached server totel items</name>
@@ -1374,6 +1578,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached server version</name>
@@ -1383,7 +1588,7 @@
                     <snmp_oid/>
                     <key>memcached.version</key>
                     <delay>0</delay>
-                    <history>2</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -1416,6 +1621,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached set commands number</name>
@@ -1458,6 +1664,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached touch commands number</name>
@@ -1500,6 +1707,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached touch hits</name>
@@ -1542,6 +1750,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Memcached touch misses</name>
@@ -1584,20 +1793,409 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Memcache get hits/misses</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>memcached.get_ratio</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units>%</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params>last(&quot;memcached.get_hits&quot;)*100/(last(&quot;memcached.get_hits&quot;)+last(&quot;memcached.get_misses&quot;)+(count(&quot;memcached.get_misses&quot;,#1,0) or count(&quot;memcached.get_hits&quot;,#1,0)))</params>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Memcached performances</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Memcache incr hits/misses</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>memcached.incr_ratio</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params>last(&quot;memcached.incr_hits&quot;)*100/(last(&quot;memcached.incr_hits&quot;)+last(&quot;memcached.incr_misses&quot;)+(count(&quot;memcached.incr_misses&quot;,#1,0) or count(&quot;memcached.incr_hits&quot;,#1,0)))</params>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Memcached performances</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
                 </item>
             </items>
             <discovery_rules/>
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.1</value>
+                    <value>0.0.8</value>
                 </macro>
             </macros>
             <templates/>
-            <screens/>
+            <screens>
+                <screen>
+                    <name>Memcached overview</name>
+                    <hsize>3</hsize>
+                    <vsize>7</vsize>
+                    <screen_items>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>900</width>
+                            <height>200</height>
+                            <x>0</x>
+                            <y>0</y>
+                            <colspan>2</colspan>
+                            <rowspan>2</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Memcached operations</name>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>3</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>3</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>1</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <key>memcached.delete_ratio</key>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>3</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>2</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>1</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <key>memcached.curr_items</key>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>2</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Memcached connections</name>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>2</x>
+                            <y>2</y>
+                            <colspan>1</colspan>
+                            <rowspan>5</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Memcached bytes read/written</name>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>2</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>Memcache cpu usage</name>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>3</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>2</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>1</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <key>memcached.get_ratio</key>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>3</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>4</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>1</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <key>memcached.incr_ratio</key>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>3</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>5</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>1</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <key>memcached.decr_ratio</key>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>3</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>6</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>1</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <key>memcached.cas_ratio</key>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>3</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>5</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>1</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <key>memcached.evictions</key>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>3</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>6</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>1</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <key>memcached.reclaimed</key>
+                                <host>BBC_Template_Memcached</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                    </screen_items>
+                </screen>
+            </screens>
         </template>
     </templates>
     <triggers>
+        <trigger>
+            <expression>{BBC_Template_Memcached:memcached.server.check.min(3m)}&lt;&gt;0</expression>
+            <name>Memcached check failed</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_Template_Memcached:memcached.server.discovery.last()}&lt;&gt;0</expression>
+            <name>Memcached discovery failed</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_Template_Memcached:memcached.zbx_version.nodata(10m)}=1</expression>
+            <name>Memcached heartbeat</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
         <trigger>
             <expression>{BBC_Template_Memcached:memcached.zbx_version.regexp({$ZBX_TPL_VERSION})}=0</expression>
             <name>Memcached Script and Template version does not match</name>
@@ -1609,4 +2207,450 @@
             <dependencies/>
         </trigger>
     </triggers>
+    <graphs>
+        <graph>
+            <name>Memcache cpu usage</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00EEEE</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.rusage_system</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00EE00</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.rusage_user</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Memcached bytes read/written</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00EEEE</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.bytes_written</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00EE00</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.bytes_read</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Memcached cas hits/misses</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.cas_hits</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.cas_misses</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>000000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.cas_badval</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Memcached connections</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.curr_connections</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.auth_errors</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>000000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.limit_maxbytes</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Memcached decr hits/misses</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.decr_hits</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.decr_misses</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Memcached delete hits/misses</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.delete_hits</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.delete_misses</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Memcached get hits/misses</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.get_misses</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.get_hits</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Memcached operations</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.cmd_flush</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.cmd_get</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>0000C8</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.cmd_set</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>Memcache items</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.curr_items</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.evictions</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>000000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_Template_Memcached</host>
+                        <key>memcached.reclaimed</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
 </zabbix_export>

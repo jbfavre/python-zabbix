@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-05-20T12:22:13Z</date>
+    <date>2015-08-21T09:01:07Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -23,6 +23,9 @@
                 </application>
                 <application>
                     <name>Supervisord workers</name>
+                </application>
+                <application>
+                    <name>Workers {#SPVGROUPNAME} {#SPVWORKERNAME}</name>
                 </application>
             </applications>
             <items>
@@ -204,7 +207,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>supervisord.workers.discovery</key>
-                    <delay>60</delay>
+                    <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -628,7 +631,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{BBC_TPL_Supervisord:supervisord.worker[{#SPVGROUPNAME},{#SPVWORKERNAME},EXITED].last(#3)}&lt;&gt;0 or {BBC_TPL_Supervisord:supervisord.worker[{#SPVGROUPNAME},{#SPVWORKERNAME},FATAL].last(#3)}&lt;&gt;0 or {BBC_TPL_Supervisord:supervisord.worker[{#SPVGROUPNAME},{#SPVWORKERNAME},UNKNOWN].last(#3)}&lt;&gt;0</expression>
+                            <expression>{BBC_TPL_Supervisord:supervisord.worker[{#SPVGROUPNAME},{#SPVWORKERNAME},EXITED].min(5m)}&gt;=1 or {BBC_TPL_Supervisord:supervisord.worker[{#SPVGROUPNAME},{#SPVWORKERNAME},FATAL].min(5m)}&gt;=1 or {BBC_TPL_Supervisord:supervisord.worker[{#SPVGROUPNAME},{#SPVWORKERNAME},UNKNOWN].min(5m)}&gt;=1</expression>
                             <name>Supervisor worker {#SPVWORKERNAME} from group{#SPVGROUPNAME} is in bad state</name>
                             <url/>
                             <status>0</status>
@@ -644,7 +647,7 @@
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.1</value>
+                    <value>0.0.8</value>
                 </macro>
             </macros>
             <templates/>
@@ -653,11 +656,41 @@
     </templates>
     <triggers>
         <trigger>
-            <expression>{BBC_TPL_Supervisord:proc.num[supervisord].last(#3)}=0</expression>
-            <name>Supervisord process is not running</name>
+            <expression>{BBC_TPL_Supervisord:supervisord.check.min(3m)}&gt;0</expression>
+            <name>Supervisord check failed</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Supervisord:supervisord.discovery.last()}&gt;0</expression>
+            <name>Supervisord discovery failed</name>
             <url/>
             <status>0</status>
             <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Supervisord:supervisord.zbx_version.nodata(10m)}=1</expression>
+            <name>Supervisord heartbeat</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Supervisord:proc.num[supervisord].max(3m)}=0</expression>
+            <name>Supervisord process is not running</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
             <description/>
             <type>0</type>
             <dependencies/>

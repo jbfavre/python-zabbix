@@ -1,223 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-08-21T08:59:12Z</date>
+    <date>2012-11-05T15:04:37Z</date>
     <groups>
         <group>
-            <name>Templates</name>
+            <name>ZBX-CISCO-TEMPLATES</name>
         </group>
     </groups>
     <templates>
         <template>
-            <template>BBC_TPL_PHP_FPM</template>
-            <name>BBC Template - PHP-FPM</name>
-            <description/>
+            <template>ZBX-CISCO-BGP4</template>
+            <name>ZBX-CISCO-BGP4</name>
             <groups>
                 <group>
-                    <name>Templates</name>
+                    <name>ZBX-CISCO-TEMPLATES</name>
                 </group>
             </groups>
             <applications>
                 <application>
-                    <name>PHP-FPM</name>
-                </application>
-                <application>
-                    <name>PHP-FPM configuration</name>
-                </application>
-                <application>
-                    <name>PHP-FPM pool</name>
+                    <name>BGP4 Peer(s)</name>
                 </application>
             </applications>
-            <items>
-                <item>
-                    <name>PHP-FPM check</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>php-fpm.check</key>
-                    <delay>60</delay>
-                    <history>7</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PHP-FPM</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>PHP-FPM discovery</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>php-fpm.discovery</key>
-                    <delay>3600</delay>
-                    <history>7</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PHP-FPM</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>PHP-FPM script version</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>php-fpm.zbx_version</key>
-                    <delay>0</delay>
-                    <history>7</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>1</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PHP-FPM</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>PHP process number</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>proc.num[php5-fpm]</key>
-                    <delay>60</delay>
-                    <history>7</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>PHP-FPM</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-            </items>
+            <items/>
             <discovery_rules>
                 <discovery_rule>
-                    <name>PHP-FPM pools discovery</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <snmp_oid/>
-                    <key>php-fpm.pools.discovery</key>
-                    <delay>0</delay>
+                    <name>BGP4 Peer(s)</name>
+                    <type>4</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.2.1.15.3.1.7</snmp_oid>
+                    <key>ciscoBgpPeerRemoteAddr</key>
+                    <delay>300</delay>
                     <status>0</status>
                     <allowed_hosts/>
-                    <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
                     <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
                     <delay_flex/>
                     <params/>
@@ -228,29 +45,96 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions>
-                            <condition>
-                                <macro>{#PHPFPMPOOLNAME}</macro>
-                                <value>.*</value>
-                                <operator>8</operator>
-                                <formulaid>A</formulaid>
-                            </condition>
-                        </conditions>
-                    </filter>
-                    <lifetime>30</lifetime>
+                    <filter>:</filter>
+                    <lifetime>7</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
-                            <name>PHP-FPM $1 pool $2 configuration</name>
-                            <type>2</type>
-                            <snmp_community/>
+                            <name>Accepted prefixes for IPv4 peer {#SNMPVALUE}</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
                             <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.config[{#PHPFPMPOOLNAME},pm.max_children]</key>
-                            <delay>0</delay>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.1.{#SNMPVALUE}.1.1</snmp_oid>
+                            <key>ciscoIPv4cbgpPeerPrefixAccepted[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Prefix</units>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Accepted prefixes for VPNv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.1.{#SNMPVALUE}.1.128</snmp_oid>
+                            <key>ciscoVPNv4cbgpPeerPrefixAccepted[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Prefix</units>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Administrative status for peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>.1.3.6.1.2.1.15.3.1.3.{#SNMPVALUE}</snmp_oid>
+                            <key>ciscoBgpPeerAdminStatus[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
@@ -258,12 +142,9 @@
                             <allowed_hosts/>
                             <units/>
                             <delta>0</delta>
-                            <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
                             <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
                             <formula>1</formula>
                             <delay_flex/>
@@ -280,409 +161,255 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>PHP-FPM configuration</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 configuration</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.config[{#PHPFPMPOOLNAME},pm.start_servers]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM configuration</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 configuration</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.config[{#PHPFPMPOOLNAME},pm.min_spare_servers]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM configuration</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 configuration</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.config[{#PHPFPMPOOLNAME},pm.max_spare_servers]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM configuration</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},max_listen_queue]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM pool</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},slow_requests]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>2</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM pool</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},start_time]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>s</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM pool</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},max_children_reached]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM pool</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},total_processes]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM pool</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME}]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM pool</name>
+                                    <name>BGP4 Peer(s)</name>
                                 </application>
                             </applications>
                             <valuemap>
-                                <name>Service state</name>
+                                <name>ciscoBgpPeerAdminStatus</name>
                             </valuemap>
-                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
+                            <name>Advertised prefixes for IPv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.4.{#SNMPVALUE}.1.128</snmp_oid>
+                            <key>ciscoIPv4cbgpPeerPrefixAdvertised[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Prefix</units>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Advertised prefixes for VPNv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.4.{#SNMPVALUE}.1.128</snmp_oid>
+                            <key>ciscoVPNv4cbgpPeerPrefixAdvertised[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Prefix</units>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>AS Name for IPv4 peer {#SNMPVALUE}</name>
+                            <type>10</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},listen_queue_len]</key>
-                            <delay>0</delay>
+                            <key>as.name[&quot;-p&quot;,&quot;{#SNMPVALUE}&quot;]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>1</value_type>
+                            <allowed_hosts/>
+                            <units/>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Denied prefixes for IPv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.2.{#SNMPVALUE}.1.1</snmp_oid>
+                            <key>ciscoIPv4cbgpPeerPrefixDenied[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Prefix</units>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Denied prefixes for VPNv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.2.{#SNMPVALUE}.1.128</snmp_oid>
+                            <key>ciscoVPNv4cbgpPeerPrefixDenied[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Prefix</units>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Established time for peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>1.3.6.1.2.1.15.3.1.16.{#SNMPVALUE}</snmp_oid>
+                            <key>ciscoBgpPeerFsmEstablishedTime[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>uptime</units>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Operational status for peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>.1.3.6.1.2.1.15.3.1.2.{#SNMPVALUE}</snmp_oid>
+                            <key>ciscoBgpPeerState[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
@@ -690,12 +417,9 @@
                             <allowed_hosts/>
                             <units/>
                             <delta>0</delta>
-                            <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
                             <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
                             <formula>1</formula>
                             <delay_flex/>
@@ -712,76 +436,31 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>PHP-FPM pool</name>
+                                    <name>BGP4 Peer(s)</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
+                            <valuemap>
+                                <name>ciscoBgpPeerState</name>
+                            </valuemap>
                         </item_prototype>
                         <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
+                            <name>Prefixes limit for IPv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
                             <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},accepted_conn]</key>
-                            <delay>0</delay>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.3.{#SNMPVALUE}.1.1</snmp_oid>
+                            <key>ciscoIPv4cbgpPeerPrefixLimit[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
-                            <units/>
-                            <delta>2</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM pool</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},active_processes]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
+                            <units>Prefix</units>
                             <delta>0</delta>
-                            <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
                             <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
                             <formula>1</formula>
                             <delay_flex/>
@@ -798,33 +477,68 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>PHP-FPM pool</name>
+                                    <name>BGP4 Peer(s)</name>
                                 </application>
                             </applications>
                             <valuemap/>
-                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
+                            <name>Prefixes limit for VPNv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
                             <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},idle_processes]</key>
-                            <delay>0</delay>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.3.{#SNMPVALUE}.1.128</snmp_oid>
+                            <key>ciscoVPNv4cbgpPeerPrefixLimit[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
+                            <allowed_hosts/>
+                            <units>Prefix</units>
+                            <delta>0</delta>
+                            <snmpv3_securityname/>
+                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                            <snmpv3_authpassphrase/>
+                            <snmpv3_privpassphrase/>
+                            <formula>1</formula>
+                            <delay_flex/>
+                            <params/>
+                            <ipmi_sensor/>
+                            <data_type>0</data_type>
+                            <authtype>0</authtype>
+                            <username/>
+                            <password/>
+                            <publickey/>
+                            <privatekey/>
+                            <port/>
+                            <description/>
+                            <inventory_link>0</inventory_link>
+                            <applications>
+                                <application>
+                                    <name>BGP4 Peer(s)</name>
+                                </application>
+                            </applications>
+                            <valuemap/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Remote AS for peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>0</multiplier>
+                            <snmp_oid>.1.3.6.1.2.1.15.3.1.9.{#SNMPVALUE}</snmp_oid>
+                            <key>ciscoBgpPeerRemoteAs[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
+                            <history>7</history>
+                            <trends>365</trends>
+                            <status>0</status>
+                            <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
                             <delta>0</delta>
-                            <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
                             <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
                             <formula>1</formula>
                             <delay_flex/>
@@ -841,33 +555,29 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>PHP-FPM pool</name>
+                                    <name>BGP4 Peer(s)</name>
                                 </application>
                             </applications>
                             <valuemap/>
-                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},max_active_processes]</key>
-                            <delay>0</delay>
+                            <name>Suppressed prefixes for IPv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>1</multiplier>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.7.{#SNMPVALUE}.1.1</snmp_oid>
+                            <key>ciscoIPv4cbgpPeerSuppressedPrefixes[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
-                            <units/>
+                            <units>Prefix</units>
                             <delta>0</delta>
-                            <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
                             <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
                             <formula>1</formula>
                             <delay_flex/>
@@ -884,33 +594,29 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>PHP-FPM pool</name>
+                                    <name>BGP4 Peer(s)</name>
                                 </application>
                             </applications>
                             <valuemap/>
-                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
-                            <name>PHP-FPM $1 pool $2 status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},listen_queue]</key>
-                            <delay>0</delay>
+                            <name>Suppressed prefixes for VPNv4 peer $1</name>
+                            <type>4</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <multiplier>1</multiplier>
+                            <snmp_oid>.1.3.6.1.4.1.9.9.187.1.2.4.1.7.{#SNMPVALUE}.1.128</snmp_oid>
+                            <key>ciscoVPNv4cbgpPeerSuppressedPrefixes[{#SNMPVALUE}]</key>
+                            <delay>300</delay>
                             <history>7</history>
                             <trends>365</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
-                            <units/>
+                            <units>Prefix</units>
                             <delta>0</delta>
-                            <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
                             <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
                             <formula>1</formula>
                             <delay_flex/>
@@ -927,60 +633,89 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>PHP-FPM pool</name>
+                                    <name>BGP4 Peer(s)</name>
                                 </application>
                             </applications>
                             <valuemap/>
-                            <logtimefmt/>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>PHP-FPM $1 pool uptime</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
-                            <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},start_since]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>s</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description/>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>PHP-FPM pool</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes/>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{ZBX-CISCO-BGP4:ciscoIPv4cbgpPeerPrefixLimit[{#SNMPVALUE}].last(0)}&gt;0&amp;({ZBX-CISCO-BGP4:ciscoIPv4cbgpPeerPrefixAccepted[{#SNMPVALUE}].avg(3600)})&gt;0.9*({ZBX-CISCO-BGP4:ciscoIPv4cbgpPeerPrefixLimit[{#SNMPVALUE}].last(0)})</expression>
+                            <name>Accepted prefixes for IPv4 peer {#SNMPVALUE} as reached the maximum limit</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>3</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{ZBX-CISCO-BGP4:ciscoVPNv4cbgpPeerPrefixLimit[{#SNMPVALUE}].last(0)}&gt;0 &amp; ({ZBX-CISCO-BGP4:ciscoVPNv4cbgpPeerPrefixAccepted[{#SNMPVALUE}].avg(3600)})&gt;0.9*({ZBX-CISCO-BGP4:ciscoVPNv4cbgpPeerPrefixLimit[{#SNMPVALUE}].last(0)})</expression>
+                            <name>Accepted prefixes for VPNv4 peer {#SNMPVALUE} as reached the maximum limit</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>3</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{ZBX-CISCO-BGP4:ciscoBgpPeerRemoteAs[{#SNMPVALUE}].regexp({$BGP_PEER_AS})}=1&amp;{ZBX-CISCO-BGP4:ciscoBgpPeerState[{#SNMPVALUE}].last(#3)}#6&amp;{ZBX-CISCO-BGP4:ciscoBgpPeerAdminStatus[{#SNMPVALUE}].last(0)}=2</expression>
+                            <name>BGP peer {#SNMPVALUE} is DOWN</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>5</priority>
+                            <description>Trigger for peer that has a remote AS matching {$BGP_PEER_AS} macro.</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{ZBX-CISCO-BGP4:ciscoBgpPeerRemoteAs[{#SNMPVALUE}].regexp({$BGP_PEER_AS})}=0&amp;{ZBX-CISCO-BGP4:ciscoBgpPeerState[{#SNMPVALUE}].last(#3)}#6&amp;{ZBX-CISCO-BGP4:ciscoBgpPeerAdminStatus[{#SNMPVALUE}].last(0)}=2</expression>
+                            <name>BGP peer {#SNMPVALUE} is DOWN</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>3</priority>
+                            <description>Trigger for peer that has a remote AS not matching {$BGP_PEER_AS} macro.</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{ZBX-CISCO-BGP4:ciscoBgpPeerState[{#SNMPVALUE}].last(0)}=6&amp;{ZBX-CISCO-BGP4:ciscoIPv4cbgpPeerPrefixAccepted[{#SNMPVALUE}].last(0)}&lt;0.8*{ZBX-CISCO-BGP4:ciscoIPv4cbgpPeerPrefixAccepted[{#SNMPVALUE}].avg(86400)}</expression>
+                            <name>IPv4 BGP peer {#SNMPVALUE} has lost more than 20% of prefixes on {HOST.NAME}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>3</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{ZBX-CISCO-BGP4:ciscoBgpPeerState[{#SNMPVALUE}].last(0)}=6&amp;{ZBX-CISCO-BGP4:ciscoIPv4cbgpPeerPrefixAccepted[{#SNMPVALUE}].last(0)}=0</expression>
+                            <name>No prefixes received for IPv4 peer {#SNMPVALUE}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{ZBX-CISCO-BGP4:ciscoBgpPeerState[{#SNMPVALUE}].last(0)}=6&amp;{ZBX-CISCO-BGP4:ciscoVPNv4cbgpPeerPrefixAccepted[{#SNMPVALUE}].last(0)}=0</expression>
+                            <name>No prefixes received for VPNv4 peer {#SNMPVALUE}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>1</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{ZBX-CISCO-BGP4:ciscoBgpPeerState[{#SNMPVALUE}].last(0)}=6&amp;{ZBX-CISCO-BGP4:ciscoVPNv4cbgpPeerPrefixAccepted[{#SNMPVALUE}].last(0)}&lt;0.8*{ZBX-CISCO-BGP4:ciscoVPNv4cbgpPeerPrefixAccepted[{#SNMPVALUE}].avg(86400)}</expression>
+                            <name>VPNv4 BGP peer {#SNMPVALUE} has lost more than 20% of prefixes on {HOST.NAME}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>3</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>PHP-FPM pool {#PHPFPMPOOLNAME} processes</name>
+                            <name>BGP informations for IPv4 peer {#SNMPVALUE}</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -999,156 +734,152 @@
                             <graph_items>
                                 <graph_item>
                                     <sortorder>0</sortorder>
-                                    <drawtype>5</drawtype>
+                                    <drawtype>2</drawtype>
                                     <color>C80000</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>BBC_TPL_PHP_FPM</host>
-                                        <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},active_processes]</key>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoIPv4cbgpPeerPrefixAccepted[{#SNMPVALUE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>1</sortorder>
-                                    <drawtype>5</drawtype>
+                                    <drawtype>2</drawtype>
                                     <color>00C800</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>BBC_TPL_PHP_FPM</host>
-                                        <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},idle_processes]</key>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoIPv4cbgpPeerPrefixAdvertised[{#SNMPVALUE}]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
                                     <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>000000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_PHP_FPM</host>
-                                        <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},total_processes]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>PHP-FPM pool {#PHPFPMPOOLNAME} received vs. active connections</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>5</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_PHP_FPM</host>
-                                        <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},accepted_conn]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>5</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>BBC_TPL_PHP_FPM</host>
-                                        <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},active_processes]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>2</sortorder>
-                                    <drawtype>0</drawtype>
+                                    <drawtype>2</drawtype>
                                     <color>0000C8</color>
                                     <yaxisside>0</yaxisside>
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>BBC_TPL_PHP_FPM</host>
-                                        <key>php-fpm.pool.status[{#PHPFPMPOOLNAME},max_active_processes]</key>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoIPv4cbgpPeerPrefixDenied[{#SNMPVALUE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>2</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoIPv4cbgpPeerPrefixLimit[{#SNMPVALUE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <drawtype>2</drawtype>
+                                    <color>00C8C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoIPv4cbgpPeerSuppressedPrefixes[{#SNMPVALUE}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>BGP informations for VPNv4 peer {#SNMPVALUE}</name>
+                            <width>900</width>
+                            <height>200</height>
+                            <yaxismin>0.0000</yaxismin>
+                            <yaxismax>100.0000</yaxismax>
+                            <show_work_period>1</show_work_period>
+                            <show_triggers>1</show_triggers>
+                            <type>0</type>
+                            <show_legend>1</show_legend>
+                            <show_3d>0</show_3d>
+                            <percent_left>0.0000</percent_left>
+                            <percent_right>0.0000</percent_right>
+                            <ymin_type_1>0</ymin_type_1>
+                            <ymax_type_1>0</ymax_type_1>
+                            <ymin_item_1>0</ymin_item_1>
+                            <ymax_item_1>0</ymax_item_1>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>0</sortorder>
+                                    <drawtype>2</drawtype>
+                                    <color>C80000</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoVPNv4cbgpPeerPrefixAccepted[{#SNMPVALUE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>2</drawtype>
+                                    <color>00C800</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoVPNv4cbgpPeerPrefixAdvertised[{#SNMPVALUE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <drawtype>2</drawtype>
+                                    <color>0000C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoVPNv4cbgpPeerPrefixDenied[{#SNMPVALUE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <drawtype>2</drawtype>
+                                    <color>C800C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoVPNv4cbgpPeerPrefixLimit[{#SNMPVALUE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <drawtype>2</drawtype>
+                                    <color>00C8C8</color>
+                                    <yaxisside>0</yaxisside>
+                                    <calc_fnc>2</calc_fnc>
+                                    <type>0</type>
+                                    <item>
+                                        <host>ZBX-CISCO-BGP4</host>
+                                        <key>ciscoIPv4cbgpPeerSuppressedPrefixes[{#SNMPVALUE}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
                         </graph_prototype>
                     </graph_prototypes>
-                    <host_prototypes/>
                 </discovery_rule>
             </discovery_rules>
-            <macros>
-                <macro>
-                    <macro>{$NGINX_STATUS_URL}</macro>
-                    <value>http://127.0.0.1/nginx_status</value>
-                </macro>
-                <macro>
-                    <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.8</value>
-                </macro>
-            </macros>
+            <macros/>
             <templates/>
             <screens/>
         </template>
     </templates>
-    <triggers>
-        <trigger>
-            <expression>{BBC_TPL_PHP_FPM:php-fpm.check.min(3m)}&gt;0</expression>
-            <name>PHP-FPM check failed</name>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{BBC_TPL_PHP_FPM:php-fpm.discovery.last()}&gt;0</expression>
-            <name>PHP-FPM discovery failed</name>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{BBC_TPL_PHP_FPM:php-fpm.zbx_version.nodata(10m)}=1</expression>
-            <name>PHP-FPM heartbeat</name>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{BBC_TPL_PHP_FPM:php-fpm.zbx_version.regexp({$ZBX_TPL_VERSION})}=0</expression>
-            <name>PHP-FPM Template and Script version mismatch</name>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
-            <description/>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-    </triggers>
 </zabbix_export>

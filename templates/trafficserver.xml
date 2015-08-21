@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2013-11-28T15:07:57Z</date>
+    <date>2015-08-21T08:47:21Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -11,6 +11,7 @@
         <template>
             <template>BBC_TPL_TrafficServer</template>
             <name>BBC Template - Apache TrafficServer</name>
+            <description/>
             <groups>
                 <group>
                     <name>Templates</name>
@@ -33,10 +34,102 @@
                     <name>ATS Memory Cache</name>
                 </application>
                 <application>
+                    <name>ATS performances</name>
+                </application>
+                <application>
                     <name>ATS Processes</name>
+                </application>
+                <application>
+                    <name>Google API</name>
                 </application>
             </applications>
             <items>
+                <item>
+                    <name>ATS Average response time</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>ats.calc.avg.client_req_time</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units>ms</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params>last(&quot;ats.proxy.process.http.total_transactions_time&quot;)/1000000 /( last(&quot;ats.proxy.process.http.incoming_requests&quot;) + count(&quot;ats.proxy.process.http.incoming_requests&quot;,#1,0) )</params>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>ATS performances</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>ATS Cache Free Size</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>ats.proxy.process.cache.bytes_free</key>
+                    <delay>30</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units>B</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params>last(ats.proxy.process.cache.bytes_total)-last(ats.proxy.process.cache.bytes_used)</params>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>ATS Cache</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
                 <item>
                     <name>ATS Cache Lookup Active</name>
                     <type>2</type>
@@ -78,6 +171,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Lookup Failure</name>
@@ -120,6 +214,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Lookup Success</name>
@@ -162,6 +257,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Percent Full</name>
@@ -204,6 +300,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Read Active</name>
@@ -246,6 +343,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Read Failure</name>
@@ -288,6 +386,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Read per second</name>
@@ -300,7 +399,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>kB</units>
                     <delta>0</delta>
@@ -330,6 +429,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Read per second KB</name>
@@ -342,7 +442,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>kB</units>
                     <delta>0</delta>
@@ -372,6 +472,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Read Success</name>
@@ -414,6 +515,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Remove Active</name>
@@ -456,6 +558,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Remove Failure</name>
@@ -498,6 +601,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Remove Success</name>
@@ -540,6 +644,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Scan Active</name>
@@ -582,6 +687,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Scan Failure</name>
@@ -624,6 +730,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Scan Success</name>
@@ -666,6 +773,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Total Size</name>
@@ -708,6 +816,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Update Active</name>
@@ -750,6 +859,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Update Failure</name>
@@ -792,6 +902,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Update Success</name>
@@ -834,6 +945,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Used Size</name>
@@ -876,6 +988,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Write Active</name>
@@ -918,6 +1031,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Write Failure</name>
@@ -960,6 +1074,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Write per second</name>
@@ -972,7 +1087,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>kB</units>
                     <delta>0</delta>
@@ -1002,6 +1117,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Write per second KB</name>
@@ -1014,7 +1130,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>kB</units>
                     <delta>0</delta>
@@ -1044,6 +1160,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Cache Write Success</name>
@@ -1086,6 +1203,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Check</name>
@@ -1094,7 +1212,7 @@
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>ats.check</key>
-                    <delay>300</delay>
+                    <delay>60</delay>
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
@@ -1128,6 +1246,50 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>ATS Google API calls for last 24 hours</name>
+                    <type>8</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>grpsum[&quot;ATS Level 0 Servers&quot;,ats.proxy.process.http.outgoing_requests,sum,1d]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Google API</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Hostdb Size</name>
@@ -1170,6 +1332,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Hostdb Total Entries</name>
@@ -1212,6 +1375,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Hostdb Total Hits</name>
@@ -1254,6 +1418,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Hostdb Total Lookup</name>
@@ -1296,6 +1461,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Hostdb TTL</name>
@@ -1338,6 +1504,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Hostdb TTL Expires</name>
@@ -1380,6 +1547,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 1xx responses</name>
@@ -1422,6 +1590,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 2xx responses</name>
@@ -1464,6 +1633,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 3xx responses</name>
@@ -1506,6 +1676,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 4xx responses</name>
@@ -1548,6 +1719,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 5xx responses</name>
@@ -1590,6 +1762,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 100 responses</name>
@@ -1632,6 +1805,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 101 responses</name>
@@ -1674,6 +1848,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 200 responses</name>
@@ -1716,6 +1891,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 201 responses</name>
@@ -1758,6 +1934,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 202 responses</name>
@@ -1800,6 +1977,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 203 responses</name>
@@ -1842,6 +2020,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 204 responses</name>
@@ -1884,6 +2063,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 205 responses</name>
@@ -1926,6 +2106,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 206 responses</name>
@@ -1968,6 +2149,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 300 responses</name>
@@ -2010,6 +2192,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 301 responses</name>
@@ -2052,6 +2235,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 302 responses</name>
@@ -2094,6 +2278,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 303 responses</name>
@@ -2136,6 +2321,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 304 responses</name>
@@ -2178,6 +2364,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 305 responses</name>
@@ -2220,6 +2407,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 307 responses</name>
@@ -2262,6 +2450,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 400 responses</name>
@@ -2304,6 +2493,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 401 responses</name>
@@ -2346,6 +2536,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 402 responses</name>
@@ -2388,6 +2579,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 403 responses</name>
@@ -2430,6 +2622,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 404 responses</name>
@@ -2472,6 +2665,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 405 responses</name>
@@ -2514,6 +2708,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 406 responses</name>
@@ -2556,6 +2751,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 407 responses</name>
@@ -2598,6 +2794,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 408 responses</name>
@@ -2640,6 +2837,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 409 responses</name>
@@ -2682,6 +2880,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 410 responses</name>
@@ -2724,6 +2923,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 411 responses</name>
@@ -2766,6 +2966,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 412 responses</name>
@@ -2808,6 +3009,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 413 responses</name>
@@ -2850,6 +3052,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 414 responses</name>
@@ -2892,6 +3095,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 415 responses</name>
@@ -2934,6 +3138,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 416 responses</name>
@@ -2976,6 +3181,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 500 responses</name>
@@ -3018,6 +3224,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 501 responses</name>
@@ -3060,6 +3267,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 502 responses</name>
@@ -3102,6 +3310,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 503 responses</name>
@@ -3144,6 +3353,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 504 responses</name>
@@ -3186,6 +3396,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP 505 responses</name>
@@ -3228,6 +3439,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP average transaction per client connection</name>
@@ -3240,7 +3452,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>0</delta>
@@ -3270,6 +3482,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP average transaction per parent connection</name>
@@ -3312,6 +3525,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP average transaction per server connection</name>
@@ -3354,6 +3568,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Active Client Connections</name>
@@ -3396,6 +3611,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Cache Connections</name>
@@ -3438,6 +3654,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Client Connections</name>
@@ -3480,6 +3697,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Client Transactions</name>
@@ -3522,6 +3740,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current ICP Raw Transactions</name>
@@ -3564,6 +3783,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current ICP Transactions</name>
@@ -3606,6 +3826,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Parent Proxy Connections</name>
@@ -3648,6 +3869,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Parent Proxy Raw Transactions</name>
@@ -3690,6 +3912,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Parent Proxy Transactions</name>
@@ -3732,6 +3955,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Server Connections</name>
@@ -3774,6 +3998,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Server Raw Transactions</name>
@@ -3816,6 +4041,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Current Server Transactions</name>
@@ -3858,6 +4084,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Incoming Requests</name>
@@ -3873,7 +4100,7 @@
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
+                    <delta>2</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -3900,6 +4127,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Incoming Responses</name>
@@ -3942,6 +4170,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Invalid Client Requests</name>
@@ -3984,6 +4213,50 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>ATS HTTP Outgoing Requests</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>ats.proxy.process.http.outgoing_requests</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>2</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>ATS HTTP</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Request Document Size &lt; 1 KB</name>
@@ -4026,6 +4299,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Request Document Size &lt; 1 MB</name>
@@ -4068,6 +4342,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Request Document Size &lt; 3 KB</name>
@@ -4110,6 +4385,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Request Document Size &lt; 5 KB</name>
@@ -4152,6 +4428,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Request Document Size &lt; 10 KB</name>
@@ -4194,6 +4471,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Request Document Size &lt; 100B</name>
@@ -4236,6 +4514,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Request Document Size &gt; 1 MB</name>
@@ -4278,6 +4557,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Response Document Size &lt; 1 KB</name>
@@ -4320,6 +4600,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Response Document Size &lt; 1 MB</name>
@@ -4362,6 +4643,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Response Document Size &lt; 3 KB</name>
@@ -4404,6 +4686,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Response Document Size &lt; 5 KB</name>
@@ -4446,6 +4729,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Response Document Size &lt; 10 KB</name>
@@ -4488,6 +4772,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Response Document Size &lt; 100B</name>
@@ -4530,6 +4815,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Response Document Size &gt; 1 MB</name>
@@ -4572,6 +4858,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Total Client Connections</name>
@@ -4614,6 +4901,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Total Client Connections IPv4</name>
@@ -4656,6 +4944,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Total Client Connections IPv6</name>
@@ -4698,6 +4987,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Total Incoming Connections</name>
@@ -4740,6 +5030,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Total Parent Proxy Transactions</name>
@@ -4782,6 +5073,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS HTTP Total Server Connections</name>
@@ -4824,6 +5116,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Memory Cache hits</name>
@@ -4839,7 +5132,7 @@
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>1</delta>
+                    <delta>2</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -4866,6 +5159,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Memory Cache misses</name>
@@ -4881,7 +5175,7 @@
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>1</delta>
+                    <delta>2</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -4908,6 +5202,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Memory Cache Total Space</name>
@@ -4950,6 +5245,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS Memory Cache used</name>
@@ -4992,6 +5288,50 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>ATS Total time</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>ats.proxy.process.http.total_transactions_time</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units>ms</units>
+                    <delta>2</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>ATS</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>ATS zabbix script version</name>
@@ -5001,7 +5341,7 @@
                     <snmp_oid/>
                     <key>ats.zbx_version</key>
                     <delay>0</delay>
-                    <history>7</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>1</value_type>
@@ -5035,6 +5375,7 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Traffic Server cop process</name>
@@ -5077,6 +5418,7 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Traffic Server manager process</name>
@@ -5119,6 +5461,7 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Traffic Server process</name>
@@ -5161,13 +5504,18 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
             </items>
             <discovery_rules/>
             <macros>
                 <macro>
+                    <macro>{$ATS_TRIGGER_MIN_REQ_COUNT}</macro>
+                    <value>500</value>
+                </macro>
+                <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.2</value>
+                    <value>0.0.8</value>
                 </macro>
             </macros>
             <templates/>
@@ -5175,14 +5523,14 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                 <screen>
                     <name>ATS status</name>
                     <hsize>3</hsize>
-                    <vsize>2</vsize>
+                    <vsize>3</vsize>
                     <screen_items>
                         <screen_item>
                             <resourcetype>0</resourcetype>
                             <width>500</width>
                             <height>100</height>
                             <x>1</x>
-                            <y>0</y>
+                            <y>1</y>
                             <colspan>1</colspan>
                             <rowspan>1</rowspan>
                             <elements>0</elements>
@@ -5193,9 +5541,10 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                             <dynamic>0</dynamic>
                             <sort_triggers>0</sort_triggers>
                             <resource>
-                                <name>ATS Current connections</name>
+                                <name>ATS Requests</name>
                                 <host>BBC_TPL_TrafficServer</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -5203,7 +5552,7 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                             <width>500</width>
                             <height>100</height>
                             <x>2</x>
-                            <y>0</y>
+                            <y>1</y>
                             <colspan>1</colspan>
                             <rowspan>1</rowspan>
                             <elements>0</elements>
@@ -5217,27 +5566,7 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                                 <name>ATS Response codes</name>
                                 <host>BBC_TPL_TrafficServer</host>
                             </resource>
-                            <application/>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <width>500</width>
-                            <height>100</height>
-                            <x>1</x>
-                            <y>1</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <style>0</style>
-                            <url/>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <resource>
-                                <name>ATS Cache active operations</name>
-                                <host>BBC_TPL_TrafficServer</host>
-                            </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -5245,7 +5574,7 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                             <width>500</width>
                             <height>100</height>
                             <x>2</x>
-                            <y>1</y>
+                            <y>2</y>
                             <colspan>1</colspan>
                             <rowspan>1</rowspan>
                             <elements>0</elements>
@@ -5259,14 +5588,15 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                                 <name>ATS Cache fail operations</name>
                                 <host>BBC_TPL_TrafficServer</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
                             <resourcetype>0</resourcetype>
                             <width>500</width>
                             <height>100</height>
-                            <x>0</x>
-                            <y>1</y>
+                            <x>1</x>
+                            <y>2</y>
                             <colspan>1</colspan>
                             <rowspan>1</rowspan>
                             <elements>0</elements>
@@ -5280,12 +5610,35 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                                 <name>ATS Cache size</name>
                                 <host>BBC_TPL_TrafficServer</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
                             <resourcetype>0</resourcetype>
                             <width>500</width>
-                            <height>100</height>
+                            <height>200</height>
+                            <x>0</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>ATS Requests ratio (last)</name>
+                                <host>BBC_TPL_TrafficServer</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>200</height>
                             <x>0</x>
                             <y>0</y>
                             <colspan>1</colspan>
@@ -5298,9 +5651,76 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
                             <dynamic>0</dynamic>
                             <sort_triggers>0</sort_triggers>
                             <resource>
-                                <name>ATS Cache activity</name>
+                                <name>ATS Cache filling</name>
                                 <host>BBC_TPL_TrafficServer</host>
                             </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>2</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>ATS Current connections</name>
+                                <host>BBC_TPL_TrafficServer</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>ATS aggregated Google API call for last 24h</name>
+                                <host>BBC_TPL_TrafficServer</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>2</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>ATS client average response time</name>
+                                <host>BBC_TPL_TrafficServer</host>
+                            </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                     </screen_items>
@@ -5310,53 +5730,71 @@ A trigger will compare that to template macro {ZBX_TPL_VERSION} and trigger and 
     </templates>
     <triggers>
         <trigger>
-            <expression>{BBC_TPL_TrafficServer:ats.proxy.process.cache.ram_cache.misses.last()}&gt;({BBC_TPL_TrafficServer:ats.proxy.process.cache.ram_cache.hits.last()}*0.5)</expression>
-            <name>ATS bad cache hits/misses ratio</name>
+            <expression>({BBC_TPL_TrafficServer:ats.proxy.process.cache.ram_cache.misses.min(#3)}&gt;({BBC_TPL_TrafficServer:ats.proxy.process.cache.ram_cache.hits.max(#3)}*0.5)) and ({BBC_TPL_TrafficServer:ats.proxy.process.http.incoming_requests.min(#3)}&gt;{$ATS_TRIGGER_MIN_REQ_COUNT})</expression>
+            <name>ATS bad memory hits/misses ratio</name>
             <url/>
             <status>0</status>
-            <priority>0</priority>
+            <priority>1</priority>
             <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_TrafficServer:ats.proxy.process.cache.percent_full.last()}&gt;80</expression>
-            <name>ATS Cache almost full</name>
+            <expression>{BBC_TPL_TrafficServer:ats.proxy.process.http.current_client_connections.avg(1800)}&gt;{BBC_TPL_TrafficServer:ats.proxy.process.http.current_client_connections.avg(1800,86400)}*2</expression>
+            <name>ATS client connection is too high</name>
             <url/>
             <status>0</status>
             <priority>2</priority>
-            <description>ATS Cache is more than 80% full.&#13;
-You consider either remove old keys or add storage capacity</description>
+            <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_TrafficServer:ats.check.last()}#0</expression>
-            <name>ATS check fails</name>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description>ATS script reported an issue.&#13;
-Please investigate what's going on</description>
-            <type>0</type>
-            <dependencies/>
-        </trigger>
-        <trigger>
-            <expression>{BBC_TPL_TrafficServer:ats.proxy.process.http.4xx_responses.last()}#0|{BBC_TPL_TrafficServer:ats.proxy.process.http.5xx_responses.last()}#0</expression>
+            <expression>({BBC_TPL_TrafficServer:ats.proxy.process.http.4xx_responses.min(#3)}&gt;10 or {BBC_TPL_TrafficServer:ats.proxy.process.http.5xx_responses.min(#3)}&gt;10) and {BBC_TPL_TrafficServer:ats.proxy.process.http.outgoing_requests.min(#3)}&gt;{$ATS_TRIGGER_MIN_REQ_COUNT}</expression>
             <name>ATS errors from origin server</name>
             <url/>
             <status>0</status>
+            <priority>4</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_TrafficServer:ats.zbx_version.nodata(10m)}=1</expression>
+            <name>ATS heartbeat</name>
+            <url/>
+            <status>0</status>
             <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_TrafficServer:proc.num[traffic_cop].last()}#1|{BBC_TPL_TrafficServer:proc.num[traffic_manager].last()}#1|{BBC_TPL_TrafficServer:proc.num[traffic_server].last()}#1</expression>
+            <expression>{BBC_TPL_TrafficServer:ats.proxy.process.http.outgoing_requests.min(#3)}&gt;({BBC_TPL_TrafficServer:ats.proxy.process.http.incoming_requests.max(#3)}*0.10) and {BBC_TPL_TrafficServer:ats.proxy.process.http.outgoing_requests.min(#3)}&gt;{$ATS_TRIGGER_MIN_REQ_COUNT}</expression>
+            <name>ATS Origin requests ratio greater than 10%</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_TrafficServer:ats.proxy.process.http.current_parent_proxy_connections.avg(1800)}&gt;{BBC_TPL_TrafficServer:ats.proxy.process.http.current_parent_proxy_connections.avg(1800,86400)}*2</expression>
+            <name>ATS parent connection is too high</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_TrafficServer:proc.num[traffic_cop].max(#3)}=0 or {BBC_TPL_TrafficServer:proc.num[traffic_manager].max(#3)}=0 or {BBC_TPL_TrafficServer:proc.num[traffic_server].max(#3)}=0</expression>
             <name>ATS process issues</name>
             <url/>
             <status>0</status>
-            <priority>3</priority>
+            <priority>5</priority>
             <description>There is a problem with Apache TrafficServer processes.&#13;
 This could be:&#13;
 - traffic_cop&#13;
@@ -5364,6 +5802,16 @@ This could be:&#13;
 - traffic_server&#13;
 &#13;
 Please have a look</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_TrafficServer:ats.calc.avg.client_req_time.avg(1800)}&gt;{BBC_TPL_TrafficServer:ats.calc.avg.client_req_time.avg(1800,86400)}*2</expression>
+            <name>ATS response time is too high</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
@@ -5381,8 +5829,61 @@ You should consider updating either the script or the template to the higher ver
             <type>0</type>
             <dependencies/>
         </trigger>
+        <trigger>
+            <expression>{BBC_TPL_TrafficServer:ats.proxy.process.http.current_server_connections.avg(1800)}&gt;{BBC_TPL_TrafficServer:ats.proxy.process.http.current_server_connections.avg(1800,86400)}*2</expression>
+            <name>ATS server connection is too high</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_TrafficServer:ats.check.min(3m)}&gt;0</expression>
+            <name>ATS Zabbix check fails</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description>ATS Zabbix script reported an issue during last check.&#13;
+Please investigate what's going on</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
     </triggers>
     <graphs>
+        <graph>
+            <name>ATS aggregated Google API call for last 24h</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>grpsum[&quot;ATS Level 0 Servers&quot;,ats.proxy.process.http.outgoing_requests,sum,1d]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
         <graph>
             <name>ATS Cache active operations</name>
             <width>900</width>
@@ -5636,14 +6137,14 @@ You should consider updating either the script or the template to the higher ver
             </graph_items>
         </graph>
         <graph>
-            <name>ATS Cache size</name>
+            <name>ATS Cache filling</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
-            <yaxismax>100.0000</yaxismax>
-            <show_work_period>1</show_work_period>
-            <show_triggers>1</show_triggers>
-            <type>0</type>
+            <yaxismax>0.0000</yaxismax>
+            <show_work_period>0</show_work_period>
+            <show_triggers>0</show_triggers>
+            <type>2</type>
             <show_legend>1</show_legend>
             <show_3d>0</show_3d>
             <percent_left>0.0000</percent_left>
@@ -5655,18 +6156,53 @@ You should consider updating either the script or the template to the higher ver
             <graph_items>
                 <graph_item>
                     <sortorder>0</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>C80000</color>
+                    <drawtype>1</drawtype>
+                    <color>00C800</color>
                     <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
+                    <calc_fnc>9</calc_fnc>
                     <type>0</type>
                     <item>
                         <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.cache.bytes_total</key>
+                        <key>ats.proxy.process.cache.bytes_used</key>
                     </item>
                 </graph_item>
                 <graph_item>
                     <sortorder>1</sortorder>
+                    <drawtype>1</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>9</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>ats.proxy.process.cache.bytes_free</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>ATS Cache size</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>0</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>
+                <host>BBC_TPL_TrafficServer</host>
+                <key>ats.proxy.process.cache.ram_cache.total_bytes</key>
+            </ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
                     <drawtype>5</drawtype>
                     <color>00C800</color>
                     <yaxisside>0</yaxisside>
@@ -5678,21 +6214,9 @@ You should consider updating either the script or the template to the higher ver
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>2</sortorder>
+                    <sortorder>1</sortorder>
                     <drawtype>0</drawtype>
-                    <color>0000C8</color>
-                    <yaxisside>1</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.cache.ram_cache.total_bytes</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>3</sortorder>
-                    <drawtype>5</drawtype>
-                    <color>33FFFF</color>
+                    <color>C80000</color>
                     <yaxisside>1</yaxisside>
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
@@ -5704,7 +6228,7 @@ You should consider updating either the script or the template to the higher ver
             </graph_items>
         </graph>
         <graph>
-            <name>ATS Current connections</name>
+            <name>ATS client average response time</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
@@ -5730,13 +6254,33 @@ You should consider updating either the script or the template to the higher ver
                     <type>0</type>
                     <item>
                         <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.http.current_active_client_connections</key>
+                        <key>ats.calc.avg.client_req_time</key>
                     </item>
                 </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>ATS Current connections</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>0</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
                 <graph_item>
-                    <sortorder>1</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>00C800</color>
+                    <sortorder>3</sortorder>
+                    <drawtype>2</drawtype>
+                    <color>33FFFF</color>
                     <yaxisside>0</yaxisside>
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
@@ -5746,8 +6290,8 @@ You should consider updating either the script or the template to the higher ver
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>2</sortorder>
-                    <drawtype>0</drawtype>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
                     <color>0000C8</color>
                     <yaxisside>0</yaxisside>
                     <calc_fnc>2</calc_fnc>
@@ -5758,45 +6302,9 @@ You should consider updating either the script or the template to the higher ver
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>3</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>C800C8</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.http.current_client_transactions</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>4</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>00C8C8</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.http.current_icp_raw_transactions</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>5</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>C8C800</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.http.current_icp_transactions</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>6</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>C8C8C8</color>
+                    <sortorder>2</sortorder>
+                    <drawtype>2</drawtype>
+                    <color>00C800</color>
                     <yaxisside>0</yaxisside>
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
@@ -5806,33 +6314,9 @@ You should consider updating either the script or the template to the higher ver
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>7</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>960000</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.http.current_parent_proxy_raw_transactions</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>8</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>009600</color>
-                    <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
-                    <type>0</type>
-                    <item>
-                        <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.http.current_parent_proxy_transactions</key>
-                    </item>
-                </graph_item>
-                <graph_item>
-                    <sortorder>9</sortorder>
-                    <drawtype>0</drawtype>
-                    <color>000096</color>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>C80000</color>
                     <yaxisside>0</yaxisside>
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
@@ -5841,28 +6325,180 @@ You should consider updating either the script or the template to the higher ver
                         <key>ats.proxy.process.http.current_server_connections</key>
                     </item>
                 </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>ATS memory hit ratio</name>
+            <width>500</width>
+            <height>500</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>0.0000</yaxismax>
+            <show_work_period>0</show_work_period>
+            <show_triggers>0</show_triggers>
+            <type>2</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
                 <graph_item>
-                    <sortorder>10</sortorder>
+                    <sortorder>0</sortorder>
                     <drawtype>0</drawtype>
-                    <color>960096</color>
+                    <color>00C800</color>
                     <yaxisside>0</yaxisside>
-                    <calc_fnc>2</calc_fnc>
+                    <calc_fnc>9</calc_fnc>
                     <type>0</type>
                     <item>
                         <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.http.current_server_raw_transactions</key>
+                        <key>ats.proxy.process.cache.ram_cache.hits</key>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>11</sortorder>
+                    <sortorder>1</sortorder>
                     <drawtype>0</drawtype>
-                    <color>009696</color>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>9</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>ats.proxy.process.cache.ram_cache.misses</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>ATS Requests</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>1</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>ats.proxy.process.http.outgoing_requests</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
                     <yaxisside>0</yaxisside>
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
                         <host>BBC_TPL_TrafficServer</host>
-                        <key>ats.proxy.process.http.current_server_transactions</key>
+                        <key>ats.proxy.process.http.incoming_requests</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>ATS Requests ratio (average)</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>0.0000</yaxismax>
+            <show_work_period>0</show_work_period>
+            <show_triggers>0</show_triggers>
+            <type>2</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>ats.proxy.process.http.incoming_requests</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>ats.proxy.process.http.outgoing_requests</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>ATS Requests ratio (last)</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>0.0000</yaxismax>
+            <show_work_period>0</show_work_period>
+            <show_triggers>0</show_triggers>
+            <type>2</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>9</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>ats.proxy.process.http.incoming_requests</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>9</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>ats.proxy.process.http.outgoing_requests</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -5943,6 +6579,18 @@ You should consider updating either the script or the template to the higher ver
                     <item>
                         <host>BBC_TPL_TrafficServer</host>
                         <key>ats.proxy.process.http.5xx_responses</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>5</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>000000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_TrafficServer</host>
+                        <key>ats.proxy.process.http.total_client_connections</key>
                     </item>
                 </graph_item>
             </graph_items>

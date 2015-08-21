@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-02-25T17:04:22Z</date>
+    <date>2015-08-21T08:59:57Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -11,6 +11,7 @@
         <template>
             <template>BBC_Template_Redis</template>
             <name>BBC Template - Redis</name>
+            <description/>
             <groups>
                 <group>
                     <name>Templates</name>
@@ -78,6 +79,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis client connected</name>
@@ -120,6 +122,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis cpu sys usage</name>
@@ -132,7 +135,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>2</delta>
@@ -162,6 +165,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis cpu sys usage for background process</name>
@@ -174,7 +178,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>2</delta>
@@ -204,6 +208,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis cpu user usage</name>
@@ -216,7 +221,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>2</delta>
@@ -246,6 +251,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis cpu user usage for background process</name>
@@ -258,7 +264,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>2</delta>
@@ -288,6 +294,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis memory current usage</name>
@@ -330,6 +337,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis memory fragmentation ratio</name>
@@ -342,7 +350,7 @@
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>0</delta>
@@ -372,6 +380,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis memory LUA usage</name>
@@ -414,6 +423,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis memory peak usage</name>
@@ -456,6 +466,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis memory RSS usage</name>
@@ -498,6 +509,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence AOF current rewrite duration</name>
@@ -510,7 +522,7 @@
                     <history>2</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>s</units>
                     <delta>0</delta>
@@ -540,6 +552,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence AOF enabled</name>
@@ -582,6 +595,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence AOF last bgrewrite status</name>
@@ -591,10 +605,10 @@
                     <snmp_oid/>
                     <key>redis.persistence[aof_last_bgrewrite_status]</key>
                     <delay>0</delay>
-                    <history>7</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>1</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>0</delta>
@@ -626,6 +640,7 @@
                     <valuemap>
                         <name>Redis last bgsave status</name>
                     </valuemap>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence AOF last rewrite duration</name>
@@ -638,7 +653,7 @@
                     <history>2</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>s</units>
                     <delta>0</delta>
@@ -668,6 +683,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence AOF rewrite in progress</name>
@@ -710,6 +726,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence AOF rewrite scheduled</name>
@@ -752,6 +769,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence loading dump into memory</name>
@@ -794,6 +812,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence RDB changes since last save</name>
@@ -836,6 +855,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence RDB current save duration</name>
@@ -848,7 +868,7 @@
                     <history>2</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>0</value_type>
                     <allowed_hosts/>
                     <units>s</units>
                     <delta>0</delta>
@@ -878,6 +898,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence RDB last bgsave status</name>
@@ -887,10 +908,10 @@
                     <snmp_oid/>
                     <key>redis.persistence[rdb_last_bgsave_status]</key>
                     <delay>0</delay>
-                    <history>7</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>1</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>0</delta>
@@ -922,6 +943,7 @@
                     <valuemap>
                         <name>Redis last bgsave status</name>
                     </valuemap>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence RDB last save duration</name>
@@ -964,6 +986,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence RDB last save time</name>
@@ -1006,6 +1029,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis persistence RDB save in progress</name>
@@ -1048,6 +1072,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis replication master last io time</name>
@@ -1090,6 +1115,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis replication master link status</name>
@@ -1099,10 +1125,10 @@
                     <snmp_oid/>
                     <key>redis.replication[master_link_status]</key>
                     <delay>0</delay>
-                    <history>7</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>1</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>0</delta>
@@ -1134,6 +1160,7 @@
                     <valuemap>
                         <name>Redis master link status</name>
                     </valuemap>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis replication master sync in progress</name>
@@ -1176,6 +1203,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis replication role</name>
@@ -1185,10 +1213,10 @@
                     <snmp_oid/>
                     <key>redis.replication[role]</key>
                     <delay>0</delay>
-                    <history>7</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
-                    <value_type>3</value_type>
+                    <value_type>1</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>0</delta>
@@ -1220,6 +1248,7 @@
                     <valuemap>
                         <name>Redis replication role</name>
                     </valuemap>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis replication slaves connected</name>
@@ -1262,6 +1291,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis server check</name>
@@ -1304,6 +1334,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis server discovery</name>
@@ -1312,7 +1343,7 @@
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>redis.server.discovery</key>
-                    <delay>86400</delay>
+                    <delay>3600</delay>
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
@@ -1346,6 +1377,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis server uptime</name>
@@ -1388,6 +1420,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats connections refused</name>
@@ -1430,6 +1463,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats evicted keys</name>
@@ -1472,6 +1506,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats expired keys</name>
@@ -1514,6 +1549,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats keyspace hits</name>
@@ -1556,6 +1592,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats keyspace misses</name>
@@ -1598,6 +1635,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats lastest fork duration</name>
@@ -1640,6 +1678,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats number of ops per second</name>
@@ -1682,6 +1721,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats total command processed</name>
@@ -1724,6 +1764,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats total connections received</name>
@@ -1766,6 +1807,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis stats total connections received</name>
@@ -1808,6 +1850,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
                 <item>
                     <name>Redis zabbix script version</name>
@@ -1817,7 +1860,7 @@
                     <snmp_oid/>
                     <key>redis.zbx_version</key>
                     <delay>0</delay>
-                    <history>2</history>
+                    <history>1</history>
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>4</value_type>
@@ -1850,6 +1893,7 @@
                         </application>
                     </applications>
                     <valuemap/>
+                    <logtimefmt/>
                 </item>
             </items>
             <discovery_rules>
@@ -1878,7 +1922,18 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>{#REDISDBNAME}:db.*</filter>
+                    <filter>
+                        <evaltype>0</evaltype>
+                        <formula/>
+                        <conditions>
+                            <condition>
+                                <macro>{#REDISDBNAME}</macro>
+                                <value>db.*</value>
+                                <operator>8</operator>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
+                    </filter>
                     <lifetime>30</lifetime>
                     <description/>
                     <item_prototypes>
@@ -1923,6 +1978,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Redis expire number in db {#REDISDB}</name>
@@ -1965,6 +2021,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                         <item_prototype>
                             <name>Redis key number in db {#REDISDB}</name>
@@ -2007,6 +2064,7 @@
                                 </application>
                             </applications>
                             <valuemap/>
+                            <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes/>
@@ -2017,7 +2075,7 @@
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.1</value>
+                    <value>0.0.8</value>
                 </macro>
             </macros>
             <templates/>
@@ -2046,6 +2104,7 @@
                                 <name>Redis used memory</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -2067,6 +2126,7 @@
                                 <name>Redis memory fragmentation ratio</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -2088,6 +2148,7 @@
                                 <name>Redis connected clients</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -2109,6 +2170,7 @@
                                 <name>Redis keyspace Hits/Misses</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -2130,6 +2192,7 @@
                                 <name>Redis global evicted/expired keys</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -2151,6 +2214,7 @@
                                 <name>Redis CPU</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -2172,6 +2236,7 @@
                                 <name>Redis connected slaves</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -2193,6 +2258,7 @@
                                 <name>Redis persistance change since last bgsave</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                         <screen_item>
@@ -2214,6 +2280,7 @@
                                 <name>Redis performances</name>
                                 <host>BBC_Template_Redis</host>
                             </resource>
+                            <max_columns>3</max_columns>
                             <application/>
                         </screen_item>
                     </screen_items>
@@ -2223,7 +2290,17 @@
     </templates>
     <triggers>
         <trigger>
-            <expression>{BBC_Template_Redis:redis.stats[rejected_connections].last(300)}#0</expression>
+            <expression>{BBC_Template_Redis:redis.server.check.min(3m)}&gt;0</expression>
+            <name>Redis check failed</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_Template_Redis:redis.stats[rejected_connections].min(3m)}&gt;0</expression>
             <name>Redis client connections have been refused</name>
             <url/>
             <status>0</status>
@@ -2233,7 +2310,27 @@
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_Template_Redis:redis.replication[role].last(0)}=1&amp;{BBC_Template_Redis:redis.replication[master_last_io_seconds_ago].last()}&gt;10</expression>
+            <expression>{BBC_Template_Redis:redis.server.discovery.last()}&gt;0</expression>
+            <name>Redis discovery failed</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_Template_Redis:redis.zbx_version.nodata(10m)}=1</expression>
+            <name>Redis heartbeat</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_Template_Redis:redis.replication[role].last(0)}=1 and {BBC_Template_Redis:redis.replication[master_last_io_seconds_ago].last()}&gt;10</expression>
             <name>Redis replication last master IO too old</name>
             <url/>
             <status>0</status>
@@ -2243,7 +2340,7 @@
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_Template_Redis:redis.replication[role].last(0)}=0&amp;{BBC_Template_Redis:redis.replication[connected_slaves].delta(300)}#0</expression>
+            <expression>{BBC_Template_Redis:redis.replication[role].last(0)}=0 and {BBC_Template_Redis:redis.replication[connected_slaves].delta(300)}&lt;&gt;0</expression>
             <name>Redis replication number of slave has changed</name>
             <url/>
             <status>0</status>
@@ -2253,17 +2350,17 @@
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_Template_Redis:redis.replication[role].delta(600)}#0</expression>
+            <expression>{BBC_Template_Redis:redis.replication[role].diff(600)}&lt;&gt;0</expression>
             <name>Redis replication role changed</name>
             <url/>
             <status>0</status>
-            <priority>1</priority>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_Template_Redis:redis.replication[role].last(0)}=1&amp;{BBC_Template_Redis:redis.replication[master_link_status].delta(300)}#0</expression>
+            <expression>{BBC_Template_Redis:redis.replication[role].last(0)}=1 and {BBC_Template_Redis:redis.replication[master_link_status].diff(300)}&lt;&gt;0</expression>
             <name>Redis replication slave has lost master</name>
             <url/>
             <status>0</status>

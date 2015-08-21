@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-02-26T13:19:44Z</date>
+    <date>2015-08-21T08:51:43Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -1928,7 +1928,7 @@
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.6</value>
+                    <value>0.0.8</value>
                 </macro>
             </macros>
             <templates/>
@@ -2077,7 +2077,7 @@
     </templates>
     <triggers>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_cache_miss_rate].last(#5)}&gt;0</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_cache_miss_rate].min(3m)}&gt;0</expression>
             <name>Couchbase cache miss too high</name>
             <url/>
             <status>0</status>
@@ -2088,7 +2088,17 @@ Please consider increasing memory</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.cluster.members.delta(300)}&lt;&gt;0</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.check.min(3m)}&lt;&gt;0</expression>
+            <name>Couchbase check failed</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Couchbase:couchbase.cluster.members.delta(600)}&lt;&gt;0</expression>
             <name>Couchbase cluster number of members changed</name>
             <url/>
             <status>0</status>
@@ -2098,7 +2108,7 @@ Please consider increasing memory</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;90</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].min(3m)}&gt;90</expression>
             <name>Couchbase documents fragmentation critical</name>
             <url/>
             <status>0</status>
@@ -2109,33 +2119,17 @@ Couchbase performance may be badly affected</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;75</expression>
-            <name>Couchbase documents fragmentation too high</name>
+            <expression>{BBC_TPL_Couchbase:couchbase.zbx_version.nodata(10m)}=1</expression>
+            <name>Couchbase heartbeat</name>
             <url/>
             <status>0</status>
-            <priority>2</priority>
-            <description>Fragmentation of documents storage is too high.&#13;
-Couchbase performance might be badly affected</description>
-            <type>0</type>
-            <dependencies>
-                <dependency>
-                    <name>Couchbase documents fragmentation critical</name>
-                    <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,couch_docs_fragmentation].last(#5)}&gt;90</expression>
-                </dependency>
-            </dependencies>
-        </trigger>
-        <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.node.clusterMembership.last(#5)}&gt;=2</expression>
-            <name>Couchbase node is in bad state</name>
-            <url/>
-            <status>0</status>
-            <priority>3</priority>
-            <description>Couchbase node is in bad state. You should investigate</description>
+            <priority>1</priority>
+            <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.node.clusterMembership.last(#5)}&gt;0</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.node.clusterMembership.min(3m)}&gt;0</expression>
             <name>Couchbase node is in bad state</name>
             <url/>
             <status>0</status>
@@ -2145,12 +2139,22 @@ Couchbase performance might be badly affected</description>
             <dependencies>
                 <dependency>
                     <name>Couchbase node is in bad state</name>
-                    <expression>{BBC_TPL_Couchbase:couchbase.node.clusterMembership.last(#5)}&gt;=2</expression>
+                    <expression>{BBC_TPL_Couchbase:couchbase.node.clusterMembership.min(3m)}&gt;=2</expression>
                 </dependency>
             </dependencies>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.node.status.last(#5)}&gt;0</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.node.clusterMembership.min(3m)}&gt;=2</expression>
+            <name>Couchbase node is in bad state</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description>Couchbase node is in bad state. You should investigate</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Couchbase:couchbase.node.status.min(3m)}&gt;0</expression>
             <name>Couchbase node status is unhealthy</name>
             <url/>
             <status>0</status>
@@ -2160,7 +2164,7 @@ Couchbase performance might be badly affected</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_tmp_oom_errors].last(#5)}&gt;0</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_tmp_oom_errors].min(3m)}&gt;0</expression>
             <name>Couchbase runs out of memory</name>
             <url/>
             <status>0</status>
@@ -2180,7 +2184,7 @@ Couchbase performance might be badly affected</description>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_queue_size].last(#5)}&gt;1000</expression>
+            <expression>{BBC_TPL_Couchbase:couchbase.bucket.advancedStats[default,default,ep_queue_size].avg(3m)}&gt;1000</expression>
             <name>Disk drain is too high</name>
             <url/>
             <status>0</status>

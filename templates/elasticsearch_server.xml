@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-05-07T12:47:07Z</date>
+    <date>2015-08-21T08:53:02Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -91,7 +91,7 @@
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>elasticsearch.discovery</key>
-                    <delay>60</delay>
+                    <delay>3600</delay>
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
@@ -1235,7 +1235,7 @@
                             <name>Elasticsearch Cluster {#ESCLUSTERNAME} status is not green</name>
                             <url/>
                             <status>0</status>
-                            <priority>2</priority>
+                            <priority>3</priority>
                             <description>Elasticsearch cluster status is not green</description>
                             <type>0</type>
                         </trigger_prototype>
@@ -1372,7 +1372,7 @@
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.5</value>
+                    <value>0.0.8</value>
                 </macro>
             </macros>
             <templates/>
@@ -1381,8 +1381,38 @@
     </templates>
     <triggers>
         <trigger>
+            <expression>{BBC_TPL_Elasticsearch:elasticsearch.check.min(3m)}&gt;0</expression>
+            <name>Elasticsearch check failed</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Elasticsearch:elasticsearch.discovery.last()}&gt;0</expression>
+            <name>Elasticsearch discovery failed</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Elasticsearch:elasticsearch.zbx_version.nodata(10m)}=1</expression>
+            <name>Elasticsearch heartbeat</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
             <expression>{BBC_TPL_Elasticsearch:elasticsearch.zbx_version.regexp({$ZBX_TPL_VERSION})}=0</expression>
-            <name>Elasticsearch Script and Template version does not match</name>
+            <name>Elasticsearch  Template and Script version mismatched</name>
             <url/>
             <status>0</status>
             <priority>1</priority>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2015-07-21T16:47:45Z</date>
+    <date>2015-08-21T08:53:17Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -85,7 +85,7 @@
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>haproxy.server.discovery</key>
-                    <delay>60</delay>
+                    <delay>3600</delay>
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
@@ -133,6 +133,49 @@
                     <trends>365</trends>
                     <status>0</status>
                     <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>HAProxy</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Zabbix script version</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>haproxy.server.zbx_version</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>4</value_type>
                     <allowed_hosts/>
                     <units/>
                     <delta>0</delta>
@@ -212,7 +255,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},bin]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},bin]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -255,7 +298,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},bout]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},bout]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -298,7 +341,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},check_code]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},check_code]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -341,7 +384,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},check_duration]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},check_duration]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -384,7 +427,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},check_status]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},check_status]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -427,7 +470,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},qcur]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},qcur]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -470,7 +513,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},scur]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},scur]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -513,7 +556,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},econ]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},econ]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -556,7 +599,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},ereq]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},ereq]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -599,7 +642,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},eresp]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},eresp]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -642,7 +685,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},hrsp_1xx]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},hrsp_1xx]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -685,7 +728,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},hrsp_2xx]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},hrsp_2xx]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -728,7 +771,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},hrsp_3xx]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},hrsp_3xx]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -771,7 +814,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},hrsp_4xx]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},hrsp_4xx]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -814,7 +857,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},hrsp_5xx]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},hrsp_5xx]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -857,7 +900,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},hrsp_other]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},hrsp_other]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -900,7 +943,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},qmax]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},qmax]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -943,7 +986,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},smax]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},smax]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -986,7 +1029,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},status]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},status]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -1031,7 +1074,7 @@
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>haproxy_server.pool[{#HAPPOOLNAME},stot]</key>
+                            <key>haproxy.server.pool[{#HAPPOOLNAME},stot]</key>
                             <delay>0</delay>
                             <history>7</history>
                             <trends>365</trends>
@@ -1069,17 +1112,61 @@
                             <logtimefmt/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes/>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>({TRIGGER.VALUE}=0 and {BBC_TPL_HaProxy:haproxy.server.pool[{#HAPPOOLNAME},scur].min(3m)}&gt;0.9*{#HAPPOOLLIMIT}) or ({TRIGGER.VALUE}=1 and {BBC_TPL_HaProxy:haproxy.server.pool[{#HAPPOOLNAME},scur].max(5m)}&lt;0.9*{#HAPPOOLLIMIT})</expression>
+                            <name>Pool {#HAPPOOLNAME} reached 90% of its connections limit</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({TRIGGER.VALUE}=0 and {BBC_TPL_HaProxy:haproxy.server.pool[{#HAPPOOLNAME},scur].max(3m)}&gt;={#HAPPOOLLIMIT}) or ({TRIGGER.VALUE}=1 and {BBC_TPL_HaProxy:haproxy.server.pool[{#HAPPOOLNAME},scur].max(5m)}&lt;{#HAPPOOLLIMIT})</expression>
+                            <name>Pool {#HAPPOOLNAME} reached 100% of its connections limit</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>3</priority>
+                            <description/>
+                            <type>0</type>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
             </discovery_rules>
-            <macros/>
+            <macros>
+                <macro>
+                    <macro>{$ZBX_TPL_VERSION}</macro>
+                    <value>0.0.8</value>
+                </macro>
+            </macros>
             <templates/>
             <screens/>
         </template>
     </templates>
     <triggers>
+        <trigger>
+            <expression>{BBC_TPL_HaProxy:haproxy.server.check.min(3m)}&gt;0</expression>
+            <name>HaProxy check failed</name>
+            <url/>
+            <status>0</status>
+            <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_HaProxy:haproxy.server.discovery.last()}&gt;0</expression>
+            <name>HaProxy discovery failed</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
         <trigger>
             <expression>{BBC_TPL_HaProxy:proc.num[haproxy].last()}&lt;&gt;1</expression>
             <name>HaProxy has been reloaded</name>
@@ -1102,6 +1189,26 @@
             <status>0</status>
             <priority>3</priority>
             <description>You really should consider killing old remaining processes</description>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_HaProxy:haproxy.server.zbx_version.nodata(10m)}=1</expression>
+            <name>HaProxy heartbeat</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_HaProxy:haproxy.server.zbx_version.regexp({$ZBX_TPL_VERSION})}=0</expression>
+            <name>HaProxy Template and Script version mismatched</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
             <type>0</type>
             <dependencies/>
         </trigger>

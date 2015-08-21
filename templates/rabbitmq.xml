@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2014-09-04T15:04:50Z</date>
+    <date>2015-08-21T08:59:36Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -11,6 +11,7 @@
         <template>
             <template>BBC_TPL_RABBITMQ</template>
             <name>BBC Template - RabbitMQ</name>
+            <description/>
             <groups>
                 <group>
                     <name>Templates</name>
@@ -31,6 +32,92 @@
                 </application>
             </applications>
             <items>
+                <item>
+                    <name>RabbitMQ AMQP network connection</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>net.tcp.service[tcp,,5672]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ beam.smp process</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>proc.num[beam.smp]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
                 <item>
                     <name>RabbitMQ check</name>
                     <type>7</type>
@@ -76,13 +163,56 @@ Get this item will launch python script on RabbitMQ server. The script will use 
                     <logtimefmt/>
                 </item>
                 <item>
+                    <name>RabbitMQ connections number</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.connections</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ activity</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
                     <name>RabbitMQ discovery</name>
                     <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>rabbitmq.discovery</key>
-                    <delay>60</delay>
+                    <delay>3600</delay>
                     <history>7</history>
                     <trends>365</trends>
                     <status>0</status>
@@ -110,6 +240,565 @@ Get this item will launch python script on RabbitMQ server. The script will use 
                     <port/>
                     <description>Single item to trigger discovery.&#13;
 Get this item will launch python script on RabbitMQ server. The script will use RabbitMQ HTTP API to discover all relevant metrics and send them as Low Level Discovery</description>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ global stats messages in $1 status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.message_stats[get]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>1</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ global stats messages in $1 status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.message_stats[get_no_ack]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>1</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ global stats messages in $1 status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.message_stats[publish]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>1</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ global stats messages in $1 status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.message_stats[redeliver]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>1</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ global stats messages in $1 status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.message_stats[deliver_get]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>1</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ global stats messages in $1 status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.message_stats[deliver]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>1</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ global stats messages in $1 status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.message_stats[confirm]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>1</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ global stats messages in $1 status</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.message_stats[ack]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>1</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ management network connection</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>net.tcp.service[tcp,,15672]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ queues stats current messages count</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.queue_totals[messages]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ queues stats current ready messages count</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.queue_totals[messages_ready]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ queues stats current unacknowledged messages count</name>
+                    <type>2</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>rabbitmq.queue_totals[messages_unacknowledged]</key>
+                    <delay>0</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>RabbitMQ Queue</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>RabbitMQ Server process</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>proc.num[rabbitmq-server]</key>
+                    <delay>60</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>1</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
@@ -186,7 +875,18 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>{#RMQQUEUENAME}:@RabbitMQ queue discovery</filter>
+                    <filter>
+                        <evaltype>0</evaltype>
+                        <formula/>
+                        <conditions>
+                            <condition>
+                                <macro>{#RMQQUEUENAME}</macro>
+                                <value>@RabbitMQ queue discovery</value>
+                                <operator>8</operator>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
+                    </filter>
                     <lifetime>1</lifetime>
                     <description/>
                     <item_prototypes>
@@ -537,17 +1237,17 @@ Should be same number as template user macro {$ZBX_TPL_VERSION}</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>({TRIGGER.VALUE}=0&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].min(5m)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].max(5m)}*{#RMQRATIOTHRES}))))|({TRIGGER.VALUE}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].min(10m)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].max(10m)}*({#RMQRATIOTHRES}/2)))))</expression>
+                            <expression>({TRIGGER.VALUE}=0 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].min(5m)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].max(5m)}*{#RMQRATIOTHRES})))) or ({TRIGGER.VALUE}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,publish].max(10m)}&gt;(1+{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},rate,ack].min(10m)}*({#RMQRATIOTHRES}/2)))))</expression>
                             <name>We are getting late in {#RMQVHOSTNAME}:{#RMQQUEUENAME}</name>
                             <url/>
-                            <status>0</status>
+                            <status>1</status>
                             <priority>2</priority>
                             <description>RabbitMQ queue {#RMQQUEUENAME} in vhost {#RMQVHOSTNAME} PUBLISH rate is more than {#RMQRATIOTHRES} times greater than GET rate.&#13;
 You should consider adding more workers</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>({TRIGGER.VALUE}=0&amp;{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,dl_message].min(5m)}&gt;10)|({TRIGGER.VALUE}=1&amp;{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;{BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,dl_message].max(10m)}&gt;1)</expression>
+                            <expression>({TRIGGER.VALUE}=0 and {BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1 and {BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,dl_message].min(5m)}&gt;10) or ({TRIGGER.VALUE}=1 and {BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1 and {BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,dl_message].max(10m)}&gt;1)</expression>
                             <name>We have Dead-letter messages in {#RMQVHOSTNAME}:{#RMQQUEUENAME}</name>
                             <url/>
                             <status>0</status>
@@ -558,11 +1258,21 @@ Please investigate via RabbitMQ Web interface</description>
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>({TRIGGER.VALUE}=0&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].avg(5m)}&gt;{#RMQMSGTHRESH})))|({TRIGGER.VALUE}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1&amp;({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].avg(10m)}&gt;({#RMQMSGTHRESH}*0.75))))</expression>
+                            <expression>({TRIGGER.VALUE}=0 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].min(5m)}&gt;({#RMQMSGTHRESH}*10)))) or ({TRIGGER.VALUE}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].max(10m)}&lt;{#RMQMSGTHRESH})))</expression>
                             <name>We have too many messages in {#RMQVHOSTNAME}:{#RMQQUEUENAME}</name>
                             <url/>
                             <status>0</status>
-                            <priority>1</priority>
+                            <priority>3</priority>
+                            <description>RabbitMQ queue {#RMQQUEUENAME} in vhost {#RMQVHOSTNAME} contains more than {#RMQMSGTHRESH} for 5 minutes.&#13;
+You should consider adding more workers</description>
+                            <type>0</type>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({TRIGGER.VALUE}=0 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].min(5m)}&gt;{#RMQMSGTHRESH}))) or ({TRIGGER.VALUE}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},master].last()}=1 and ({BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].max(10m)}&gt;({#RMQMSGTHRESH}*0.75) or {BBC_TPL_RABBITMQ:rabbitmq.queue[{#RMQVHOSTNAME},{#RMQQUEUENAME},count,message].min(5m)}&gt;({#RMQMSGTHRESH}*10))))</expression>
+                            <name>We have too many messages in {#RMQVHOSTNAME}:{#RMQQUEUENAME}</name>
+                            <url/>
+                            <status>0</status>
+                            <priority>2</priority>
                             <description>RabbitMQ queue {#RMQQUEUENAME} in vhost {#RMQVHOSTNAME} contains more than {#RMQMSGTHRESH} for 5 minutes.&#13;
 You should consider adding more workers</description>
                             <type>0</type>
@@ -676,33 +1386,145 @@ You should consider adding more workers</description>
             <macros>
                 <macro>
                     <macro>{$ZBX_TPL_VERSION}</macro>
-                    <value>0.0.3</value>
+                    <value>0.0.8</value>
                 </macro>
             </macros>
             <templates/>
-            <screens/>
+            <screens>
+                <screen>
+                    <name>RabbitMQ status</name>
+                    <hsize>2</hsize>
+                    <vsize>2</vsize>
+                    <screen_items>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>RabbitMQ Queue status</name>
+                                <host>BBC_TPL_RABBITMQ</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>RabbitMQ global messages stats</name>
+                                <host>BBC_TPL_RABBITMQ</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                    </screen_items>
+                </screen>
+            </screens>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>{BBC_TPL_RABBITMQ:rabbitmq.check.last(#5)}&gt;0</expression>
+            <expression>{BBC_TPL_RABBITMQ:net.tcp.service[tcp,,5672].last(#3)}&lt;&gt;1</expression>
+            <name>RabbitMQ AMQP TCP port is not opened</name>
+            <url/>
+            <status>0</status>
+            <priority>4</priority>
+            <description/>
+            <type>0</type>
+            <dependencies>
+                <dependency>
+                    <name>RabbitMQ process not found</name>
+                    <expression>{BBC_TPL_RABBITMQ:proc.num[beam.smp].max(3m)}=0 or {BBC_TPL_RABBITMQ:proc.num[rabbitmq-server].max(3m)}=0</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_RABBITMQ:rabbitmq.check.min(3m)}&gt;0</expression>
             <name>RabbitMQ check failed</name>
             <url/>
             <status>0</status>
             <priority>3</priority>
-            <description>RabbitMQ Checks failed at least 1 time during last 5 attemps.&#13;
+            <description>RabbitMQ Checks failed during last 3 attemps.&#13;
 You should connect to RabbitMQ Web Interface &amp; investigate.</description>
+            <type>0</type>
+            <dependencies>
+                <dependency>
+                    <name>RabbitMQ process not found</name>
+                    <expression>{BBC_TPL_RABBITMQ:proc.num[beam.smp].max(3m)}=0 or {BBC_TPL_RABBITMQ:proc.num[rabbitmq-server].max(3m)}=0</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_RABBITMQ:rabbitmq.discovery.last()}&gt;0</expression>
+            <name>RabbitMQ discovery failed</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description>RabbitMQ Discovery failed at least 1 time during last 5 attemps.&#13;
+You should connect to RabbitMQ Web Interface &amp; investigate.</description>
+            <type>0</type>
+            <dependencies>
+                <dependency>
+                    <name>RabbitMQ process not found</name>
+                    <expression>{BBC_TPL_RABBITMQ:proc.num[beam.smp].max(3m)}=0 or {BBC_TPL_RABBITMQ:proc.num[rabbitmq-server].max(3m)}=0</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_RABBITMQ:rabbitmq.zbx_version.nodata(10m)}=1</expression>
+            <name>RabbitMQ heartbeat</name>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{BBC_TPL_RABBITMQ:rabbitmq.discovery.last(#5)}&gt;0</expression>
-            <name>RabbitMQ discovery failed</name>
+            <expression>{BBC_TPL_RABBITMQ:net.tcp.service[tcp,,15672].last(#3)}&lt;&gt;1</expression>
+            <name>RabbitMQ Management TCP port is not opened</name>
             <url/>
             <status>0</status>
-            <priority>3</priority>
-            <description>RabbitMQ Discovery failed at least 1 time during last 5 attemps.&#13;
-You should connect to RabbitMQ Web Interface &amp; investigate.</description>
+            <priority>4</priority>
+            <description/>
+            <type>0</type>
+            <dependencies>
+                <dependency>
+                    <name>RabbitMQ process not found</name>
+                    <expression>{BBC_TPL_RABBITMQ:proc.num[beam.smp].max(3m)}=0 or {BBC_TPL_RABBITMQ:proc.num[rabbitmq-server].max(3m)}=0</expression>
+                </dependency>
+            </dependencies>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_RABBITMQ:proc.num[beam.smp].max(3m)}=0 or {BBC_TPL_RABBITMQ:proc.num[rabbitmq-server].max(3m)}=0</expression>
+            <name>RabbitMQ process not found</name>
+            <url/>
+            <status>0</status>
+            <priority>4</priority>
+            <description/>
             <type>0</type>
             <dependencies/>
         </trigger>
@@ -717,4 +1539,178 @@ You should connect to RabbitMQ Web Interface &amp; investigate.</description>
             <dependencies/>
         </trigger>
     </triggers>
+    <graphs>
+        <graph>
+            <name>RabbitMQ global messages stats</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.message_stats[ack]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C80000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.message_stats[confirm]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>0000C8</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.message_stats[deliver]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>3</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C800C8</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.message_stats[deliver_get]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>4</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>00C8C8</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.message_stats[get]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>5</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C8C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.message_stats[get_no_ack]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>6</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>C8C8C8</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.message_stats[publish]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>7</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>009600</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.message_stats[redeliver]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>RabbitMQ Queue status</name>
+            <width>900</width>
+            <height>200</height>
+            <yaxismin>0.0000</yaxismin>
+            <yaxismax>100.0000</yaxismax>
+            <show_work_period>1</show_work_period>
+            <show_triggers>1</show_triggers>
+            <type>0</type>
+            <show_legend>1</show_legend>
+            <show_3d>0</show_3d>
+            <percent_left>0.0000</percent_left>
+            <percent_right>0.0000</percent_right>
+            <ymin_type_1>0</ymin_type_1>
+            <ymax_type_1>0</ymax_type_1>
+            <ymin_item_1>0</ymin_item_1>
+            <ymax_item_1>0</ymax_item_1>
+            <graph_items>
+                <graph_item>
+                    <sortorder>0</sortorder>
+                    <drawtype>0</drawtype>
+                    <color>000000</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.queue_totals[messages]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.queue_totals[messages_ready]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>5</drawtype>
+                    <color>0000C8</color>
+                    <yaxisside>0</yaxisside>
+                    <calc_fnc>2</calc_fnc>
+                    <type>0</type>
+                    <item>
+                        <host>BBC_TPL_RABBITMQ</host>
+                        <key>rabbitmq.queue_totals[messages_unacknowledged]</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
 </zabbix_export>
