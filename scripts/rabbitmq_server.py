@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
     Copyright (c) 2014 Jean Baptiste Favre.
     Sample script for Zabbix integration with RabbitMQ API.
@@ -17,41 +18,26 @@ import re
 import urllib2
 import json
 import socket
+import sys
 import protobix
 
-__version__ = '0.0.3'
-ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
+class RabbitMQServer(object):
 
-class RabbitMQAPI(object):
+    __version__ = '0.0.8'
+    ZBX_CONN_ERR = "ERR - unable to send data to Zabbix [%s]"
 
-    def __init__(self, user_name='guest', password='guest',
-                 host_name='', port=15672, conf='/etc/zabbix/rabbitmq_server.yaml'):
-        self.user_name = user_name
-        self.password = password
-        self.host_name = host_name or socket.fqdn()
-        self.port = port
-        self.discovery_key = "rabbitmq.queues.discovery"
-
-        ''' Load config file '''
-        with open(conf, 'r') as f:
-          config = yaml.load(f)
-        self.queue_limits = config['queues_limits']
-
-        ''' Prepare regex pattern for queue exclusion '''
-        pattern_string = '|'.join(config['exclude_pattern'])
-        self.exclude_patterns = re.compile(pattern_string)
-
-    def call_api(self, path):
+    def _call_api(self, path):
         # Call the REST API and convert the results into JSON.
-        url = 'http://{0}:{1}/api/{2}'.format(self.host_name, self.port, path)
+        url = 'http://{0}:{1}/api/{2}'.format(self.options.host, self.options.port, path)
         password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-        password_mgr.add_password(None, url, self.user_name, self.password)
+        password_mgr.add_password(None, url, self.options.username, self.options.password)
         handler = urllib2.HTTPBasicAuthHandler(password_mgr)
         return json.loads(urllib2.build_opener(handler).open(url).read())
 
-    def get_discovery(self):
+    def _get_discovery(self):
+        self.discovery_key = "rabbitmq.queues.discovery"
         data = {self.discovery_key:[]}
-        for queue in self.call_api('queues'):
+        for queue in self._call_api('queues'):
             ''' Skip queues matching exclude_patterns '''
             if self.exclude_patterns.match(queue['name']): continue
 
@@ -74,12 +60,12 @@ class RabbitMQAPI(object):
 
         return data
 
-    def get_metrics(self):
+    def _get_metrics(self):
         data = {}
-        connections_stats = self.call_api('connections')
+        connections_stats = self._call_api('connections')
         zbx_key = 'rabbitmq.connections'
         data[zbx_key] = len(connections_stats)
-        global_stats = self.call_api('overview')
+        global_stats = self._call_api('overview')
         overview_items = {
             'message_stats': [
                 'ack', 'confirm', 'deliver', 'deliver_get',
@@ -96,7 +82,7 @@ class RabbitMQAPI(object):
                 real_key = zbx_key.format(item_family, item)
                 data[real_key] = values_family.get(item, 0)
 
-        queues_list = self.call_api('queues')
+        queues_list = self._call_api('queues')
         for queue in queues_list:
             if self.exclude_patterns.match(queue['name']): continue
 
@@ -120,7 +106,8 @@ class RabbitMQAPI(object):
             zbx_key = "rabbitmq.queue[{0},{1},master]"
             zbx_key = zbx_key.format(queue['vhost'], queue['name'])
             value=0
-            if queue.get('node', 0).split('@')[1] == self.host_name:
+            if (queue.get('node', 0).split('@')[1] == socket.gethostname()) or \
+               (queue.get('node', 0).split('@')[1] == self.options.host):
                 value=1
             data[zbx_key] = value
 
@@ -133,124 +120,122 @@ class RabbitMQAPI(object):
                 zbx_key = zbx_key.format(queue['vhost'], queue['name'], item)
                 data[zbx_key] = rate_key.get('rate', 0)
 
-        data["rabbitmq.zbx_version"] = __version__
+        data["rabbitmq.zbx_version"] = self.__version__
 
         return data
 
-    '''def check_server(self, item, node_name):
-        # First, check the overview specific items
-        if item == 'message_stats_deliver_get':
-	    return self.call_api('overview').get('message_stats', {}).get('deliver_get',0)
-        elif item == 'message_stats_publish':
-	    return self.call_api('overview').get('message_stats', {}).get('publish',0)
-        elif item == 'rabbitmq_version':
-	    return self.call_api('overview').get('rabbitmq_version', 'None')
-        # Return the value for a specific item in a node's details.
-        node_name = node_name.split('.')[0]
-        for nodeData in self.call_api('nodes'):
-            if node_name in nodeData['name']:
-                return nodeData.get(item)
-        return 'Not Found'
-    '''
+    def _parse_args(self):
+        ''' Parse the script arguments'''
+        parser = optparse.OptionParser()
 
-def parse_args():
-    ''' Parse the script arguments'''
-    parser = optparse.OptionParser()
+        parser.add_option("-d", "--dry", action="store_true",
+                              help="Performs RabbitMQ API calls but do not send "
+                                   "anything to the Zabbix server. Can be used "
+                                   "for both Update & Discovery mode")
+        parser.add_option("-D", "--debug", action="store_true",
+                          help="Enable debug mode. This will prevent bulk send "
+                               "operations and force sending items one after the "
+                               "other, displaying result for each one")
+        parser.add_option("-v", "--verbose", action="store_true",
+                          help="When used with debug option, will force value "
+                               "display for each items managed. Beware that it "
+                               "can be pretty too much verbose, specialy for LLD")
 
-    parser.add_option("-d", "--dry", action="store_true",
-                          help="Performs RabbitMQ API calls but do not send "
-                               "anything to the Zabbix server. Can be used "
-                               "for both Update & Discovery mode")
-    parser.add_option("-D", "--debug", action="store_true",
-                      help="Enable debug mode. This will prevent bulk send "
-                           "operations and force sending items one after the "
-                           "other, displaying result for each one")
-    parser.add_option("-v", "--verbose", action="store_true",
-                      help="When used with debug option, will force value "
-                           "display for each items managed. Beware that it "
-                           "can be pretty too much verbose, specialy for LLD")
+        mode_group = optparse.OptionGroup(parser, "Program Mode")
+        mode_group.add_option("--update-items", action="store_const",
+                              dest="mode", const="update_items",
+                              help="Get & send items to Zabbix. This is the default "
+                                   "behaviour even if option is not specified")
+        mode_group.add_option("--discovery", action="store_const",
+                              dest="mode", const="discovery",
+                              help="If specified, will perform Zabbix Low Level "
+                                   "Discovery on RabbitMQ API. "
+                                   "Default is to get & send items")
+        parser.add_option_group(mode_group)
+        parser.set_defaults(mode="update_items")
 
-    mode_group = optparse.OptionGroup(parser, "Program Mode")
-    mode_group.add_option("--update-items", action="store_const",
-                          dest="mode", const="update_items",
-                          help="Get & send items to Zabbix. This is the default "
-                               "behaviour even if option is not specified")
-    mode_group.add_option("--discovery", action="store_const",
-                          dest="mode", const="discovery",
-                          help="If specified, will perform Zabbix Low Level "
-                               "Discovery on RabbitMQ API. "
-                               "Default is to get & send items")
-    parser.add_option_group(mode_group)
-    parser.set_defaults(mode="update_items")
+        general_options = optparse.OptionGroup(parser, "RabbitMQ API Configuration")
+        general_options.add_option("-H", "--host", metavar="HOST", default="localhost",
+                                   help="RabbitMQ API hostname")
+        general_options.add_option("-p", "--port", help="RabbitMQ API port", default=15672)
+        general_options.add_option('--username', help='RabbitMQ API username',
+                          default='nagios')
+        general_options.add_option('--password', help='RabbitMQ API password',
+                          default='nagios')
+        parser.add_option_group(general_options)
 
-    general_options = optparse.OptionGroup(parser, "RabbitMQ API Configuration")
-    general_options.add_option("-H", "--host", metavar="HOST", default="localhost",
-                               help="RabbitMQ API hostname")
-    general_options.add_option("-p", "--port", help="RabbitMQ API port", default=15672)
-    general_options.add_option('--username', help='RabbitMQ API username',
-                      default='nagios')
-    general_options.add_option('--password', help='RabbitMQ API password',
-                      default='nagios')
-    parser.add_option_group(general_options)
+        polling_options = optparse.OptionGroup(parser, "Zabbix configuration")
+        polling_options.add_option("--zabbix-server", metavar="HOST",
+                                   default="localhost",
+                                   help="The hostname of Zabbix server or "
+                                        "proxy, default is localhost.")
+        polling_options.add_option("--zabbix-port", metavar="PORT", default=10051,
+                                   help="The port on which the Zabbix server or "
+                                        "proxy is running, default is 10051.")
+        parser.add_option_group(polling_options)
 
-    polling_options = optparse.OptionGroup(parser, "Zabbix configuration")
-    polling_options.add_option("--zabbix-server", metavar="HOST",
-                               default="localhost",
-                               help="The hostname of Zabbix server or "
-                                    "proxy, default is localhost.")
-    polling_options.add_option("--zabbix-port", metavar="PORT", default=10051,
-                               help="The port on which the Zabbix server or "
-                                    "proxy is running, default is 10051.")
-    parser.add_option_group(polling_options)
+        return parser.parse_args()
 
-    (options, args) = parser.parse_args()
+    def _init_container(self):
+        zbx_container = protobix.DataContainer(
+            data_type = 'items',
+            zbx_host  = self.options.zabbix_server,
+            zbx_port  = int(self.options.zabbix_port),
+            debug     = self.options.debug,
+            dryrun    = self.options.dry
+        )
+        return zbx_container
 
-    return (options, args)
+    def run(self, config_file='/etc/zabbix/rabbitmq_server.yaml'):
+        (self.options, args) = self._parse_args()
+        if self.options.host == 'localhost':
+            self.options.host = socket.getfqdn()
+        hostname = self.options.host
 
-def main():
+        # Step 1: init container
+        try:
+            zbx_container = self._init_container()
+        except:
+            return 1
 
-    (options, args) = parse_args()
-    if options.host == 'localhost':
-        hostname = socket.getfqdn()
-    else:
-        hostname = options.host
+        # Step 2: get data
+        #try:
+        ''' Load config file '''
+        with open(config_file, 'r') as f:
+          config = yaml.load(f)
+        self.queue_limits = config['queues_limits']
+        ''' Prepare regex pattern for queue exclusion '''
+        pattern_string = '|'.join(config['exclude_pattern'])
+        self.exclude_patterns = re.compile(pattern_string)
 
-    try:
-        rmq = RabbitMQAPI(user_name=options.username,
-                          password=options.password,
-                          host_name=hostname,
-                          port=options.port)
-    except:
-        return 1
+        data = {}
+        if self.options.mode == "update_items":
+            zbx_container.set_type("items")
+            data[hostname] = self._get_metrics()
 
-    zbx_container = protobix.DataContainer()
-    data = {}
-    if options.mode == "update_items":
-        zbx_container.set_type("items")
-        data[hostname] = rmq.get_metrics()
+        elif self.options.mode == "discovery":
+            zbx_container.set_type("lld")
+            data[hostname] = self._get_discovery()
+        #except:
+        #    return 2
 
-    elif options.mode == "discovery":
-        zbx_container.set_type("lld")
-        data[hostname] = rmq.get_discovery()
+        # Step 3: format & load data into container
+        try:
+            zbx_container.add(data)
+        except:
+            return 3
 
-    zbx_container.add(data)
-    zbx_container.set_host(options.zabbix_server)
-    zbx_container.set_port(int(options.zabbix_port))
-    zbx_container.set_debug(options.debug)
-    zbx_container.set_verbosity(options.verbose)
-    zbx_container.set_dryrun(options.dry)
-
-    try:
-        zbx_response = zbx_container.send(zbx_container)
-
-    except protobix.SenderException as zbx_exception:
-        if options.debug:
-            print ZBX_CONN_ERR % zbx_exception.err_text
-        return 2
-
-    else:
+        # Step 4: send container data to Zabbix server
+        try:
+            zbx_container.send(zbx_container)
+        except protobix.SenderException as zbx_e:
+            if self.options.debug:
+                print self.ZBX_CONN_ERR % zbx_e.err_text
+            return 4
+        # Everything went fine. Let's return 0 and exit
         return 0
 
 if __name__ == '__main__':
-    ret = main()
+    ret = RabbitMQServer().run()
     print ret
+    sys.exit(ret)

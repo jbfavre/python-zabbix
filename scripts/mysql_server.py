@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 '''
     Copyright (c) 2014 Jean Baptiste Favre.
     Sample script for Zabbix integration with MySQL / MariaDB.
@@ -7,13 +8,11 @@
 import optparse
 import json
 import socket
-import protobix
-
 import mysql.connector
 import re
+import sys
 
-__version__ = '0.0.3'
-ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
+import protobix
 
 # MariaDB 10.0 slave key's list
 # WARNING
@@ -215,6 +214,9 @@ MYSQL_INNODB_MAPPING = {
 }
 
 class MysqlServer(object):
+
+    __version__ = '0.0.8'
+    ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
 
     ''' InnoDB class
     Ref: https://mariadb.com/kb/en/mariadb/documentation/optimization-and-tuning/system-variables/xtradbinnodb-server-status-variables/
@@ -781,7 +783,7 @@ class MysqlServer(object):
 
             return result
 
-        def get_status(self):
+        def _get_status(self):
             result={}
             cursor = self.server.cnx.cursor()
             query="SHOW /*!50000 ENGINE*/ INNODB STATUS"
@@ -797,7 +799,7 @@ class MysqlServer(object):
             result['buffer_memory'] = self._buffer_memory_parser(data['BUFFER POOL AND MEMORY'])
             return result
 
-        def filter_status(self, item):
+        def _filter_status(self, item):
             if item[0].startswith(self.status_prefix):
                 key=item[0].replace(self.status_prefix,'')
                 value = item[1]
@@ -842,14 +844,14 @@ class MysqlServer(object):
             self.server = server
             self.status_prefix="wsrep_"
 
-        def filter_status(self, item):
+        def _filter_status(self, item):
             if item[0].startswith(self.status_prefix) and \
                item[0].replace(self.status_prefix,'') in wsrep_status_keys:
                 key=item[0].replace(self.status_prefix,'')
                 return (key, item[1])
             return (False, False)
 
-        def is_enabled(self):
+        def _is_enabled(self):
             cursor = self.server.cnx.cursor()
             cursor.execute("SHOW STATUS LIKE 'wsrep_ready'")
             for (item) in cursor:
@@ -863,7 +865,7 @@ class MysqlServer(object):
         def __init__(self, server):
             self.server = server
 
-        def get_status(self):
+        def _get_status(self):
             cursor = self.server.cnx.cursor()
             cursor.execute("SHOW ALL SLAVES STATUS")
             replication_list=[]
@@ -887,7 +889,7 @@ class MysqlServer(object):
             self.server = server
             self.status_prefix="Cassandra_"
 
-        def filter_status(self, item):
+        def _filter_status(self, item):
             return (False, False)
             ''' NOT IMPLEMENTED ON ZABBIX SIDE '''
             if item[0].startswith(self.status_prefix):
@@ -912,7 +914,7 @@ class MysqlServer(object):
             self.server = server
             self.status_prefix="Aria_"
 
-        def filter_status(self, item):
+        def _filter_status(self, item):
             return (False, False)
             ''' NOT IMPLEMENTED ON ZABBIX SIDE '''
             if item[0].startswith(self.status_prefix):
@@ -1099,7 +1101,7 @@ class MysqlServer(object):
             self.server = server
             self.status_prefix="Tokudb_"
 
-        def filter_status(self, item):
+        def _filter_status(self, item):
             return (False, False)
             ''' NOT IMPLEMENTED ON ZABBIX SIDE '''
             if item[0].startswith(self.status_prefix):
@@ -1122,7 +1124,7 @@ class MysqlServer(object):
             self.server = server
             self.status_prefix="Sphinx_"
 
-        def filter_status(self, item):
+        def _filter_status(self, item):
             return (False, False)
             ''' NOT IMPLEMENTED ON ZABBIX SIDE '''
             if item[0].startswith(self.status_prefix):
@@ -1141,7 +1143,7 @@ class MysqlServer(object):
             self.server = server
             self.status_prefix="Server_audit_"
 
-        def filter_status(self, item):
+        def _filter_status(self, item):
             return (False, False)
             ''' NOT IMPLEMENTED ON ZABBIX SIDE '''
             if item[0].startswith(self.status_prefix):
@@ -1162,55 +1164,13 @@ class MysqlServer(object):
             self.server = server
             self.status_prefix="Spider_"
 
-        def filter_status(self, item):
+        def _filter_status(self, item):
             return (False, False)
             ''' NOT IMPLEMENTED ON ZABBIX SIDE '''
             if item[0].startswith(self.status_prefix):
                 key=item[0].replace(self.status_prefix,'')
                 return (key, item[1])
             return (False, False)
-
-    ''' MysqlServer class '''
-    def __init__(self, user_name='guest', password='guest',
-                 host_name='', port=3306, database='mysql'):
-        self.config = {
-          'user': user_name,
-          'password': password,
-          'host': host_name,
-          'database': database
-        }
-        ''' Initialize connection'''
-        self.cnx = mysql.connector.connect(**self.config)
-        ''' Initialize sub-classes '''
-        self.replication = self.Replication(self)
-        self.plugins = {
-            'galera' : self.Galera(self),
-            'innodb' : self.Innodb(self),
-            'aria' : self.Aria(self),
-            'cassandra' : self.Cassandra(self),
-            'tokudb' : self.Tokudb(self),
-            'sphinx' : self.Sphinx(self),
-            'serveraudit' : self.ServerAudit(self),
-            'spider' : self.Spider(self)
-        }
-        self.galera = self.Galera(self)
-        self.innodb = self.Innodb(self)
-        self.aria = self.Aria(self)
-        self.cassandra = self.Cassandra(self)
-        self.tokudb = self.Tokudb(self)
-        self.sphinx = self.Sphinx(self)
-        self.serveraudit = self.ServerAudit(self)
-        self.spider = self.Spider(self)
-        ''' Initialize variables '''
-        self.repl_discovery_key = 'mysql.server.replication.discovery'
-        self.galera_discovery_key = 'mysql.server.plugins[galera,discovery]'
-        self.innodb_discovery_key = 'mysql.server.plugins[innodb,discovery]'
-        self.aria_discovery_key = 'mysql.server.plugins[aria,discovery]'
-        self.cassandra_discovery_key = 'mysql.server.plugins[cassandra,discovery]'
-        self.tokudb_discovery_key = 'mysql.server.plugins[tokudb,discovery]'
-        self.sphinx_discovery_key = 'mysql.server.plugins[sphinx,discovery]'
-        self.serveraudit_discovery_key = 'mysql.server.plugins[serveraudit,discovery]'
-        self.spider_discovery_key = 'mysql.server.plugins[spider,discovery]'
 
     def __del__(self):
         self.cnx.close()
@@ -1233,20 +1193,20 @@ class MysqlServer(object):
 
         return enabled_engines
 
-    def filter_status(self,item):
+    def _filter_status(self,item):
         key=item[0].lower()
         if key in status_bl:
             return(False, False)
         return (key, item[1])
 
     ''' Global function to get 'show status' items '''
-    def get_status(self):
+    def _get_status(self):
         global_status = {}
         cursor = self.cnx.cursor()
         cursor.execute("SHOW GLOBAL STATUS")
         for status_item in cursor:
             ''' Filter Global status '''
-            (key, value) = self.filter_status(status_item)
+            (key, value) = self._filter_status(status_item)
             if key and value:
                 if value in MYSQL_INNODB_MAPPING:
                     value = MYSQL_INNODB_MAPPING[value]
@@ -1260,7 +1220,7 @@ class MysqlServer(object):
                 prefix = plugin.status_prefix
                 if status_item[0].startswith(prefix):
                     ''' Filter Innodb results '''
-                    (key, value) = plugin.filter_status(status_item)
+                    (key, value) = plugin._filter_status(status_item)
                     if key and value:
                         global_status[plugin_name][key] = value
                     ''' unset global status key if belong to plugin '''
@@ -1270,7 +1230,7 @@ class MysqlServer(object):
         return global_status
 
     ''' Global function to get LLD data '''
-    def get_discovery(self):
+    def _get_discovery(self):
         data = {
             self.repl_discovery_key:[],
         }
@@ -1280,11 +1240,11 @@ class MysqlServer(object):
             data['mysql.server.plugins['+engine+',discovery]'] = [{'{#MYSQLACTIVEPLUGIN}': engine}]
 
         ''' Galera is not a storage engine '''
-        if self.galera.is_enabled():
+        if self.galera._is_enabled():
             data['mysql.server.plugins[galera,discovery]'] = [{'{#MYSQLACTIVEPLUGIN}': 'galera'}]
 
         ''' Perform replication LLD ops '''
-        for replication in self.replication.get_status():
+        for replication in self.replication._get_status():
             replication_name=replication['connection_name']
             if(replication['connection_name']==""):
                 replication_name=replication['master_host']
@@ -1293,11 +1253,11 @@ class MysqlServer(object):
         return data
 
     ''' Global function to get items data '''
-    def get_metrics(self):
+    def _get_metrics(self):
         data = {}
         ''' Check Replication status
             Compatible with multi-source replication '''
-        replication_list=self.replication.get_status()
+        replication_list=self.replication._get_status()
         zbx_key = "mysql.server.replication.sources"
         data[zbx_key] = len(replication_list)
         for replication in replication_list:
@@ -1327,6 +1287,8 @@ class MysqlServer(object):
                         'seconds_behind_master']:
             zbx_key = "mysql.server.replication[{0},{1}]"
             zbx_key = zbx_key.format(replication_name, item)
+            if replication[item] == None:
+              replication[item] = 0
             data[zbx_key] = replication[item]
 
         ''' Check Innodb status '''
@@ -1342,7 +1304,7 @@ class MysqlServer(object):
                     data[zbx_key]=innodb_status[key][subkey]
         '''
 
-        global_status = self.get_status()
+        global_status = self._get_status()
         for plugin in global_status:
             if type(global_status[plugin]) is dict:
                 ''' Plugins status informations '''
@@ -1361,111 +1323,155 @@ class MysqlServer(object):
                 zbx_key=zbx_key.format(plugin)
                 data[zbx_key]=global_status[plugin]
 
-        data["mysql.server.zbx_version"] = __version__
+        data["mysql.server.zbx_version"] = self.__version__
         self.cnx.close()
         return data
 
-def parse_args():
-    ''' Parse the script arguments'''
-    parser = optparse.OptionParser()
+    def _parse_args(self):
+        ''' Parse the script arguments'''
+        parser = optparse.OptionParser()
 
-    parser.add_option("-d", "--dry", action="store_true",
-                          help="Performs MySQL calls but do not send "
-                               "anything to the Zabbix server. Can be used "
-                               "for both Update & Discovery mode")
-    parser.add_option("-D", "--debug", action="store_true",
-                      help="Enable debug mode. This will prevent bulk send "
-                           "operations and force sending items one after the "
-                           "other, displaying result for each one")
-    parser.add_option("-v", "--verbose", action="store_true",
-                      help="When used with debug option, will force value "
-                           "display for each items managed. Beware that it "
-                           "can be pretty too much verbose, specialy for LLD")
+        parser.add_option("-d", "--dry", action="store_true",
+                              help="Performs MySQL calls but do not send "
+                                   "anything to the Zabbix server. Can be used "
+                                   "for both Update & Discovery mode")
+        parser.add_option("-D", "--debug", action="store_true",
+                          help="Enable debug mode. This will prevent bulk send "
+                               "operations and force sending items one after the "
+                               "other, displaying result for each one")
+        parser.add_option("-v", "--verbose", action="store_true",
+                          help="When used with debug option, will force value "
+                               "display for each items managed. Beware that it "
+                               "can be pretty too much verbose, specialy for LLD")
 
-    mode_group = optparse.OptionGroup(parser, "Program Mode")
-    mode_group.add_option("--update-items", action="store_const",
-                          dest="mode", const="update_items",
-                          help="Get & send items to Zabbix. This is the default "
-                               "behaviour even if option is not specified")
-    mode_group.add_option("--discovery", action="store_const",
-                          dest="mode", const="discovery",
-                          help="If specified, will perform Zabbix Low Level "
-                               "Discovery on MySQL. "
-                               "Default is to get & send items")
-    parser.add_option_group(mode_group)
-    parser.set_defaults(mode="update_items")
+        mode_group = optparse.OptionGroup(parser, "Program Mode")
+        mode_group.add_option("--update-items", action="store_const",
+                              dest="mode", const="update_items",
+                              help="Get & send items to Zabbix. This is the default "
+                                   "behaviour even if option is not specified")
+        mode_group.add_option("--discovery", action="store_const",
+                              dest="mode", const="discovery",
+                              help="If specified, will perform Zabbix Low Level "
+                                   "Discovery on MySQL. "
+                                   "Default is to get & send items")
+        parser.add_option_group(mode_group)
+        parser.set_defaults(mode="update_items")
 
-    general_options = optparse.OptionGroup(parser, "MySQL Configuration")
-    general_options.add_option("-H", "--host", metavar="HOST", default="localhost",
-                               help="MySQL server hostname")
-    general_options.add_option("-p", "--port", help="MySQL server  port", default=15672)
-    general_options.add_option('--username', help='MySQL server username',
-                      default='zabbix')
-    general_options.add_option('--password', help='MySQL server password',
-                      default='zabbix')
-    general_options.add_option('--database', help='MySQL server database',
-                      default='mysql')
-    parser.add_option_group(general_options)
+        general_options = optparse.OptionGroup(parser, "MySQL Configuration")
+        general_options.add_option("-H", "--host", metavar="HOST", default="localhost",
+                                   help="MySQL server hostname")
+        general_options.add_option("-p", "--port", help="MySQL server  port", default=15672)
+        general_options.add_option('--username', help='MySQL server username',
+                          default='zabbix')
+        general_options.add_option('--password', help='MySQL server password',
+                          default='zabbix')
+        general_options.add_option('--database', help='MySQL server database',
+                          default='mysql')
+        parser.add_option_group(general_options)
 
-    polling_options = optparse.OptionGroup(parser, "Zabbix configuration")
-    polling_options.add_option("--zabbix-server", metavar="HOST",
-                               default="localhost",
-                               help="The hostname of Zabbix server or "
-                                    "proxy, default is localhost.")
-    polling_options.add_option("--zabbix-port", metavar="PORT", default=10051,
-                               help="The port on which the Zabbix server or "
-                                    "proxy is running, default is 10051.")
-    parser.add_option_group(polling_options)
+        polling_options = optparse.OptionGroup(parser, "Zabbix configuration")
+        polling_options.add_option("--zabbix-server", metavar="HOST",
+                                   default="localhost",
+                                   help="The hostname of Zabbix server or "
+                                        "proxy, default is localhost.")
+        polling_options.add_option("--zabbix-port", metavar="PORT", default=10051,
+                                   help="The port on which the Zabbix server or "
+                                        "proxy is running, default is 10051.")
+        parser.add_option_group(polling_options)
 
-    (options, args) = parser.parse_args()
+        return parser.parse_args()
 
-    return (options, args)
+    def _init_container(self):
+        zbx_container = protobix.DataContainer(
+            data_type = 'items',
+            zbx_host  = self.options.zabbix_server,
+            zbx_port  = int(self.options.zabbix_port),
+            debug     = self.options.debug,
+            dryrun    = self.options.dry
+        )
+        return zbx_container
 
-def main():
+    def run(self):
+        (self.options, args) = self._parse_args()
+        if self.options.host == 'localhost':
+            hostname = socket.getfqdn()
+        else:
+            hostname = self.options.host
 
-    (options, args) = parse_args()
-    if options.host == 'localhost':
-        hostname = socket.getfqdn()
-    else:
-        hostname = options.host
+        # Step 1: init container
+        try:
+            zbx_container = self._init_container()
+            self.config = {
+              'user': self.options.username,
+              'password': self.options.password,
+              'host': self.options.host,
+              'database': self.options.database
+            }
+            ''' Initialize connection'''
+            self.cnx = mysql.connector.connect(**self.config)
+            ''' Initialize sub-classes '''
+            self.replication = self.Replication(self)
+            self.plugins = {
+                'galera' : self.Galera(self),
+                'innodb' : self.Innodb(self),
+                'aria' : self.Aria(self),
+                'cassandra' : self.Cassandra(self),
+                'tokudb' : self.Tokudb(self),
+                'sphinx' : self.Sphinx(self),
+                'serveraudit' : self.ServerAudit(self),
+                'spider' : self.Spider(self)
+            }
+            self.galera = self.Galera(self)
+            self.innodb = self.Innodb(self)
+            self.aria = self.Aria(self)
+            self.cassandra = self.Cassandra(self)
+            self.tokudb = self.Tokudb(self)
+            self.sphinx = self.Sphinx(self)
+            self.serveraudit = self.ServerAudit(self)
+            self.spider = self.Spider(self)
+            ''' Initialize variables '''
+            self.repl_discovery_key = 'mysql.server.replication.discovery'
+            self.galera_discovery_key = 'mysql.server.plugins[galera,discovery]'
+            self.innodb_discovery_key = 'mysql.server.plugins[innodb,discovery]'
+            self.aria_discovery_key = 'mysql.server.plugins[aria,discovery]'
+            self.cassandra_discovery_key = 'mysql.server.plugins[cassandra,discovery]'
+            self.tokudb_discovery_key = 'mysql.server.plugins[tokudb,discovery]'
+            self.sphinx_discovery_key = 'mysql.server.plugins[sphinx,discovery]'
+            self.serveraudit_discovery_key = 'mysql.server.plugins[serveraudit,discovery]'
+            self.spider_discovery_key = 'mysql.server.plugins[spider,discovery]'
+        except:
+            return 1
 
-    try:
-        obj = MysqlServer(user_name=options.username,
-                          password=options.password,
-                          host_name=options.host,
-                          port=options.port,
-                          database=options.database)
-    except:
-        return 1
+        # Step 2: get data
+        try:
+            data = {}
+            if self.options.mode == "update_items":
+                zbx_container.set_type("items")
+                data[hostname] = self._get_metrics()
 
-    zbx_container = protobix.DataContainer()
-    data = {}
-    if options.mode == "update_items":
-        zbx_container.set_type("items")
-        data[hostname] = obj.get_metrics()
+            elif self.options.mode == "discovery":
+                zbx_container.set_type("lld")
+                data[hostname] = self._get_discovery()
+        except:
+            return 2
 
-    elif options.mode == "discovery":
-        zbx_container.set_type("lld")
-        data[hostname] = obj.get_discovery()
+        # Step 3: format & load data into container
+        try:
+            zbx_container.add(data)
+        except:
+            return 3
 
-    zbx_container.add(data)
-    zbx_container.set_host(options.zabbix_server)
-    zbx_container.set_port(int(options.zabbix_port))
-    zbx_container.set_debug(options.debug)
-    zbx_container.set_verbosity(options.verbose)
-    zbx_container.set_dryrun(options.dry)
-
-    try:
-        zbx_response = zbx_container.send(zbx_container)
-
-    except protobix.SenderException as zbx_exception:
-        if options.debug:
-            print ZBX_CONN_ERR % zbx_exception.err_text
-        return 2
-
-    else:
+        # Step 4: send container data to Zabbix server
+        try:
+            zbx_container.send(zbx_container)
+        except protobix.SenderException as zbx_e:
+            if self.options.debug:
+                print self.ZBX_CONN_ERR % zbx_e.err_text
+            return 4
+        # Everything went fine. Let's return 0 and exit
         return 0
 
 if __name__ == '__main__':
-    ret = main()
+    ret = MysqlServer().run()
     print ret
+    sys.exit(ret)
