@@ -100,7 +100,6 @@ def get_metrics(hostname):
                ('object[num]', 'MAIN.n_object'),
                ('ban[count]', 'MAIN.bans'),
                ('ban[completed]', 'MAIN.bans_completed')]
-
     for (key, metric) in metrics:
         data[hostname]["varnish.%s"%key] = stats[metric]['value']
 
@@ -149,4 +148,3 @@ def main():
 if __name__ == "__main__":
     ret = main()
     print ret
-

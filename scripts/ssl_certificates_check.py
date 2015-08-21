@@ -10,22 +10,47 @@ import socket
 import ssl
 from datetime import datetime
 
-__version__ = '0.0.1'
 CA_CERTS = "/etc/ssl/certs/ca-certificates.crt"
 
-class SSLEndpointCheck(object):
+class SSLEndpointCheck(protobix.DataContainer):
 
-    def __init__(self,conf='/tc/zabbix/ssl_certificates_check.yaml'):
+    __version__ = '0.0.8'
+    ZBX_CONN_ERR = 'ERR - unable to send data to Zabbix [%s]'
+
+    def run(self, conf='/etc/zabbix/ssl_certificates_check.yaml'):
+        ''' parse command line options '''
+        (options, args) = self._parse_args()
+        hostname = socket.getfqdn()
+
         ''' Load config file '''
         with open(conf, 'r') as f:
           config = yaml.load(f)
         self.endpoints = config['endpoints']
 
-    def exit_error(self, errcode, errtext):
-        print errtext
-        exit(errcode)
+        data = {}
+        if options.mode == "update_items":
+            self.data_type = 'items'
+            data[hostname] = self._get_metrics()
+        elif self.options.mode == "discovery":
+            data_type = 'lld'
+            data[hostname] = self._get_discovery()
 
-    def check_expiration(self, cert):
+        self.add(data)
+        self.zbx_host = options.zabbix_server
+        self.zbx_port = int(options.zabbix_port)
+        self.debug = options.debug
+        self.dryrun = options.dry
+
+        try:
+            zbx_response = self.send()
+        except protobix.SenderException as zbx_exception:
+            if self.debug:
+                print self.ZBX_CONN_ERR % zbx_exception.err_text
+            return 2
+        else:
+            return 0
+
+    def _check_expiration(self, cert):
         ''' Return the numbers of day before expiration. False if expired. '''
         if 'notAfter' in cert:
             try:
@@ -39,10 +64,10 @@ class SSLEndpointCheck(object):
             else:
                 return False
 
-    def get_certificate(self, HOST, PORT=443):
+    def _get_certificate(self, host, port=443):
         # Connect to the host and get the certificate
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((HOST, PORT))
+        sock.connect((host, port))
         ssl_sock = ssl.wrap_socket(sock, cert_reqs=ssl.CERT_REQUIRED,
                                    ca_certs=CA_CERTS)
         cert = ssl_sock.getpeercert()
@@ -50,12 +75,12 @@ class SSLEndpointCheck(object):
         sock.close()
         return cert
 
-    def get_discovery(self):
-        discovery_data = { 'ssl.certificate.discovery': []}
-
+    def _get_discovery(self):
+        discovery_data = { 'ssl.certificate.discovery': [] }
         for endpoint in self.endpoints:
             try:
-                cert = self.get_certificate(endpoint, 443)
+                cert = self._get_certificate( host = endpoint,
+                                             port = 443 )
                 common_name = cert['subjectAltName'][0][1]
                 element = { '{#SSLCERTSERIAL}': common_name + endpoint,
                             '{#SSLCERTNAME}': common_name,
@@ -63,18 +88,18 @@ class SSLEndpointCheck(object):
                 discovery_data['ssl.certificate.discovery'].append(element)
             except:
                 pass
-
         return discovery_data
 
-    def get_metrics(self):
+    def _get_metrics(self):
         data = {}
         for endpoint in self.endpoints:
             try:
-                cert = self.get_certificate(endpoint, 443)
+                cert = self._get_certificate( host = endpoint,
+                                             port = 443 )
                 common_name = cert['subjectAltName'][0][1]
                 zbx_key = "ssl.certificate.expires_in_days[{0},{1}]"
                 zbx_key = zbx_key.format(common_name, endpoint)
-                data[zbx_key] = self.check_expiration(cert)
+                data[zbx_key] = self._check_expiration(cert)
 
                 zbx_key = "ssl.certificate.check_status[{0}]"
                 zbx_key = zbx_key.format(endpoint)
@@ -84,85 +109,53 @@ class SSLEndpointCheck(object):
                 zbx_key = zbx_key.format(endpoint)
                 data[zbx_key] = 0
                 pass
-        data['ssl.certificate.zbx_version'] = __version__
-
+        data['ssl.certificate.zbx_version'] = self.__version__
         return data
 
-def parse_args():
-    ''' Parse the script arguments'''
-    parser = optparse.OptionParser()
+    def _parse_args(self):
+        ''' Parse the script arguments'''
+        parser = optparse.OptionParser()
+        # Parse the script arguments
+        # Common part
+        parser = optparse.OptionParser()
 
-    parser.add_option("-d", "--dry", action="store_true",
-                          help="Performs SSL certificates checks but do not send "
-                               "anything to the Zabbix server. Can be used "
-                               "for both Update & Discovery mode")
-    parser.add_option("-D", "--debug", action="store_true",
-                      help="Enable debug mode. This will prevent bulk send "
-                           "operations and force sending items one after the "
-                           "other, displaying result for each one")
-    parser.add_option("-v", "--verbose", action="store_true",
-                      help="When used with debug option, will force value "
-                           "display for each items managed. Beware that it "
-                           "can be pretty too much verbose, specialy for LLD")
+        parser.add_option(
+            '-d', '--dry', action='store_true', default = False,
+            help='Performs SSL certificates checks but do not send '
+                 'anything to the Zabbix server. Can be used '
+                 'for both Update & Discovery mode')
+        parser.add_option(
+            '-D', '--debug', action='store_true', default = False,
+            help='Enable debug mode. This will prevent bulk send '
+                 'operations and force sending items one after the '
+                 'other, displaying result for each one')
 
-    mode_group = optparse.OptionGroup(parser, "Program Mode")
-    mode_group.add_option("--update-items", action="store_const",
-                          dest="mode", const="update_items",
-                          help="Get & send items to Zabbix. This is the default "
-                               "behaviour even if option is not specified")
-    mode_group.add_option("--discovery", action="store_const",
-                          dest="mode", const="discovery",
-                          help="If specified, will perform Zabbix Low Level "
-                               "Discovery against domain names to check. "
-                               "Default is to get & send items")
-    parser.add_option_group(mode_group)
-    parser.set_defaults(mode="update_items")
+        zabbix_options = optparse.OptionGroup(parser, 'Zabbix configuration')
+        zabbix_options.add_option(
+            '--zabbix-server', metavar='HOST', default='127.0.0.1',
+            help='The hostname of Zabbix server or '
+                 'proxy, default is 127.0.0.1.')
+        zabbix_options.add_option(
+            '--zabbix-port', metavar='PORT', default=10051,
+            help='The port on which the Zabbix server or '
+                 'proxy is running, default is 10051.')
+        zabbix_options.add_option(
+            '--update-items', action='store_const',
+            dest='mode', const='update_items',
+            help='Get & send items to Zabbix. This is the default '
+                 'behaviour even if option is not specified')
+        zabbix_options.add_option(
+            '--discovery', action='store_const',
+            dest='mode', const='discovery',
+            help='If specified, will perform Zabbix Low Level '
+                 'Discovery against domain names to check')
+        parser.add_option_group(zabbix_options)
+        parser.set_defaults(mode='update_items')
 
-    polling_options = optparse.OptionGroup(parser, "Zabbix configuration")
-    polling_options.add_option("--zabbix-server", metavar="HOST",
-                               default="localhost",
-                               help="The hostname of Zabbix server or "
-                                    "proxy, default is localhost.")
-    polling_options.add_option("--zabbix-port", metavar="PORT", default=10051,
-                               help="The port on which the Zabbix server or "
-                                    "proxy is running, default is 10051.")
-    parser.add_option_group(polling_options)
+        (options, args) = parser.parse_args()
 
-    (options, args) = parser.parse_args()
-
-    return (options, args)
-
-def main():
-    (options, args) = parse_args()
-    hostname = socket.getfqdn()
-
-    ssl_check = SSLEndpointCheck(conf='/etc/zabbix/ssl_certificates_check.yaml')
-
-    zbx_container = protobix.DataContainer()
-    data = {}
-    if options.mode == "update_items":
-        zbx_container.set_type("items")
-        data[hostname] = ssl_check.get_metrics()
-    elif options.mode == "discovery":
-        zbx_container.set_type("lld")
-        data[hostname] = ssl_check.get_discovery()
-
-    zbx_container.add(data)
-    zbx_container.set_host(options.zabbix_server)
-    zbx_container.set_port(int(options.zabbix_port))
-    zbx_container.set_debug(options.debug)
-    zbx_container.set_verbosity(options.verbose)
-    zbx_container.set_dryrun(options.dry)
-
-    try:
-        zbx_response = zbx_container.send(zbx_container)
-    except protobix.SenderException as zbx_exception:
-        if options.debug:
-            print ZBX_CONN_ERR % zbx_exception.err_text
-        return 2
-    else:
-        return 0
+        return (options, args)
 
 if __name__ == '__main__':
-    ret = main()
+    ret = SSLEndpointCheck().run(conf='ssl_certificates_check.yaml')
     print ret
