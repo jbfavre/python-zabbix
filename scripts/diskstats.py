@@ -10,6 +10,11 @@ class DiskStats(protobix.SampleProbe):
 
     discovery_key = 'diskstats.discovery'
 
+    def _parse_args(self):
+        parser = super( DiskStats, self)._parse_args()
+        (options, args) = parser.parse_args()
+        return (options, args)
+
     def _diskstats_parse(self, dev=None):
         file_path = '/proc/diskstats'
         result = {}
@@ -41,14 +46,17 @@ class DiskStats(protobix.SampleProbe):
             result[data['dev']] = data
         return result
 
-    def _get_discovery(self):
+    def _init_probe(self):
+        pass
+
+    def _get_discovery(self, hostname):
         data = {self.discovery_key:[]}
         for disk in ['sda', 'sdb', 'sdc', 'sdd']:
             element = { '{#DISKNAME}': disk }
             data[self.discovery_key].append(element)
-        return data
+        return {hostname: data}
 
-    def _get_metrics(self):
+    def _get_metrics(self, hostname):
         data = {}
         for disk in ['sda', 'sdb', 'sdc', 'sdd']:
             diskstat = self._diskstats_parse(disk)
@@ -58,7 +66,7 @@ class DiskStats(protobix.SampleProbe):
                     zbx_key = zbx_key.format(disk, key)
                     data[zbx_key] = diskstat[disk][key]
         data["diskstats.zbx_version"] = self.__version__
-        return data
+        return {hostname: data}
 
 if __name__ == '__main__':
     ret = DiskStats().run()
