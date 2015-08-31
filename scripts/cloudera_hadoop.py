@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 ''' Copyright (c) 2013 Jean Baptiste Favre.
     Sample script for Zabbix integration with Cloudera Manager via the CM API.
 '''
@@ -27,291 +26,263 @@ from cm_api.endpoints.roles import get_all_roles
 
 import protobix
 
-class ClouderaHadoop(object):
+class ClouderaHadoop(protobix.SampleProbe):
 
-    __version__ = '0.0.8'
+    __version__="0.0.9"
     CM_API_VERSION = 5
-    CM_COMMISSION_MAPPING = { "UNKNOWN": -1,
-                              "COMMISSIONED": 0,
-                              "DECOMMISSIONING": 1,
-                              "DECOMMISSIONED": 2 }
-    CM_HEALTH_MAPPING = { "HISTORY_NOT_AVAILABLE": -1,
-                        "NOT_AVAILABLE": -1,
-                        "DISABLED": -1,
-                        "GOOD": 0,
-                        "CONCERNING": 1,
-                        "BAD": 2 }
-    CM_SERVICE_MAPPING = { "HISTORY_NOT_AVAILABLE": -1,
-                           "UNKNOWN": -1,
-                           "STARTING": 0,
-                           "STARTED": 0,
-                           "STOPPING": 1,
-                           "STOPPED": 1,
-                           "NA": 0 }
-    CM_BOOLEAN_MAPPING = { "False": 0,
-                           "True": 1 }
-
-    ZBX_CONN_ERR = "ERR - unable to send data to Zabbix [%s]"
+    CM_COMMISSION_MAPPING = { 'UNKNOWN': -1,
+                              'COMMISSIONED': 0,
+                              'DECOMMISSIONING': 1,
+                              'DECOMMISSIONED': 2 }
+    CM_HEALTH_MAPPING = { 'HISTORY_NOT_AVAILABLE': -1,
+                          'NOT_AVAILABLE': -1,
+                          'DISABLED': -1,
+                          'GOOD': 0,
+                          'CONCERNING': 1,
+                          'BAD': 2 }
+    CM_SERVICE_MAPPING = { 'HISTORY_NOT_AVAILABLE': -1,
+                           'UNKNOWN': -1,
+                           'STARTING': 0,
+                           'STARTED': 0,
+                           'STOPPING': 1,
+                           'STOPPED': 1,
+                           'NA': 0 }
+    CM_BOOLEAN_MAPPING = { 'False': 0,
+                           'True': 1 }
 
     def _parse_args(self):
-        ''' Parse the script arguments
-        '''
-        parser = optparse.OptionParser()
+        # Parse the script arguments
+        # Common part
+        parser = super( ClouderaHadoop, self)._parse_args()
 
-        parser.add_option("-d", "--dry", action="store_true",
-                              help="Performs CDH API calls but do not send "
-                                   "anything to the Zabbix server. Can be used "
-                                   "for both Update & Discovery mode")
-        parser.add_option("-D", "--debug", action="store_true",
-                          help="Enable debug mode. This will prevent bulk send "
-                               "operations and force sending items one after the "
-                               "other, displaying result for each one")
-        parser.add_option("-v", "--verbose", action="store_true",
-                          help="When used with debug option, will force value "
-                               "display for each items managed. Beware that it "
-                               "can be pretty too much verbose, specialy for LLD")
-
-        mode_group = optparse.OptionGroup(parser, "Program Mode")
-        mode_group.add_option("--update-items", action="store_const",
-                              dest="mode", const="update_items",
-                              help="Get & send items to Zabbix. This is the default "
-                                   "behaviour even if option is not specified")
-        mode_group.add_option("--discovery", action="store_const",
-                              dest="mode", const="discovery",
-                              help="If specified, will perform Zabbix Low Level "
-                                   "Discovery on Hadoop Cloudera Manager API. "
-                                   "Default is to get & send items")
-        parser.add_option_group(mode_group)
-        parser.set_defaults(mode="update_items")
-
-        general_options = optparse.OptionGroup(parser, "Hadoop Cloudera Manager API Configuration")
-        general_options.add_option("-H", "--host", metavar="HOST", default="localhost",
-                                   help="Hadoop Cloudera Manager API hostname")
-        general_options.add_option("-p", "--port", help="CM API port", default=None)
-        general_options.add_option("-P", "--passfile", metavar="FILE",
-                                   help="File containing Hadoop Cloudera Manager API username "
-                                        "and password, colon-delimited on a single line.  E.g. "
-                                        "\"user:pass\"")
-        general_options.add_option("--use-tls", action="store_true",
-                                   help="If specified, force TLS use. Default is NO", default=False)
-        parser.add_option_group(general_options)
-
-        polling_options = optparse.OptionGroup(parser, "Zabbix configuration")
-        polling_options.add_option("--zabbix-server", metavar="HOST",
-                                   default="localhost",
-                                   help="The hostname of Zabbix server or "
-                                        "proxy, default is localhost.")
-        polling_options.add_option("--zabbix-port", metavar="PORT", default=10051,
-                                   help="The port on which the Zabbix server or "
-                                        "proxy is running, default is 10051.")
-        parser.add_option_group(polling_options)
+        # Cloudera Manager API options
+        cmapi_options = optparse.OptionGroup(parser, 'Hadoop Cloudera Manager API Configuration')
+        cmapi_options.add_option('-H', '--host', metavar='HOST', default='127.0.0.1',
+                                 help='Hadoop Cloudera Manager API hostname')
+        cmapi_options.add_option('-P', '--port', default = None,
+                                 help='Hadoop Cloudera Manager API port')
+        cmapi_options.add_option('--use-tls', action='store_true', default = False,
+                                 help='If specified, force TLS use. Default is NO')
+        parser.add_option_group(cmapi_options)
 
         (options, args) = parser.parse_args()
-
-        ''' Parse the 'passfile' - it must contain the username and password,
-            colon-delimited on a single line. E.g.:
-            $ cat ~/protected/cm_pass
-            admin:admin
-        '''
-        required = ["host", "passfile"]
-
-        if options.mode == "update_items":
-            required.append("zabbix_server")
-
+        required = ['host', 'config']
         for required_opt in required:
             if getattr(options, required_opt) is None:
                 parser.error("Please specify the required argument: --%s" %
                              (required_opt.replace('_','-'),))
-
         return (options, args)
 
-    def _get_discovery(self, cdh_api, mgmt_hostname):
-        discovery_data = {}
+    def _init_probe(self):
+        if self.options.host == 'localhost':
+            self.hostname = socket.getfqdn()
+        else:
+            self.hostname = self.options.host
 
-        for cluster in cdh_api.get_all_clusters():
+        try:
+            (username, password) = open(self.options.config, 'r').readline().rstrip('\n').split(':')
+        except:
+            print >> sys.stderr, "Unable to read username and password from file '%s'. "
+            "Make sure the file is readable and contains a single line of "
+            "the form \"<username>:<password>\"" % self.options.config
 
-            for instance in cluster.list_hosts():
-                host = cdh_api.get_host(instance.hostId)
-                discovery_data[host.hostname] = { "hadoop.cm.cluster.discovery":[],
-                                                  "hadoop.cm.cluster.check.discovery":[],
-                                                  "hadoop.cm.host.discovery":[],
-                                                  "hadoop.cm.host.check.discovery":[],
-                                                  "hadoop.cm.role.discovery":[],
-                                                  "hadoop.cm.role.check.discovery":[],
-                                                  "hadoop.cm.service.discovery":[],
-                                                  "hadoop.cm.service.check.discovery":[] }
+        self.cdh_api = get_root_resource(
+            self.options.host,
+            self.options.port,
+            username,
+            password,
+            self.options.use_tls,
+            self.CM_API_VERSION
+        )
+        return {'username': username, 'password': password}
 
-                host_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name) }
-                discovery_data[host.hostname]["hadoop.cm.host.discovery"].append(host_list)
-
-                for check in host.healthChecks:
-                    check_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
-                                  "{#HDPHOSTCHECKNAME}": ("%s" % check['name'].lower()) }
-                    discovery_data[host.hostname]["hadoop.cm.host.check.discovery"].append(check_list)
-
-            for service in cluster.get_all_services(view="full"):
-                service_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
-                                "{#HDPSERVICENAME}": ("%s" % service.type.lower()) }
-                discovery_data[mgmt_hostname]["hadoop.cm.service.discovery"].append(service_list)
-
-                for check in service.healthChecks:
-                    check_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
-                                  "{#HDPSERVICENAME}": ("%s" % service.type.lower()),
-                                  "{#HDPSERVICECHECKNAME}": ("%s" % check['name'].lower()) }
-                    discovery_data[mgmt_hostname]["hadoop.cm.service.check.discovery"].append(check_list)
-
-                for role in service.get_all_roles(view="full"):
-                    host = cdh_api.get_host(instance.hostId)
-                    role_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
-                                 "{#HDPSERVICENAME}": ("%s" % service.type.lower()),
-                                 "{#HDPROLENAME}": ("%s" % role.type.lower()) }
-                    discovery_data[host.hostname]["hadoop.cm.role.discovery"].append(role_list)
-
-                    for check in role.healthChecks:
-                        check_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
-                                      "{#HDPSERVICENAME}": ("%s" % service.type.lower()),
-                                      "{#HDPROLENAME}": ("%s" % role.type.lower()),
-                                      "{#HDPROLECHECKNAME}": ("%s" % check['name'].lower()) }
-                        discovery_data[host.hostname]["hadoop.cm.role.check.discovery"].append(check_list)
-
-            cluster_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name) }
-            discovery_data[mgmt_hostname]["hadoop.cm.cluster.discovery"].append(cluster_list)
-
-        mgmt_service = cdh_api.get_cloudera_manager().get_service()
-        service_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
-                        "{#HDPSERVICENAME}": ("%s" % mgmt_service.type.lower()) }
-        discovery_data[mgmt_hostname]["hadoop.cm.service.discovery"].append(service_list)
-
-        for check in mgmt_service.healthChecks:
-            check_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name),
-                          "{#HDPSERVICENAME}": ("%s" % mgmt_service.type.lower()),
-                          "{#HDPSERVICECHECKNAME}": ("%s" % check['name'].lower()) }
-            discovery_data[mgmt_hostname]["hadoop.cm.service.check.discovery"].append(check_list)
-
-        return discovery_data
-
-    def _get_metrics(self, cdh_api, mgmt_hostname):
+    def _get_discovery(self, mgmt_hostname):
         data = {}
 
-        for cluster in cdh_api.get_all_clusters():
+        for cluster in self.cdh_api.get_all_clusters():
+            if not mgmt_hostname in data:
+                data[mgmt_hostname] = {
+                    'hadoop.cm.cluster.discovery': [],
+                    'hadoop.cm.cluster.check.discovery': [],
+                    'hadoop.cm.host.discovery': [],
+                    'hadoop.cm.host.check.discovery': [],
+                    'hadoop.cm.role.discovery': [],
+                    'hadoop.cm.role.check.discovery': [],
+                    'hadoop.cm.service.discovery': [],
+                    'hadoop.cm.service.check.discovery': []
+                }
+
+            for instance in cluster.list_hosts():
+                host = self.cdh_api.get_host(instance.hostId)
+                data[host.hostname] = {
+                    'hadoop.cm.cluster.discovery': [],
+                    'hadoop.cm.cluster.check.discovery': [],
+                    'hadoop.cm.host.discovery': [],
+                    'hadoop.cm.host.check.discovery': [],
+                    'hadoop.cm.role.discovery': [],
+                    'hadoop.cm.role.check.discovery': [],
+                    'hadoop.cm.service.discovery': [],
+                    'hadoop.cm.service.check.discovery': []
+                }
+
+                host_list = {'{#HDPCLUSTERNAME}': ("%s" % cluster.name) }
+                key = 'hadoop.cm.host.discovery'
+                data[host.hostname][key].append(host_list)
+
+                for check in host.healthChecks:
+                    check_list = {
+                        '{#HDPCLUSTERNAME}': ("%s" % cluster.name),
+                        '{#HDPHOSTCHECKNAME}': ("%s" % check['name'].lower())
+                    }
+                    key = 'hadoop.cm.host.check.discovery'
+                    data[host.hostname][key].append(check_list)
+
+            for service in cluster.get_all_services(view="full"):
+                service_list = {
+                    '{#HDPCLUSTERNAME}': ("%s" % cluster.name),
+                    '{#HDPSERVICENAME}': ("%s" % service.type.lower())
+                }
+                key = 'hadoop.cm.service.discovery'
+                data[mgmt_hostname][key].append(service_list)
+
+                for check in service.healthChecks:
+                    check_list = {
+                        '{#HDPCLUSTERNAME}': ("%s" % cluster.name),
+                        '{#HDPSERVICENAME}': ("%s" % service.type.lower()),
+                        '{#HDPSERVICECHECKNAME}': ("%s" % check['name'].lower())
+                    }
+                    key = 'hadoop.cm.service.check.discovery'
+                    data[mgmt_hostname][key].append(check_list)
+
+                for role in service.get_all_roles(view="full"):
+                    host = self.cdh_api.get_host(instance.hostId)
+                    role_list = {
+                        '{#HDPCLUSTERNAME}': ("%s" % cluster.name),
+                        '{#HDPSERVICENAME}': ("%s" % service.type.lower()),
+                        '{#HDPROLENAME}': ("%s" % role.type.lower())
+                    }
+                    key = 'hadoop.cm.role.discovery'
+                    data[host.hostname][key].append(role_list)
+
+                    for check in role.healthChecks:
+                        check_list = {
+                            '{#HDPCLUSTERNAME}': ("%s" % cluster.name),
+                            '{#HDPSERVICENAME}': ("%s" % service.type.lower()),
+                            '{#HDPROLENAME}': ("%s" % role.type.lower()),
+                            '{#HDPROLECHECKNAME}': ("%s" % check['name'].lower())
+                        }
+                        key = 'hadoop.cm.role.check.discovery'
+                        data[host.hostname][key].append(check_list)
+
+            cluster_list = {"{#HDPCLUSTERNAME}": ("%s" % cluster.name) }
+            key = 'hadoop.cm.cluster.discovery'
+            data[mgmt_hostname][key].append(cluster_list)
+
+        mgmt_service = self.cdh_api.get_cloudera_manager().get_service()
+        service_list = {
+            '{#HDPCLUSTERNAME}': ("%s" % cluster.name),
+            '{#HDPSERVICENAME}': ("%s" % mgmt_service.type.lower())
+        }
+        key = 'hadoop.cm.service.discovery'
+        data[mgmt_hostname][key].append(service_list)
+
+        for check in mgmt_service.healthChecks:
+            check_list = {
+                '{#HDPCLUSTERNAME}': ("%s" % cluster.name),
+                '{#HDPSERVICENAME}': ("%s" % mgmt_service.type.lower()),
+                '{#HDPSERVICECHECKNAME}': ("%s" % check['name'].lower())
+            }
+            key = 'hadoop.cm.service.check.discovery'
+            data[mgmt_hostname][key].append(check_list)
+
+        return data
+
+    def _get_metrics(self, mgmt_hostname):
+        data = {}
+
+        for cluster in self.cdh_api.get_all_clusters():
             if not mgmt_hostname in data:
                 data[mgmt_hostname] = {}
 
-            data[mgmt_hostname][("hadoop.cm.cluster[%s,version]" % cluster.name)] =  cluster.version
-            data[mgmt_hostname][("hadoop.cm.cluster[%s,maintenanceMode]" % cluster.name)] = self.CM_BOOLEAN_MAPPING[str(cluster.maintenanceMode)]
+            key = "hadoop.cm.cluster[%s,version]"
+            data[mgmt_hostname][(key % cluster.name)] =  cluster.version
+            key = "hadoop.cm.cluster[%s,maintenanceMode]"
+            data[mgmt_hostname][(key % cluster.name)] = self.CM_BOOLEAN_MAPPING[str(cluster.maintenanceMode)]
             for instance in cluster.list_hosts():
-                host = cdh_api.get_host(instance.hostId)
+                host = self.cdh_api.get_host(instance.hostId)
                 if not host.hostname in data:
                     data[host.hostname] = {}
 
-                data[host.hostname][("hadoop.cm.host[%s,maintenanceMode]" % cluster.name)] = self.CM_BOOLEAN_MAPPING[str(host.maintenanceMode)]
-                data[host.hostname][("hadoop.cm.host[%s,healthSummary]" % cluster.name)] = self.CM_HEALTH_MAPPING[str(host.healthSummary)]
-                data[host.hostname][("hadoop.cm.host[%s,commissionState]" % cluster.name)] = self.CM_COMMISSION_MAPPING[str(host.commissionState)]
+                key = "hadoop.cm.host[%s,maintenanceMode]"
+                data[host.hostname][( key % cluster.name)] = self.CM_BOOLEAN_MAPPING[str(host.maintenanceMode)]
+                key = "hadoop.cm.host[%s,healthSummary]"
+                data[host.hostname][(key % cluster.name)] = self.CM_HEALTH_MAPPING[str(host.healthSummary)]
+                key = "hadoop.cm.host[%s,commissionState]"
+                data[host.hostname][(key % cluster.name)] = self.CM_COMMISSION_MAPPING[str(host.commissionState)]
                 difference = datetime.now() - host.lastHeartbeat
                 differenceTotalSeconds = (difference.microseconds + (difference.seconds + difference.days*24*3600) * 1e6) / 1e6
-                data[host.hostname][("hadoop.cm.host[%s,lastHeartbeat]" % cluster.name)] = differenceTotalSeconds
+                key = "hadoop.cm.host[%s,lastHeartbeat]"
+                data[host.hostname][(key % cluster.name)] = differenceTotalSeconds
                 ''' Only works with Python 2.7
                    differenceTotalSeconds = (datetime.now() - host.lastHeartbeat).total_seconds()
                    data[host.hostname][("hadoop.cm.host[%s,lastHeartbeat]" % cluster.name)] = differenceTotalSeconds'''
                 for check in host.healthChecks:
-                    data[host.hostname][("hadoop.cm.host.check[%s,%s]" % (cluster.name, check['name'].lower()))] = self.CM_HEALTH_MAPPING[check['summary']]
+                    key = "hadoop.cm.host.check[%s,%s]"
+                    data[host.hostname][(key % (cluster.name, check['name'].lower()))] = self.CM_HEALTH_MAPPING[check['summary']]
 
             for service in cluster.get_all_services(view="full"):
-                data[mgmt_hostname][("hadoop.cm.service[%s,%s,serviceState]" % ( cluster.name, service.type.lower()))] = self.CM_SERVICE_MAPPING[service.serviceState]
-                data[mgmt_hostname][("hadoop.cm.service[%s,%s,healthSummary]" % ( cluster.name, service.type.lower()))] = self.CM_HEALTH_MAPPING[service.healthSummary]
-                data[mgmt_hostname][("hadoop.cm.service[%s,%s,configStale]" % ( cluster.name, service.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(service.configStale)]
-                data[mgmt_hostname][("hadoop.cm.service[%s,%s,maintenanceMode]" % ( cluster.name, service.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(service.maintenanceMode)]
+                key = "hadoop.cm.service[%s,%s,serviceState]"
+                data[mgmt_hostname][(key % ( cluster.name, service.type.lower()))] = self.CM_SERVICE_MAPPING[service.serviceState]
+                key = "hadoop.cm.service[%s,%s,healthSummary]"
+                data[mgmt_hostname][(key % ( cluster.name, service.type.lower()))] = self.CM_HEALTH_MAPPING[service.healthSummary]
+                key = "hadoop.cm.service[%s,%s,configStale]"
+                data[mgmt_hostname][(key % ( cluster.name, service.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(service.configStale)]
+                key = "hadoop.cm.service[%s,%s,maintenanceMode]"
+                data[mgmt_hostname][(key % ( cluster.name, service.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(service.maintenanceMode)]
 
                 for check in service.healthChecks:
-                    data[mgmt_hostname][("hadoop.cm.service.check[%s,%s,%s,checkSummary]" % ( cluster.name, service.type.lower(), check['name'].lower()))] = self.CM_HEALTH_MAPPING[check['summary']]
+                    key = "hadoop.cm.service.check[%s,%s,%s,checkSummary]"
+                    data[mgmt_hostname][(key % ( cluster.name, service.type.lower(), check['name'].lower()))] = self.CM_HEALTH_MAPPING[check['summary']]
 
                 for role in service.get_all_roles(view="full"):
-                    host = cdh_api.get_host(role.hostRef.hostId)
-                    data[host.hostname][("hadoop.cm.role[%s,%s,%s,commissionState]" % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_COMMISSION_MAPPING[str(role.commissionState)]
-                    data[host.hostname][("hadoop.cm.role[%s,%s,%s,configStale]" % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(role.configStale)]
-                    data[host.hostname][("hadoop.cm.role[%s,%s,%s,healthSummary]" % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_HEALTH_MAPPING[str(role.healthSummary)]
-                    data[host.hostname][("hadoop.cm.role[%s,%s,%s,maintenanceMode]" % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(role.maintenanceMode)]
-                    data[host.hostname][("hadoop.cm.role[%s,%s,%s,roleState]" % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_SERVICE_MAPPING[str(role.roleState)]
+                    host = self.cdh_api.get_host(role.hostRef.hostId)
+                    key = "hadoop.cm.role[%s,%s,%s,commissionState]"
+                    data[host.hostname][(key % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_COMMISSION_MAPPING[str(role.commissionState)]
+                    key = "hadoop.cm.role[%s,%s,%s,configStale]"
+                    data[host.hostname][(key % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(role.configStale)]
+                    key = "hadoop.cm.role[%s,%s,%s,healthSummary]"
+                    data[host.hostname][(key % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_HEALTH_MAPPING[str(role.healthSummary)]
+                    key = "hadoop.cm.role[%s,%s,%s,maintenanceMode]"
+                    data[host.hostname][(key % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(role.maintenanceMode)]
+                    key = "hadoop.cm.role[%s,%s,%s,roleState]"
+                    data[host.hostname][(key % ( cluster.name, service.type.lower(), role.type.lower()))] = self.CM_SERVICE_MAPPING[str(role.roleState)]
 
                     for check in role.healthChecks:
-                        data[host.hostname][("hadoop.cm.role.check[%s,%s,%s,%s,checkSummary]" % ( cluster.name, service.type.lower(), role.type.lower(), check['name'].lower()))] = self.CM_HEALTH_MAPPING[check['summary']]
+                        key = "hadoop.cm.role.check[%s,%s,%s,%s,checkSummary]"
+                        data[host.hostname][(key % (
+                            cluster.name, service.type.lower(),
+                            role.type.lower(),
+                            check['name'].lower())
+                        )] = self.CM_HEALTH_MAPPING[check['summary']]
 
-        mgmt_service = cdh_api.get_cloudera_manager().get_service()
-        data[mgmt_hostname][("hadoop.cm.service[%s,%s,serviceState]" % ( cluster.name, mgmt_service.type.lower()))] = self.CM_SERVICE_MAPPING[mgmt_service.serviceState]
-        data[mgmt_hostname][("hadoop.cm.service[%s,%s,healthSummary]" % ( cluster.name, mgmt_service.type.lower()))] = self.CM_HEALTH_MAPPING[mgmt_service.healthSummary]
-        data[mgmt_hostname][("hadoop.cm.service[%s,%s,configStale]" % ( cluster.name, mgmt_service.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(mgmt_service.configStale)]
-        data[mgmt_hostname][("hadoop.cm.service[%s,%s,maintenanceMode]" % ( cluster.name, mgmt_service.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(mgmt_service.maintenanceMode)]
+        mgmt_service = self.cdh_api.get_cloudera_manager().get_service()
+        key = "hadoop.cm.service[%s,%s,serviceState]"
+        data[mgmt_hostname][(key % ( cluster.name, mgmt_service.type.lower()))] = self.CM_SERVICE_MAPPING[mgmt_service.serviceState]
+        key = "hadoop.cm.service[%s,%s,healthSummary]"
+        data[mgmt_hostname][(key % ( cluster.name, mgmt_service.type.lower()))] = self.CM_HEALTH_MAPPING[mgmt_service.healthSummary]
+        key = "hadoop.cm.service[%s,%s,configStale]"
+        data[mgmt_hostname][(key % ( cluster.name, mgmt_service.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(mgmt_service.configStale)]
+        key = "hadoop.cm.service[%s,%s,maintenanceMode]"
+        data[mgmt_hostname][(key % ( cluster.name, mgmt_service.type.lower()))] = self.CM_BOOLEAN_MAPPING[str(mgmt_service.maintenanceMode)]
 
         for check in mgmt_service.healthChecks:
-            data[mgmt_hostname][("hadoop.cm.service.check[%s,%s,%s,checkSummary]" % ( cluster.name, mgmt_service.type.lower(), check['name'].lower()))] = self.CM_HEALTH_MAPPING[check['summary']]
+            key = "hadoop.cm.service.check[%s,%s,%s,checkSummary]"
+            data[mgmt_hostname][(key % ( cluster.name, mgmt_service.type.lower(), check['name'].lower()))] = self.CM_HEALTH_MAPPING[check['summary']]
 
+        data[mgmt_hostname]['hadoop.cm.zbx_version'] = self.__version__
         return data
-
-    def _init_container(self):
-        zbx_container = protobix.DataContainer(
-            data_type = 'items',
-            zbx_host  = self.options.zabbix_server,
-            zbx_port  = int(self.options.zabbix_port),
-            debug     = self.options.debug,
-            dryrun    = self.options.dry
-        )
-        return zbx_container
-
-    def run(self):
-        (self.options, args) = self._parse_args()
-        if self.options.host == 'localhost':
-            hostname = socket.getfqdn()
-        else:
-            hostname = self.options.host
-
-        # Step 1: init container
-        try:
-            zbx_container = self._init_container()
-        except:
-            return 1
-
-        # Step 2: get data
-        try:
-            (self.options.username, self.options.password) = \
-                open(self.options.passfile, 'r').readline().rstrip('\n').split(':')
-            cdh_api = get_root_resource(
-                self.options.host,
-                self.options.port,
-                self.options.username,
-                self.options.password,
-                self.options.use_tls,
-                self.CM_API_VERSION
-            )
-
-
-            data = {}
-            if self.options.mode == "update_items":
-                zbx_container.set_type("items")
-                data = self._get_metrics(cdh_api, hostname)
-            elif self.options.mode == "discovery":
-                zbx_container.set_type("lld")
-                data = self._get_discovery(cdh_api, hostname)
-        except:
-            return 2
-
-        # Step 3: format & load data into container
-        try:
-            zbx_container.add(data)
-            zbx_container.add_item(hostname, "hadoop.cm.zbx_version", self.__version__)
-        except:
-            return 3
-
-        # Step 4: send container data to Zabbix server
-        try:
-            zbx_container.send(zbx_container)
-        except protobix.SenderException as zbx_e:
-            if self.options.debug:
-                print self.ZBX_CONN_ERR % zbx_e.err_text
-            return 4
-        # Everything went fine. Let's return 0 and exit
-        return 0
 
 if __name__ == '__main__':
     ret = ClouderaHadoop().run()
-    print ret
+    print((ret))
     sys.exit(ret)
