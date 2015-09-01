@@ -64,11 +64,11 @@ class VarnishServer(protobix.SampleProbe):
         parser = super( VarnishServer, self)._parse_args()
 
         # Varnish options
-        general_options = optparse.OptionGroup(parser, "Varnish Configuration")
-        general_options.add_option("-H", "--host", default="localhost",
-                                   help="Varnish server hostname")
-        general_options.add_option("-P", "--port", default=6379,
-                                   help="Varnish server port")
+        general_options = optparse.OptionGroup(parser, 'Varnish Configuration')
+        general_options.add_option('-H', '--host', default='localhost',
+                                   help='Varnish server hostname')
+        general_options.add_option('-P', '--port', default=6379,
+                                   help='Varnish server port')
         parser.add_option_group(general_options)
 
         (options, args) = parser.parse_args()

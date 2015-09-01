@@ -17,7 +17,7 @@ import protobix
 
 class TrafficServer(protobix.SampleProbe):
 
-    __version__ = '0.0.8'
+    __version__ = '0.0.9'
 
     ITEM_BL = [
         'proxy.process.version.server.build_date',
@@ -26,16 +26,10 @@ class TrafficServer(protobix.SampleProbe):
         'proxy.process.version.server.build_person',
         'proxy.process.version.server.build_time',
         'proxy.process.version.server.long',
-        'proxy.process.version.server.short'
+        'proxy.process.version.server.short',
+        'ats.proxy.node.version.manager.long',
+        'ats.proxy.node.hostname_FQ'
     ]
-
-    ATS_BOOLEAN_MAPPING = { "False": 0,
-                            "True": 1 }
-    ATS_STATE_MAPPING = { "green": 0,
-                          "yellow": 1,
-                          "red": 2 }
-
-    ATS_CONN_ERR = "ERR - unable to get data from ATS [%s]"
 
     def _get_stats(self):
         rawdata = urllib2.build_opener().open(
@@ -56,15 +50,15 @@ class TrafficServer(protobix.SampleProbe):
         # TrafficServer options
         ats_options = optparse.OptionGroup(
             parser,
-            "Apache TrafficServer cluster configuration options"
+            'Apache TrafficServer cluster configuration options'
         )
         ats_options.add_option(
-            "-H", "--host", default="localhost",
-            help="Apache TrafficServer hostname"
+            '-H', '--host', default='localhost',
+            help='Apache TrafficServer hostname'
         )
         ats_options.add_option(
-            "-P", "--port", default=80,
-            help="Apache TrafficServer port. Default is 80"
+            '-P', '--port', default=80,
+            help='Apache TrafficServer port. Default is 80'
         )
         parser.add_option_group(ats_options)
 
