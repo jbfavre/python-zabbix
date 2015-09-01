@@ -4,6 +4,7 @@
 '''
 
 import sys
+import socket
 import protobix
 
 class DiskStats(protobix.SampleProbe):
@@ -48,9 +49,7 @@ class DiskStats(protobix.SampleProbe):
         return result
 
     def _init_probe(self):
-        if self.options.host == 'localhost':
-            self.options.host = socket.getfqdn()
-        self.hostname = self.options.host
+        self.hostname = socket.getfqdn()
 
     def _get_discovery(self):
         data = {self.discovery_key:[]}
