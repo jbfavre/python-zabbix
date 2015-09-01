@@ -8,6 +8,7 @@ import protobix
 
 class DiskStats(protobix.SampleProbe):
 
+    __version__ = '0.0.9'
     discovery_key = 'diskstats.discovery'
 
     def _parse_args(self):
@@ -47,16 +48,18 @@ class DiskStats(protobix.SampleProbe):
         return result
 
     def _init_probe(self):
-        pass
+        if self.options.host == 'localhost':
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
 
-    def _get_discovery(self, hostname):
+    def _get_discovery(self):
         data = {self.discovery_key:[]}
         for disk in ['sda', 'sdb', 'sdc', 'sdd']:
             element = { '{#DISKNAME}': disk }
             data[self.discovery_key].append(element)
-        return {hostname: data}
+        return { self.hostname: data }
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         data = {}
         for disk in ['sda', 'sdb', 'sdc', 'sdd']:
             diskstat = self._diskstats_parse(disk)
@@ -66,7 +69,7 @@ class DiskStats(protobix.SampleProbe):
                     zbx_key = zbx_key.format(disk, key)
                     data[zbx_key] = diskstat[disk][key]
         data["diskstats.zbx_version"] = self.__version__
-        return {hostname: data}
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = DiskStats().run()

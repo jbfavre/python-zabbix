@@ -64,36 +64,32 @@ class SupervisorServer(protobix.SampleProbe):
         return (options, args)
 
     def _init_probe(self):
-        self.hostname = socket.getfqdn()
+        if self.options.host == 'localhost':
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
+        self.discovery_key = 'supervisord.workers.discovery'
 
     def _get_metrics(self):
         data = {}
-        try:
-            infos = self._get_infos()
-            for group in infos:
-                for worker in infos[group]:
-                    for status in infos[group][worker]:
-                        zbx_key = 'supervisord.worker[{0},{1},{2}]'
-                        zbx_key = zbx_key.format(group, worker, status)
-                        data[zbx_key] = infos[group][worker][status]
-        except:
-            print "CRITICAL: Could not get workers list"
-            raise Exception('Fail to get supervisord infos')
-        return data
+        infos = self._get_infos()
+        for group in infos:
+            for worker in infos[group]:
+                for status in infos[group][worker]:
+                    zbx_key = 'supervisord.worker[{0},{1},{2}]'
+                    zbx_key = zbx_key.format(group, worker, status)
+                    data[zbx_key] = infos[group][worker][status]
+        data['supervisord.zbx_version'] = self.__version__
+        return { self.hostname: data }
 
     def _get_discovery(self):
-        data = []
-        try:
-            infos = self._get_infos()
-            for group in infos:
-                for worker in infos[group]:
-                    element = { '{#SPVGROUPNAME}': group,
-                                '{#SPVWORKERNAME}': worker }
-                    data.append(element)
-        except:
-            print "CRITICAL: Could not get workers list"
-            raise Exception('Fail to get supervisord infos')
-        return {'supervisord.workers.discovery': data}
+        data = { self.discovery_key: [] }
+        infos = self._get_infos()
+        for group in infos:
+            for worker in infos[group]:
+                element = { '{#SPVGROUPNAME}': group,
+                            '{#SPVWORKERNAME}': worker }
+                data[self.discovery_key].append(element)
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = SupervisorServer().run()

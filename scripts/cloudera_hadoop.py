@@ -75,17 +75,9 @@ class ClouderaHadoop(protobix.SampleProbe):
 
     def _init_probe(self):
         if self.options.host == 'localhost':
-            self.hostname = socket.getfqdn()
-        else:
-            self.hostname = self.options.host
-
-        try:
-            (username, password) = open(self.options.config, 'r').readline().rstrip('\n').split(':')
-        except:
-            print >> sys.stderr, "Unable to read username and password from file '%s'. "
-            "Make sure the file is readable and contains a single line of "
-            "the form \"<username>:<password>\"" % self.options.config
-
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
+        (username, password) = open(self.options.config, 'r').readline().rstrip('\n').split(':')
         self.cdh_api = get_root_resource(
             self.options.host,
             self.options.port,
@@ -96,7 +88,8 @@ class ClouderaHadoop(protobix.SampleProbe):
         )
         return {'username': username, 'password': password}
 
-    def _get_discovery(self, mgmt_hostname):
+    def _get_discovery(self):
+        mgmt_hostname = self.hostname
         data = {}
 
         for cluster in self.cdh_api.get_all_clusters():
@@ -197,7 +190,8 @@ class ClouderaHadoop(protobix.SampleProbe):
 
         return data
 
-    def _get_metrics(self, mgmt_hostname):
+    def _get_metrics(self):
+        mgmt_hostname = self.hostname
         data = {}
 
         for cluster in self.cdh_api.get_all_clusters():

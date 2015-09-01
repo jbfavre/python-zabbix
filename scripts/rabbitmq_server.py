@@ -33,95 +33,6 @@ class RabbitMQServer(protobix.SampleProbe):
         handler = urllib2.HTTPBasicAuthHandler(password_mgr)
         return json.loads(urllib2.build_opener(handler).open(url).read())
 
-    def _get_discovery(self):
-        self.discovery_key = "rabbitmq.queues.discovery"
-        data = {self.discovery_key:[]}
-        for queue in self._call_api('queues'):
-            ''' Skip queues matching exclude_patterns '''
-            if self.exclude_patterns.match(queue['name']): continue
-
-            try:
-              msg_limit = self.queue_limits[queue['vhost']][queue['name']]['nb_msg']
-            except:
-              msg_limit = self.queue_limits['default']['nb_msg']
-
-            try:
-              rate_limit = self.queue_limits[queue['vhost']][queue['name']]['rate_ratio']
-            except:
-              rate_limit = self.queue_limits['default']['rate_ratio']
-
-            element = { '{#RMQVHOSTNAME}': queue['vhost'],
-                        '{#RMQQUEUENAME}': queue['name'],
-                        '{#RMQMSGTHRESH}':  msg_limit,
-                        '{#RMQRATIOTHRES}':  rate_limit }
-
-            data[self.discovery_key].append(element)
-
-        return data
-
-    def _get_metrics(self):
-        data = {}
-        connections_stats = self._call_api('connections')
-        zbx_key = 'rabbitmq.connections'
-        data[zbx_key] = len(connections_stats)
-        global_stats = self._call_api('overview')
-        overview_items = {
-            'message_stats': [
-                'ack', 'confirm', 'deliver', 'deliver_get',
-                'get', 'get_no_ack', 'publish', 'redeliver'
-            ],
-            'queue_totals' : [
-                'messages', 'messages_ready', 'messages_unacknowledged'
-            ]
-        }
-        for item_family in overview_items:
-            zbx_key = 'rabbitmq.{0}[{1}]'
-            values_family = global_stats.get(item_family, 0)
-            for item in overview_items[item_family]:
-                real_key = zbx_key.format(item_family, item)
-                data[real_key] = values_family.get(item, 0)
-
-        queues_list = self._call_api('queues')
-        for queue in queues_list:
-            if self.exclude_patterns.match(queue['name']): continue
-
-            ''' Get global messages count for considered queue '''
-            zbx_key = "rabbitmq.queue[{0},{1},count,message]"
-            zbx_key = zbx_key.format(queue['vhost'], queue['name'])
-            data[zbx_key] = queue.get('messages', 0)
-
-            ''' Get DL messages count for considered queue '''
-            zbx_key = "rabbitmq.queue[{0},{1},count,dl_message]"
-            zbx_key = zbx_key.format(queue['vhost'], queue['name'])
-            api_path = 'queues/{0}/{1}_dl'.format(queue['vhost'], queue['name'])
-            try:
-                dl_queue = self.call_api(api_path)
-                data[zbx_key] = dl_queue.get('messages', 0)
-            except:
-                data[zbx_key] = 0
-
-            ''' Get queue's master node here so that we can trigger Zabbix
-                alert based on ${HOSTNAME} Zabbix macro match '''
-            zbx_key = "rabbitmq.queue[{0},{1},master]"
-            zbx_key = zbx_key.format(queue['vhost'], queue['name'])
-            value=0
-            if (queue.get('node', 0).split('@')[1] == socket.gethostname()) or \
-               (queue.get('node', 0).split('@')[1] == self.options.host):
-                value=1
-            data[zbx_key] = value
-
-            ''' Get message_stats rates '''
-            message_stats = queue.get('message_stats', {})
-
-            for item in ['deliver_get', 'ack', 'get', 'publish', 'redeliver']:
-                rate_key = message_stats.get('%s_details'%item, {})
-                zbx_key = "rabbitmq.queue[{0},{1},rate,{2}]"
-                zbx_key = zbx_key.format(queue['vhost'], queue['name'], item)
-                data[zbx_key] = rate_key.get('rate', 0)
-        data['rabbitmq.zbx_version'] = self.__version__
-
-        return { hostname: data }
-
     def _parse_args(self):
         # Parse the script arguments
         # Common part
@@ -152,6 +63,83 @@ class RabbitMQServer(protobix.SampleProbe):
         ''' Prepare regex pattern for queue exclusion '''
         pattern_string = '|'.join(config['exclude_pattern'])
         self.exclude_patterns = re.compile(pattern_string)
+
+    def _get_discovery(self):
+        self.discovery_key = "rabbitmq.queues.discovery"
+        data = {self.discovery_key:[]}
+        for queue in self._call_api('queues'):
+            ''' Skip queues matching exclude_patterns '''
+            if self.exclude_patterns.match(queue['name']): continue
+            try:
+              msg_limit = self.queue_limits[queue['vhost']][queue['name']]['nb_msg']
+            except:
+              msg_limit = self.queue_limits['default']['nb_msg']
+            try:
+              rate_limit = self.queue_limits[queue['vhost']][queue['name']]['rate_ratio']
+            except:
+              rate_limit = self.queue_limits['default']['rate_ratio']
+            element = { '{#RMQVHOSTNAME}': queue['vhost'],
+                        '{#RMQQUEUENAME}': queue['name'],
+                        '{#RMQMSGTHRESH}':  msg_limit,
+                        '{#RMQRATIOTHRES}':  rate_limit }
+            data[self.discovery_key].append(element)
+        return { self.hostname: data }
+
+    def _get_metrics(self):
+        data = {}
+        connections_stats = self._call_api('connections')
+        zbx_key = 'rabbitmq.connections'
+        data[zbx_key] = len(connections_stats)
+        global_stats = self._call_api('overview')
+        overview_items = {
+            'message_stats': [
+                'ack', 'confirm', 'deliver', 'deliver_get',
+                'get', 'get_no_ack', 'publish', 'redeliver'
+            ],
+            'queue_totals' : [
+                'messages', 'messages_ready', 'messages_unacknowledged'
+            ]
+        }
+        for item_family in overview_items:
+            zbx_key = 'rabbitmq.{0}[{1}]'
+            values_family = global_stats.get(item_family, 0)
+            for item in overview_items[item_family]:
+                real_key = zbx_key.format(item_family, item)
+                data[real_key] = values_family.get(item, 0)
+        queues_list = self._call_api('queues')
+        for queue in queues_list:
+            if self.exclude_patterns.match(queue['name']): continue
+            ''' Get global messages count for considered queue '''
+            zbx_key = "rabbitmq.queue[{0},{1},count,message]"
+            zbx_key = zbx_key.format(queue['vhost'], queue['name'])
+            data[zbx_key] = queue.get('messages', 0)
+            ''' Get DL messages count for considered queue '''
+            zbx_key = "rabbitmq.queue[{0},{1},count,dl_message]"
+            zbx_key = zbx_key.format(queue['vhost'], queue['name'])
+            api_path = 'queues/{0}/{1}_dl'.format(queue['vhost'], queue['name'])
+            try:
+                dl_queue = self.call_api(api_path)
+                data[zbx_key] = dl_queue.get('messages', 0)
+            except:
+                data[zbx_key] = 0
+            ''' Get queue's master node here so that we can trigger Zabbix
+                alert based on ${HOSTNAME} Zabbix macro match '''
+            zbx_key = "rabbitmq.queue[{0},{1},master]"
+            zbx_key = zbx_key.format(queue['vhost'], queue['name'])
+            value=0
+            if (queue.get('node', 0).split('@')[1] == socket.gethostname()) or \
+               (queue.get('node', 0).split('@')[1] == self.options.host):
+                value=1
+            data[zbx_key] = value
+            ''' Get message_stats rates '''
+            message_stats = queue.get('message_stats', {})
+            for item in ['deliver_get', 'ack', 'get', 'publish', 'redeliver']:
+                rate_key = message_stats.get('%s_details'%item, {})
+                zbx_key = "rabbitmq.queue[{0},{1},rate,{2}]"
+                zbx_key = zbx_key.format(queue['vhost'], queue['name'], item)
+                data[zbx_key] = rate_key.get('rate', 0)
+        data['rabbitmq.zbx_version'] = self.__version__
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = RabbitMQServer().run()

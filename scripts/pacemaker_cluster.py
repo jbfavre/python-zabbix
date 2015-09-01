@@ -96,6 +96,9 @@ class PacemakerCluster(protobix.SampleProbe):
         return parser.parse_args()
 
     del _init_probe(self):
+        if self.options.host == 'localhost':
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
         process = subprocess.Popen('sudo /usr/sbin/crm_mon -1 -X -r -f',
                                     shell=True, stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE)
@@ -105,7 +108,7 @@ class PacemakerCluster(protobix.SampleProbe):
         self.resources=self.Resources(status["resources"])
         self.status=status["summary"]
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         data = {}
         zbx_key = 'pacemaker.cluster.{0}'
         real_key = zbx_key.format('master')
@@ -125,14 +128,7 @@ class PacemakerCluster(protobix.SampleProbe):
         data.update(self.nodes._get_metrics())
         data.update(self.resources._get_metrics())
         data['pacemaker.zbx_version'] = self.__version__
-        return { hostname: data }
-
-    def _get_discovery(self,hostname):
-        return false
-        data = {}
-        data.update(self.nodes._get_discovery())
-        data.update(self.resources._get_discovery())
-        return data
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = PacemakerCluster().run()

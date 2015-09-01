@@ -51,15 +51,18 @@ class SSLEndpointCheck(protobix.SampleProbe):
         return (options, args)
 
     def _init_probe(self):
-        self.hostname = socket.getfqdn()
+        if self.options.host == 'localhost':
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
 
         ''' Load config file '''
         with open(self.options.config, 'r') as f:
           config = yaml.load(f)
         self.endpoints = config['endpoints']
+        self.discovery_key = 'ssl.certificate.discovery'
 
-    def _get_discovery(self, hostname):
-        data = { 'ssl.certificate.discovery': [] }
+    def _get_discovery(self):
+        data = { self.discovery_key: [] }
         for endpoint in self.endpoints:
             try:
                 cert = self._get_certificate( host = endpoint,
@@ -68,12 +71,12 @@ class SSLEndpointCheck(protobix.SampleProbe):
                 element = { '{#SSLCERTSERIAL}': common_name + endpoint,
                             '{#SSLCERTNAME}': common_name,
                             '{#SSLCERTENDPOINT}': endpoint }
-                data['ssl.certificate.discovery'].append(element)
+                data[self.discovery_key].append(element)
             except:
                 pass
-        return { hostname: data }
+        return { self.hostname: data }
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         data = {}
         for endpoint in self.endpoints:
             try:
@@ -93,7 +96,7 @@ class SSLEndpointCheck(protobix.SampleProbe):
                 data[zbx_key] = 0
                 pass
         data['ssl.certificate.zbx_version'] = self.__version__
-        return { hostname: data }
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = SSLEndpointCheck().run()

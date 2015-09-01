@@ -230,9 +230,8 @@ class HAProxyServer(protobix.SampleProbe):
 
     def _init_probe(self):
         if self.options.host == 'localhost':
-            self.hostname = socket.getfqdn()
-        else:
-            self.hostname = self.options.host
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
         self.socket_name = self.options.socket
         self.discovery_key = 'haproxy_server.pools.discovery'
 
@@ -260,7 +259,15 @@ class HAProxyServer(protobix.SampleProbe):
         (options, args) = parser.parse_args()
         return (options, args)
 
-    def _get_metrics(self, hostname):
+    def _get_discovery(self):
+        raw_data = self._get_data()
+        data = {self.discovery_key: []}
+        for pxname in raw_data:
+            element = {'{#HAPPOOLNAME}': pxname}
+            data[self.discovery_key].append(element)
+        return { self.hostname: data }
+
+    def _get_metrics(self):
         raw_data = self._get_data()
         data = {}
         for pxname in raw_data:
@@ -276,15 +283,7 @@ class HAProxyServer(protobix.SampleProbe):
                 zbx_key = zbx_key.format(pxname, metric)
                 data[zbx_key] = raw_data[pxname][metric]
         data['haproxy_server.zbx_version'] = self.__version__
-        return { hostname: data }
-
-    def _get_discovery(self, hostname):
-        raw_data = self._get_data()
-        data = {self.discovery_key: []}
-        for pxname in raw_data:
-            element = {'{#HAPPOOLNAME}': pxname}
-            data[self.discovery_key].append(element)
-        return { hostname: data }
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = HAProxyServer().run()

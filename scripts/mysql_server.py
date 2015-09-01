@@ -1251,9 +1251,8 @@ class MysqlServer(protobix.SampleProbe):
 
     def _init_probe(self):
         if self.options.host == 'localhost':
-            hostname = socket.getfqdn()
-        else:
-            hostname = self.options.host
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
         self.config = {
           'user': self.options.username,
           'password': self.options.password,
@@ -1292,7 +1291,7 @@ class MysqlServer(protobix.SampleProbe):
         self.serveraudit_discovery_key = 'mysql.server.plugins[serveraudit,discovery]'
         self.spider_discovery_key = 'mysql.server.plugins[spider,discovery]'
 
-    def _get_discovery(self, hostname):
+    def _get_discovery(self):
         data = {
             self.repl_discovery_key:[],
         }
@@ -1312,9 +1311,9 @@ class MysqlServer(protobix.SampleProbe):
                 replication_name=replication['master_host']
             data[self.repl_discovery_key].append({'{#MYSQLREPNAME}': replication_name})
         self.cnx.close()
-        return { hostname: data }
+        return { self.hostname: data }
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         data = {}
         ''' Check Replication status
             Compatible with multi-source replication '''
@@ -1384,9 +1383,9 @@ class MysqlServer(protobix.SampleProbe):
                 zbx_key=zbx_key.format(plugin)
                 data[zbx_key]=global_status[plugin]
 
-        data["mysql.server.zbx_version"] = self.__version__
         self.cnx.close()
-        return { hostname: data }
+        data['mysql.server.zbx_version'] = self.__version__
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = MysqlServer().run()

@@ -31,16 +31,14 @@ class MemcachedServer(protobix.SampleProbe):
 
     def _init_probe(self):
         if self.options.host == 'localhost':
-            self.hostname = socket.getfqdn()
-        else:
-            self.hostname = self.options.host
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
         self.memcached = memcache.Client(
             ["%s:%s" % (self.hostname, self.options.port)]
         )
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         data = {}
-        data[hostname] = {}
         ''' FIXME
             add support for:
                 * stats slabs
@@ -50,13 +48,10 @@ class MemcachedServer(protobix.SampleProbe):
         result = self.memcached.get_stats()
         for node_stats in result:
             server, stats = node_stats
-            host = server.split(':')[0]
-            if not host in data:
-                data[host] = {}
             for stat in stats:
-                data[host]["memcached.%s"%stat] = stats[stat]
-        data[hostname]['memcached.zbx_version'] = self.__version__
-        return data
+                data["memcached.%s"%stat] = stats[stat]
+        data['memcached.zbx_version'] = self.__version__
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = MemcachedServer().run()

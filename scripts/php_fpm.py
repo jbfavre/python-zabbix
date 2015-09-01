@@ -556,9 +556,20 @@ class PhpFpm(protobix.SampleProbe):
         return parser.parse_args()
 
     def _init_probe(self):
-        self.hostname = socket.getfqdn()
+        if self.options.host == 'localhost':
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
 
-    def _get_metrics(self, hostname):
+    def _get_discovery(self):
+        self.discovery_key = 'php-fpm.pools.discovery'
+        data = {self.discovery_key:[]}
+        pool_list = self._get_pools_config()
+        for pool in pool_list:
+          element = { '{#PHPFPMPOOLNAME}': pool }
+          data[self.discovery_key].append(element)
+        return { self.hostname: data }
+
+    def _get_metrics(self):
         data = {}
         pool_list = self._get_pools_config()
         for pool in pool_list:
@@ -628,16 +639,8 @@ class PhpFpm(protobix.SampleProbe):
                 zbx_key = zbx_key.format(pool)
                 data[zbx_key] = 0
                 pass
-            data['php-fpm.zbx_version'] = self.__version__
-        return { hostname: data }
-
-    def _get_discovery(self, hostname):
-        data = []
-        pool_list = self._get_pools_config()
-        for pool in pool_list:
-          element = { '{#PHPFPMPOOLNAME}': pool }
-          data.append(element)
-        return {'php-fpm.pools.discovery': data}
+        data['php-fpm.zbx_version'] = self.__version__
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = PhpFpm().run()

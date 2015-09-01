@@ -73,18 +73,17 @@ class TrafficServer(protobix.SampleProbe):
 
     def _init_probe(self):
         if self.options.host == 'localhost':
-            self.hostname = socket.getfqdn()
-        else:
-            self.hostname = self.options.host
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         data = {}
         json = self._get_stats()
         for item in json['global']:
             if item not in self.ITEM_BL:
                 data["ats.%s" % item] = json['global'][item]
         data['ats.zbx_version'] = self.__version__
-        return { hostname: data }
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = TrafficServer().run()

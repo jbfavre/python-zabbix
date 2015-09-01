@@ -82,52 +82,50 @@ class CouchbaseServer(protobix.SampleProbe):
                     ''' Limit items lookup to current node '''
                     if nodename != hostname:
                         continue
-                    if not nodename in data:
-                        data[nodename] = {}
                     zbx_key = 'couchbase.cluster.members'
-                    data[nodename][zbx_key] = len(pool['nodes'])
+                    data[zbx_key] = len(pool['nodes'])
                     if pool['rebalanceStatus'] in CouchbaseServer.CBS_RECOVERY_MAPPING.keys():
-                        data[nodename]['couchbase.cluster.rebalanceStatus'] = \
+                        data['couchbase.cluster.rebalanceStatus'] = \
                             CouchbaseServer.CBS_RECOVERY_MAPPING[pool['rebalanceStatus']]
                     for key in [ 'rebalance_success',
                                  'rebalance_start',
                                  'failover_node' ]:
                         zbx_key = 'couchbase.cluster.counters[{0}]'
                         zbx_key = zbx_key.format(key)
-                        data[nodename][zbx_key] = pool['counters'][key]
+                        data[zbx_key] = pool['counters'][key]
                     for key in [ 'ram', 'hdd' ]:
                         zbx_key = 'couchbase.cluster.storageTotals[{0},{1}]'
                         zbx_key_fin = zbx_key.format(key, 'used')
                         value = pool['storageTotals'][key]['used']
-                        data[nodename][zbx_key_fin] = value
+                        data[zbx_key_fin] = value
                         zbx_key_fin = zbx_key.format(key, 'usedByData')
                         value = pool['storageTotals'][key]['usedByData']
-                        data[nodename][zbx_key_fin] = value
+                        data[zbx_key_fin] = value
 
                     zbx_key = "couchbase.node.status"
                     if node['status'] and \
                        node['status'] in CouchbaseServer.CBS_STATUS_MAPPING.keys():
-                        data[nodename][zbx_key] = CouchbaseServer.CBS_STATUS_MAPPING[node['status']]
+                        data[zbx_key] = CouchbaseServer.CBS_STATUS_MAPPING[node['status']]
                     else:
                         data[nodename][zbx_key] = 3
                     zbx_key = "couchbase.node.recoveryType"
                     if node['recoveryType'] and \
                        node['recoveryType'] in CouchbaseServer.CBS_RECOVERY_MAPPING.keys():
-                        data[nodename][zbx_key] = CouchbaseServer.CBS_RECOVERY_MAPPING[node['recoveryType']]
+                        data[zbx_key] = CouchbaseServer.CBS_RECOVERY_MAPPING[node['recoveryType']]
                     else:
-                        data[nodename][zbx_key] = 3
+                        data[zbx_key] = 3
                     zbx_key = "couchbase.node.clusterMembership"
                     if node['clusterMembership'] and \
                        node['clusterMembership'] in CouchbaseServer.CBS_MEMBERSHIP_MAPPING.keys():
-                        data[nodename][zbx_key] = CouchbaseServer.CBS_MEMBERSHIP_MAPPING[node['clusterMembership']]
+                        data[zbx_key] = CouchbaseServer.CBS_MEMBERSHIP_MAPPING[node['clusterMembership']]
                     else:
-                        data[nodename][zbx_key] = 3
+                        data[zbx_key] = 3
                     for key in [ 'cpu_utilization_rate',
                                  'swap_used',
                                  'mem_free']:
                         zbx_key = "couchbase.node[systemStats,{0}]"
                         zbx_key = zbx_key.format(key)
-                        data[nodename][zbx_key] = node['systemStats'][key]
+                        data[zbx_key] = node['systemStats'][key]
                     for key in [ 'cmd_get',
                                  'couch_docs_actual_disk_size',
                                  'couch_docs_data_size',
@@ -142,7 +140,7 @@ class CouchbaseServer(protobix.SampleProbe):
                                  'vb_replica_curr_items' ]:
                         zbx_key = "couchbase.node.interestingStats[{0}]"
                         zbx_key = zbx_key.format(key)
-                        data[nodename][zbx_key] = int(node['interestingStats'][key])
+                        data[zbx_key] = int(node['interestingStats'][key])
             return data
 
     ''' Bucket class '''
@@ -183,7 +181,7 @@ class CouchbaseServer(protobix.SampleProbe):
                         ''' Limit items lookup to current node '''
                         if nodename != hostname:
                             continue
-                        data[nodename] = {}
+                        data = {}
                         zbx_key = "couchbase.bucket.basicStats[{0},{1},{2}]"
                         for key in [ 'diskUsed',
                                      'memUsed',
@@ -193,7 +191,7 @@ class CouchbaseServer(protobix.SampleProbe):
                                      'dataUsed',
                                      'itemCount' ]:
                             zbx_key_fin = zbx_key.format(pool, bucket_infos['name'], key)
-                            data[nodename][zbx_key_fin] = bucket_infos['basicStats'][key]
+                            data[zbx_key_fin] = bucket_infos['basicStats'][key]
                     bucket_stats_uri = "/pools/{0}/buckets/{1}/stats/"
                     bucket_stats_uri = bucket_stats_uri.format(pool, bucket_infos['name'])
                     bucket_stats = self.server._do_call(bucket_stats_uri)
@@ -214,19 +212,18 @@ class CouchbaseServer(protobix.SampleProbe):
                             continue
                         sample = bucket_stats['op']['samples'][key]
                         zbx_key_fin = zbx_key.format(pool, bucket_infos['name'], key)
-                        data[nodename][zbx_key_fin] = int(sum(sample)/len(sample))
+                        data[zbx_key_fin] = int(sum(sample)/len(sample))
             return data
 
     def _init_probe(self):
+        if self.options.host == 'localhost':
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
         self.cnx = self.API(
             self.options.username,
             self.options.password,
             self.options.host,
             self.options.port)
-        if self.options.host == 'localhost':
-            self.hostname = socket.getfqdn()
-        else:
-            self.hostname = self.options.host
         self.pools = self.Pool(self.cnx)
         ''' Initialize variables '''
         self.pool_key = "couchbase.pool"
@@ -255,13 +252,13 @@ class CouchbaseServer(protobix.SampleProbe):
         (options, args) = parser.parse_args()
         return (options, args)
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         data = {}
         ''' Get pools information. Currently only one pool exists,
             but Couchbase might add multiple pools supports later '''
         data.update(self.pools._get_metrics(self.hostname))
-        data[hostname]['couchbase.zbx_version'] = self.__version__
-        return data
+        data['couchbase.zbx_version'] = self.__version__
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = CouchbaseServer().run()

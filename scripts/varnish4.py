@@ -49,7 +49,7 @@ class VarnishServer(protobix.SampleProbe):
         ('thread[queuelen]', 'MAIN.thread_queue_len')
     ]
 
-    def _get_varnishstat(self,hostname):
+    def _get_varnishstat(self):
         varnish_stats = simplejson.loads(
             check_output(
                 ['varnishstat', '-n', socket.gethostname(), '-1', '-j']
@@ -76,18 +76,17 @@ class VarnishServer(protobix.SampleProbe):
 
     def _init_probe(self):
         if self.options.host == 'localhost':
-            self.hostname = socket.getfqdn()
-        else:
-            self.hostname = self.options.host
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         """ Get Varnish stats and parse it """
         data = {}
         stats, timestamp = self._get_varnishstat(hostname)
         for (key, metric) in self.METRICS:
             data["varnish.%s" % key] = stats[metric]['value']
         data['varnish.zbx_version'] = self.__version__
-        return { hostname: data }
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = VarnishServer().run()

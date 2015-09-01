@@ -44,9 +44,8 @@ class RedisServer(protobix.SampleProbe):
 
     def _init_probe(self):
         if self.options.host == 'localhost':
-            hostname = socket.getfqdn()
-        else:
-            hostname = self.options.host
+            self.options.host = socket.getfqdn()
+        self.hostname = self.options.host
         self.redis = redis.StrictRedis(
             host=self.options.host,
             port=self.options.port,
@@ -54,8 +53,9 @@ class RedisServer(protobix.SampleProbe):
             password="",
             socket_timeout=1
         )
+        self.discovery_key = "redis.%s.discovery"
 
-    def _get_discovery(self, hostname):
+    def _get_discovery(self):
         """ Discover 'dynamic' items like
             http://redis.io/commands/info
             replication: depends on slave number
@@ -64,18 +64,16 @@ class RedisServer(protobix.SampleProbe):
         """
         data = {}
         section_list = { 'keyspace': 'REDISDB' }
-        data = { "redis.cluster.discovery":[] }
         for section, lldvalue in section_list.iteritems():
-            data["redis.%s.discovery" % section] = []
+            data[self.discovery_key % section] = []
             result = self.redis.info(section)
-            print result
             if result == {}: result = {}
             for key, value in result.iteritems():
                 dsc_data = {"{#%s}" % lldvalue: "%s" % key }
-                data[("redis.%s.discovery" % (section))].append(dsc_data)
-        return { hostname: data }
+                data[self.discovery_key % section].append(dsc_data)
+        return { self.hostname: data }
 
-    def _get_metrics(self, hostname):
+    def _get_metrics(self):
         """ http://redis.io/commands/info
             server: General information about the Redis server
             clients: Client connections section
@@ -101,7 +99,7 @@ class RedisServer(protobix.SampleProbe):
             data['redis.replication[master_link_status]'] = 'up'
             data['redis.replication[master_sync_in_progress]'] = 0
         data['redis.zbx_version'] = self.__version__
-        return { hostname: data }
+        return { self.hostname: data }
 
 if __name__ == '__main__':
     ret = RedisServer().run()
