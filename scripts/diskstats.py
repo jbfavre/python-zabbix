@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 ''' Copyright (c) 2015 Jean Baptiste Favre.
     Script for monitoring disks stats from Zabbix.
+    Only add valid mounted point to monitoring
 '''
 
+import os
+import re
 import sys
 import socket
 import protobix
@@ -11,6 +14,7 @@ class DiskStats(protobix.SampleProbe):
 
     __version__ = '0.0.9'
     discovery_key = 'diskstats.discovery'
+    authorized_fs_type = '^(btrfs|ext2|ext3|ext4|jfs|reiser|xfs|ffs|ufs|jfs|jfs2|vxfs|hfs|ntfs|fat32)$'
 
     def _parse_args(self):
         parser = super( DiskStats, self)._parse_args()
@@ -51,22 +55,36 @@ class DiskStats(protobix.SampleProbe):
     def _init_probe(self):
         self.hostname = socket.getfqdn()
 
-    def _get_discovery(self):
-        data = {self.discovery_key:[]}
-        for disk in ['sda', 'sdb', 'sdc', 'sdd']:
-            element = { '{#DISKNAME}': disk }
-            data[self.discovery_key].append(element)
-        return { self.hostname: data }
+    def _get_mount_points(self):
+        data = []
+        mounted_file = '/proc/mounts'
+        p = re.compile(self.authorized_fs_type)
+        lines = open(mounted_file, 'r').readlines()
+        for line in lines:
+            if line == '': continue
+            split = line.split()
+            device_full_name = split[0]
+            mount_point = split[1]
+            fs_type = split[2]
+            if device_full_name[0] == '/' and p.match(fs_type):
+              # Mounted disk device
+              real_device_name = device_full_name
+              if os.path.islink(real_device_name):
+                real_device_name = os.path.realpath(device_full_name)
+              short_real_device_name = os.path.basename(real_device_name)
+              element = [ short_real_device_name, device_full_name , mount_point , fs_type]
+              data.append(element)
+        return data 
 
     def _get_metrics(self):
         data = {}
-        for disk in ['sda', 'sdb', 'sdc', 'sdd']:
-            diskstat = self._diskstats_parse(disk)
+        for disk in self._get_mount_points():
+            diskstat = self._diskstats_parse(disk[0])
             if diskstat != {}:
-                for key in diskstat[disk]:
+                for key in diskstat[disk[0]]:
                     zbx_key = "diskstats[{0},{1}]"
-                    zbx_key = zbx_key.format(disk, key)
-                    data[zbx_key] = diskstat[disk][key]
+                    zbx_key = zbx_key.format(disk[2], key)
+                    data[zbx_key] = diskstat[disk[0]][key]
         data["diskstats.zbx_version"] = self.__version__
         return { self.hostname: data }
 
