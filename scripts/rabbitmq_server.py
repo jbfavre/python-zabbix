@@ -87,9 +87,6 @@ class RabbitMQServer(protobix.SampleProbe):
 
     def _get_metrics(self):
         data = {}
-        connections_stats = self._call_api('connections')
-        zbx_key = 'rabbitmq.connections'
-        data[zbx_key] = len(connections_stats)
         global_stats = self._call_api('overview')
         overview_items = {
             'message_stats': [
@@ -98,6 +95,9 @@ class RabbitMQServer(protobix.SampleProbe):
             ],
             'queue_totals' : [
                 'messages', 'messages_ready', 'messages_unacknowledged'
+            ],
+            'object_totals' : [
+                'channels', 'connections', 'consumers', 'exchanges', 'queues'
             ]
         }
         for item_family in overview_items:
@@ -118,7 +118,7 @@ class RabbitMQServer(protobix.SampleProbe):
             zbx_key = zbx_key.format(queue['vhost'], queue['name'])
             api_path = 'queues/{0}/{1}_dl'.format(queue['vhost'], queue['name'])
             try:
-                dl_queue = self.call_api(api_path)
+                dl_queue = self._call_api(api_path)
                 data[zbx_key] = dl_queue.get('messages', 0)
             except:
                 data[zbx_key] = 0
