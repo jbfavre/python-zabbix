@@ -82,7 +82,7 @@ class VarnishServer(protobix.SampleProbe):
     def _get_metrics(self):
         """ Get Varnish stats and parse it """
         data = {}
-        stats, timestamp = self._get_varnishstat(hostname)
+        stats, timestamp = self._get_varnishstat()
         for (key, metric) in self.METRICS:
             data["varnish.%s" % key] = stats[metric]['value']
         data['varnish.zbx_version'] = self.__version__
