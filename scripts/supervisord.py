@@ -64,9 +64,7 @@ class SupervisorServer(protobix.SampleProbe):
         return (options, args)
 
     def _init_probe(self):
-        if self.options.host == 'localhost':
-            self.options.host = socket.getfqdn()
-        self.hostname = self.options.host
+        self.hostname = socket.getfqdn()
         self.discovery_key = 'supervisord.workers.discovery'
 
     def _get_metrics(self):
