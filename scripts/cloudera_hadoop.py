@@ -57,7 +57,7 @@ class ClouderaHadoop(protobix.SampleProbe):
 
         # Cloudera Manager API options
         cmapi_options = optparse.OptionGroup(parser, 'Hadoop Cloudera Manager API Configuration')
-        cmapi_options.add_option('-H', '--host', metavar='HOST', default='127.0.0.1',
+        cmapi_options.add_option('-H', '--host', metavar='HOST', default='localhost',
                                  help='Hadoop Cloudera Manager API hostname')
         cmapi_options.add_option('-P', '--port', default = None,
                                  help='Hadoop Cloudera Manager API port')
