@@ -556,9 +556,7 @@ class PhpFpm(protobix.SampleProbe):
         return parser.parse_args()
 
     def _init_probe(self):
-        if self.options.host == 'localhost':
-            self.options.host = socket.getfqdn()
-        self.hostname = self.options.host
+        self.hostname = socket.getfqdn()
 
     def _get_discovery(self):
         self.discovery_key = 'php-fpm.pools.discovery'
