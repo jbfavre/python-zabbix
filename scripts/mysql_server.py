@@ -205,7 +205,7 @@ status_bl = [
     'slave_running'
 ]
 
-MYSQL_REPLICATION_MAPPING = { "Yes": 1, "No": 0 }
+MYSQL_REPLICATION_MAPPING = { "Connecting": 1, "Yes": 1, "No": 0 }
 MYSQL_INNODB_MAPPING = {
     'not started': 0,
     'started': 1,
@@ -1171,9 +1171,6 @@ class MysqlServer(protobix.SampleProbe):
                 return (key, item[1])
             return (False, False)
 
-    def __del__(self):
-        self.cnx.close()
-
     def _get_engines(self):
         covered_engines = [
             'innodb',
@@ -1250,9 +1247,7 @@ class MysqlServer(protobix.SampleProbe):
         return (options, args)
 
     def _init_probe(self):
-        if self.options.host == 'localhost':
-            self.options.host = socket.getfqdn()
-        self.hostname = self.options.host
+        self.hostname = socket.getfqdn()
         self.config = {
           'user': self.options.username,
           'password': self.options.password,
