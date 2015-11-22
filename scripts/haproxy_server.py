@@ -279,10 +279,10 @@ class HAProxyServer(protobix.SampleProbe):
                     raw_data[pxname][metric] = 1
                 elif metric == 'status':
                     raw_data[pxname][metric] = 0
-                zbx_key = 'haproxy_server.pool[{0},{1}]'
+                zbx_key = 'haproxy.server.pool[{0},{1}]'
                 zbx_key = zbx_key.format(pxname, metric)
                 data[zbx_key] = raw_data[pxname][metric]
-        data['haproxy_server.zbx_version'] = self.__version__
+        data['haproxy.server.zbx_version'] = self.__version__
         return { self.hostname: data }
 
 if __name__ == '__main__':
