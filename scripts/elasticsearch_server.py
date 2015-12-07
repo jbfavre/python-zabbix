@@ -99,9 +99,14 @@ class ElasticsearchServer(protobix.SampleProbe):
 
     def _get_metrics(self):
         data = {}
-        # Cluster wide metrics
         cluster_data = self.es.cluster.health(request_timeout=1)
         cluster_name = cluster_data['cluster_name']
+        # Is the node cluster master ?
+        whois_master = self.es.cat.master(master_timeout=1,local=True).split(" ")
+        zbx_key = 'elasticsearch.cluster[{0},is_master]'
+        zbx_key = zbx_key.format(cluster_name)
+        data[zbx_key] = 1 if whois_master[3] == self.hostname else 0
+        # Cluster wide metrics
         for key in cluster_data:
           if key != 'cluster_name':
             zbx_key = 'elasticsearch.cluster[{0},{1}]'
