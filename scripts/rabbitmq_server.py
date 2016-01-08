@@ -106,6 +106,24 @@ class RabbitMQServer(protobix.SampleProbe):
             for item in overview_items[item_family]:
                 real_key = zbx_key.format(item_family, item)
                 data[real_key] = values_family.get(item, 0)
+
+        conn_stats = self._call_api('connections')
+
+        current_conn = 0
+        recv_oct = 0
+        send_oct = 0
+        for conn in conn_stats:
+            if conn['node'] == 'rabbit@%s' % self.hostname.split('.')[0]:
+                if conn.get('recv_oct'):
+                    recv_oct += conn['recv_oct']
+                if conn.get('send_oct'):
+                    send_oct += conn['send_oct']
+                current_conn +=1
+
+        data["rabbitmq.connections.current"] = current_conn
+        data["rabbitmq.connections.recv_oct"] = recv_oct
+        data["rabbitmq.connections.send_oct"] = send_oct
+
         queues_list = self._call_api('queues')
         for queue in queues_list:
             if self.exclude_patterns.match(queue['name']): continue
