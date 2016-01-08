@@ -36,7 +36,11 @@ my %physicaldrivethash;
 
 sub getInfo {
 
-  open(HPACU, "/usr/sbin/hpacucli controller all show |") || die "Could not run hpacucli\n";
+  my $HPACUBIN='/usr/sbin/hpssacli';
+  if (!-e $HPACUBIN) {
+    $HPACUBIN='/usr/sbin/hpacucli';
+  }
+  open(HPACU, "$HPACUBIN controller all show |") || die "Could not run hpssacli\n";
 
   while (<HPACU>) {
 
@@ -52,7 +56,7 @@ sub getInfo {
     }
 
     # Analyze controller details
-    open(HPACUCTRL, "/usr/sbin/hpacucli controller slot=$rank show |") || die "Could not run hpacucli\n";
+    open(HPACUCTRL, "$HPACUBIN controller slot=$rank show |") || die "Could not run hpssacli\n";
     while (<HPACUCTRL>) {
 
       if ( my ( $key, $value ) = /^\s+(Serial Number|Cache Serial Number|Controller Status|Hardware Revision|Firmware Version|Cache Status|Battery\/Capacitor Count|Battery\/Capacitor Status|Total Cache Size|Total Cache Memory Available):\s+([^\s]+)/) {
@@ -72,7 +76,7 @@ sub getInfo {
     close(HPACUCTRL);
 
     # For current controller, check logical drives
-    open(HPACULD, "/usr/sbin/hpacucli controller slot=$rank logicaldrive all show status |") || die "Could not run hpacucli\n";
+    open(HPACULD, "$HPACUBIN controller slot=$rank logicaldrive all show status |") || die "Could not run hpssacli\n";
     while (<HPACULD>) {
       if (/\s+logicaldrive (\d)+ \(.+, (RAID )?(\d)+\):\s+(\w+)/) {
         push @logicaldriveinfos, {
@@ -86,7 +90,7 @@ sub getInfo {
     close(HPACULD);
 
     # For current controller, check physical drives
-    open(HPACUPD, "/usr/sbin/hpacucli controller slot=$rank physicaldrive all show status |") || die "Could not run hpacucli\n";
+    open(HPACUPD, "$HPACUBIN controller slot=$rank physicaldrive all show status |") || die "Could not run hpssacli\n";
     while (<HPACUPD>) {
       if (/physicaldrive (.+) \(port (.+):box (\d+):bay (\d+), ([\d\.]+) (G|T)B\):\s+(\w+)/) {
         push @physicaldriveinfos, {
@@ -193,4 +197,3 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
 
 
 }
-
