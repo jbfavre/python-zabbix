@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>2.0</version>
-    <date>2016-01-21T14:58:02Z</date>
+    <date>2016-01-21T15:08:00Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -10649,6 +10649,36 @@
             <url/>
             <status>0</status>
             <priority>3</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Elasticsearch:elasticsearch.cluster.is_master.last()}=1 and {BBC_TPL_Elasticsearch:elasticsearch.cluster.health.number_of_data_nodes.min(#60)}&lt;&gt;{BBC_TPL_Elasticsearch:elasticsearch.cluster.health.number_of_data_nodes.max(#60)}</expression>
+            <name>Elasticsearch Cluster data node number has changed</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Elasticsearch:elasticsearch.cluster.is_master.last()}=1 and {BBC_TPL_Elasticsearch:elasticsearch.cluster.health.status.last(#3)}=2</expression>
+            <name>Elasticsearch Cluster status is RED</name>
+            <url/>
+            <status>0</status>
+            <priority>4</priority>
+            <description/>
+            <type>0</type>
+            <dependencies/>
+        </trigger>
+        <trigger>
+            <expression>{BBC_TPL_Elasticsearch:elasticsearch.cluster.is_master.last()}=1 and {BBC_TPL_Elasticsearch:elasticsearch.cluster.health.status.last(#3)}=1</expression>
+            <name>Elasticsearch Cluster status is Yellow</name>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
             <description/>
             <type>0</type>
             <dependencies/>
