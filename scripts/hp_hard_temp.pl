@@ -29,7 +29,7 @@ sub getInfo {
   while (<HPLOG>) {
     next if /^\s*$/;
     next if /^\s*ID/;
-    if (/^\s*(\d+)\s*Basic Sensor\s+(Ambiant|CPU \(\d+\)|Memory Board|System Board|Pwr\. Supply Bay|Processor Zone|I\/O Zone|Chassis)\s+(\S+)\s+\d+F\/\s*(\d+)C\s+\d+F\/\s*(\d+)C/) {
+    if (/^\s*(\d+)\s*Basic Sensor\s+(Ambient|CPU \(\d+\)|Memory Board|System Board|Pwr\. Supply Bay|Processor Zone|I\/O Zone|Chassis)\s+(\S+)\s+\d+F\/\s*(\d+)C\s+\d+F\/\s*(\d+)C/) {
       push @tempinfos, {
         'id'        => $1,
         'location'  => $2,
