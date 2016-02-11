@@ -33,7 +33,7 @@ sub getInfo {
     next if /^\s*$/;
     next if /^\s*Fan/;
 
-    if (/#(\d+)\s+(\w+)\s+(Yes)\s+(\w+)\s+(\d+)%\s+(Yes|No)\s+(\d+)\s+(Yes|No)/) {
+    if (/#(\d+)\s+(\w+)\s+(Yes)\s+(\w+)\s+(\d+)%\s+(Yes|No|N\/A)\s+(\d+|N\/A)\s+(Yes|No)/) {
       push @faninfos, {
         'slot' => $1,
         'location' => $2,
